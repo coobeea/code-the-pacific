@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>码上亚太 · 界面原型总入口（Qoder）</title>
+<style>
+  :root{--ink:#0b1220;--muted:#5b6b86;--line:#e4e9f2;--bg:#f6f8fc;--brand:#0a5cff;--gold:#c9962a;--sea:#0e7c86;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",Segoe UI,sans-serif;
+    color:var(--ink);background:var(--bg);line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1080px;margin:0 auto;padding:clamp(24px,5vw,64px)}
+  header{border-bottom:1px solid var(--line);padding-bottom:28px;margin-bottom:36px}
+  .kicker{font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--brand);font-weight:700}
+  h1{font-size:clamp(28px,5vw,44px);line-height:1.15;margin:10px 0 8px;font-weight:800}
+  .sub{color:var(--muted);font-size:16px;max-width:60ch}
+  .meta{margin-top:14px;font-size:13px;color:var(--muted)}
+  .meta b{color:var(--ink)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+  .card{display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid var(--line);
+    border-radius:16px;padding:22px;transition:.2s;position:relative;overflow:hidden}
+  .card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(11,18,32,.12);border-color:transparent}
+  .tag{font-size:12px;font-weight:700;letter-spacing:.06em;padding:4px 10px;border-radius:999px;display:inline-block}
+  .t2{background:#e7f6ef;color:#0b7a4b}.t3{background:#e7effe;color:#0a5cff}.t1{background:#fbf1de;color:#9a6b12}
+  .star{position:absolute;top:16px;right:16px;font-size:12px;color:var(--gold);font-weight:800}
+  .card h2{font-size:20px;margin:14px 0 6px}
+  .card p{font-size:14px;color:var(--muted);min-height:60px}
+  .route{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--sea);margin-top:12px}
+  .count{margin-top:14px;font-size:13px;font-weight:700;color:var(--ink)}
+  .rules{margin-top:40px;padding:20px 22px;background:#fff;border:1px dashed var(--line);border-radius:14px;font-size:14px;color:var(--muted)}
+  .rules b{color:var(--ink)}
+  .rules code{font-family:ui-monospace,Menlo,monospace;background:var(--bg);padding:2px 6px;border-radius:6px;color:var(--brand);font-size:13px}
+  footer{margin-top:40px;text-align:center;font-size:13px;color:var(--muted)}
+  footer a{color:var(--brand)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="kicker">Code the Pacific · Design Prototypes</div>
+    <h1>码上亚太 · 界面原型总入口</h1>
+    <p class="sub">3 个主题 × 10 个设计风格 = 30 个纯前端界面原型。每个原型都是自包含 HTML，可直接双击打开；每个主题配一张评审墙便于横向比较挑选。</p>
+    <p class="meta">负责人 <b>Qoder</b> ｜ 选型依据见 <b>docs/设计-Qoder.md</b> ｜ 内容全部取权威素材，未公布项标注「待官方发布」</p>
+  </header>
+
+  <div class="grid">
+    <a class="card" href="hub/index.html">
+      <span class="tag" style="background:#0f2540;color:#fff">首页展厅 · Hub</span>
+      <h2>统一外壳 + 四入口展厅</h2>
+      <p>共享 AppHeader/Footer 与入口切换器；四入口同布局、只换强调色，演示「同源而不同貌」。</p>
+      <div class="route">B5 · 四方向并列的立意</div>
+      <div class="count">进入 Hub →</div>
+    </a>
+    <a class="card" href="nanshan-symbols.html">
+      <span class="tag" style="background:#0b5c73;color:#fff">设计系统</span>
+      <h2>南山视觉符号系统</h2>
+      <p>山海配色 · 一海一河一城一湖四色母题 · 八景手绘 SVG 图标 · 鹏城母题，四入口共享。</p>
+      <div class="route">南山特色 10% + 创意 20%</div>
+      <div class="count">查看符号 →</div>
+    </a>
+    <a class="card" href="e02-nanshan/s11-eightscape-map.html">
+      <span class="star">★</span>
+      <span class="tag" style="background:#e7f6ef;color:#0b7a4b">招牌交互</span>
+      <h2>八景一张图</h2>
+      <p>E-02 需求点名的原创核心交互：手绘南山地图 + 点位点击展开八景详情。</p>
+      <div class="route">#/02-nanshan/scene/:id</div>
+      <div class="count">体验交互 →</div>
+    </a>
+    <a class="card" href="design-system.html">
+      <span class="tag" style="background:#122031;color:#fff">定稿产出</span>
+      <h2>全局设计系统 @theme</h2>
+      <p>把三主题收敛后的令牌（色彩/字体/间距/圆角/阴影/动效）+ 组件骨架，可切换强调色看「同源不同貌」，直接翻进 Vue。</p>
+      <div class="route">公共层 R-04</div>
+      <div class="count">查看组件骨架 →</div>
+    </a>
+  </div>
+
+  <div class="grid" style="margin-top:20px">
+    <a class="card" href="e02-nanshan/review-wall.html">
+      <span class="star">★ 主推</span>
+      <span class="tag t2">主题一 · 城市名片</span>
+      <h2>鹏城文化数字名片（南山）</h2>
+      <p>南山八景 · 一海一河一城一湖 · 科创雨林数据面板。服务「南山特色 10% + 创意 20%」。</p>
+      <div class="route">#/02-nanshan</div>
+      <div class="count">10 个风格原型 →</div>
+    </a>
+
+    <a class="card" href="e03-pedia/review-wall.html">
+      <span class="tag t3">主题二 · 知识科普</span>
+      <h2>亚太经济体互动百科</h2>
+      <p>21 成员经济体网格 · 检索筛选 · 对比模式 · 21 羽翼交互图。服务「技术应用 30% + 交互 20%」。</p>
+      <div class="route">#/03-pedia</div>
+      <div class="count">10 个风格原型 →</div>
+    </a>
+
+    <a class="card" href="e01-summit/review-wall.html">
+      <span class="tag t1">主题三 · 峰会资讯</span>
+      <h2>APEC 2026 深圳峰会主题网站</h2>
+      <p>会标鲲鹏 21 羽翼 · 开放/创新/合作 · 会议年历时间轴 · 为什么是深圳。服务「主题契合 20%」。</p>
+      <div class="route">#/01-summit</div>
+      <div class="count">10 个风格原型 →</div>
+    </a>
+  </div>
+
+  <div class="rules">
+    <b>命名规范</b>（详见设计文档第二节）：本命名空间根为 <code>prototypes/qoder/</code>；
+    主题目录 <code>eNN-短名/</code>；风格文件 <code>sNN-风格slug.html</code>；评审墙固定 <code>review-wall.html</code>。
+    其他协作者请另建 <code>prototypes/&lt;你的名字&gt;/</code>，勿写入 <code>qoder/</code>，以避免重复。
+  </div>
+
+  <footer>
+    《码上亚太》Code the Pacific · 南山区第二十八届教育科技节 AI 赛项 · 主题三 AI Coding 网页开发<br>
+    上游需求以 <a href="../../docs/需求与目标说明书.md">需求与目标说明书.md</a> 为准
+  </footer>
+</div>
+</body>
+</html>

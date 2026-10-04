@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>知识科普类 · 纸质手账 — 码上亚太 设计原型</title>
+<meta name="description" content="《亚太经济体互动百科》 界面原型，设计风格：纸质手账。APEC 2026 深圳峰会主题网页，南山区教育科技节 AI 赛项主题三。">
+<meta name="author" content="小满 (xiaoman)">
+<meta name="theme-color" content="#FFFFFF">
+<style>
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;line-height:1.6}
+img{max-width:100%;display:block}
+a{transition:opacity .15s}
+a:hover{opacity:.72}
+h1,h2,h3,p{margin-top:0}
+.subnav{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:11px;padding:10px 0;opacity:.85;letter-spacing:.04em}
+.subnav b{font-weight:500;opacity:.75;margin-right:6px}
+.subnav a{text-decoration:none;border:1px solid currentColor;border-radius:4px;padding:2px 7px;opacity:.6}
+.subnav a.on{opacity:1;font-weight:500}
+
+body{background:#EFE7D6;color:#3A3226;font-family:"Kaiti SC","STKaiti","Songti SC",serif;background-image:repeating-linear-gradient(0deg,rgba(140,120,90,.055) 0 1px,transparent 1px 26px)}
+.wrap{max-width:1060px;margin:0 auto;padding:0 32px}
+.hdr{padding:20px 0;border-bottom:2px dashed #B7A98C}
+.hdr .wrap{display:flex;align-items:center;gap:20px}
+.brand{font-size:17px;letter-spacing:.1em}
+.nav{margin-left:auto;display:flex;gap:16px;font-size:13px;color:#6B5F4A}
+.nav a{color:inherit;text-decoration:none;border-bottom:1px dotted #A89878}
+.hero{padding:76px 0 60px}
+.hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}
+.hero .kicker{display:inline-block;font-size:12px;background:#D9E8DC;padding:6px 12px;color:#3A5A46;margin-bottom:22px;transform:rotate(-1.4deg)}
+.hero h1{font-size:48px;line-height:1.24;font-weight:400;letter-spacing:.04em;margin:0 0 20px}
+.hero p{font-size:15px;line-height:2.05;color:#5A5040;max-width:560px;margin:0 0 32px}
+.btn{display:inline-block;padding:12px 26px;background:#C4623C;color:#FFF8EC;text-decoration:none;font-size:14px;letter-spacing:.1em;border-radius:3px;box-shadow:3px 3px 0 rgba(58,50,38,.28)}
+.tape{height:34px;background:#F2E4B8;border-left:2px dashed #C9B98C;border-right:2px dashed #C9B98C;display:flex;align-items:center;justify-content:center;font-size:12px;color:#8A7A5A;transform:rotate(2.2deg);box-shadow:0 3px 10px rgba(90,75,50,.16)}
+.block{padding:48px 0;border-top:2px dashed #B7A98C}
+.block-head{display:flex;align-items:baseline;gap:16px;margin-bottom:28px}
+.block-head h2{font-size:22px;font-weight:400;letter-spacing:.12em;margin:0}
+.block-head span{font-size:12px;color:#8A7A5A}
+.card-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.card{padding:20px;background:#FBF6E9;border:1px solid #DCCFB0;border-radius:3px;box-shadow:2px 3px 0 rgba(120,105,75,.16);transform:rotate(-.5deg)}
+.card:nth-child(2n){transform:rotate(.7deg);background:#F7F1E0}
+.card:nth-child(3n){transform:rotate(-.3deg);background:#FCF8EF}
+.card .k{font-size:11px;letter-spacing:.16em;color:#A8522F;margin-bottom:10px}
+.card .t{font-size:18px;letter-spacing:.08em;margin-bottom:8px}
+.card .d{font-size:12px;color:#7A6C56;line-height:1.85}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.stat{padding:20px;background:#FBF6E9;border:1px dashed #C9B98C;border-radius:3px}
+.stat .n{font-size:34px;font-variant-numeric:tabular-nums;color:#A8522F}
+.stat .l{font-size:12px;color:#7A6C56;margin-top:8px}
+.list{display:grid;gap:10px}
+.list .row{display:grid;grid-template-columns:180px 1fr;gap:20px;padding:15px 18px;background:#FBF6E9;border:1px solid #DCCFB0;border-radius:3px;font-size:13px}
+.list .row .a{color:#A8522F;letter-spacing:.08em}
+.foot{padding:30px 0 44px;margin-top:26px;border-top:2px dashed #B7A98C;font-size:12px;color:#8A7A5A;line-height:2}
+.hero.centered{text-align:center}.hero.centered .wrap{grid-template-columns:1fr}.hero.centered p{margin-left:auto;margin-right:auto}
+.hero.bleed .wrap{max-width:1140px}
+.hero.left .wrap{grid-template-columns:minmax(0,1fr) auto;gap:44px;align-items:end}
+@media(max-width:900px){.card-grid,.stats{grid-template-columns:repeat(2,1fr)}.hero h1{font-size:30px}.hero .wrap{grid-template-columns:1fr}.tape{display:none}.list .row{grid-template-columns:1fr;gap:6px}}
+</style>
+<!-- ============================================================
+     设计原型 · 非生产代码
+     主题：T2 知识科普类（《亚太经济体互动百科》）
+     风格：10-paper-zine 纸质手账
+     作者：小满 (xiaoman)
+     生成：tools/gen-design-prototypes.mjs —— 手工修改会被重新生成覆盖
+     ============================================================ -->
+</head>
+<body class="theme-t02-apac-pedia style-10">
+
+  <header class="hdr">
+    <div class="wrap">
+      <div class="brand">码上亚太 Code the Pacific</div>
+      <nav class="nav">
+        <a href="#">首页</a>
+        <a href="#">知识科普类</a>
+        <a href="#">全部入口</a>
+      </nav>
+    </div>
+    <div class="wrap"><nav class="subnav"><b>切换风格</b><a href="01-minimal-swiss.html" title="极简瑞士">01</a><a href="02-ocean-gradient.html" title="深海渐变">02</a><a href="03-modern-chinese.html" title="新中式">03</a><a href="04-editorial.html" title="杂志编辑">04</a><a href="05-neo-tech.html" title="科技霓虹">05</a><a href="06-soft-pastel.html" title="柔和粉彩">06</a><a href="07-glassmorphism.html" title="玻璃拟态">07</a><a href="08-neo-brutalism.html" title="粗野主义">08</a><a href="09-dashboard.html" title="数据仪表盘">09</a><a class="on" href="10-paper-zine.html" title="纸质手账">10</a><a href="../index.html">全部 10 款</a></nav></div>
+  </header>
+
+  <section class="hero split">
+    <div class="wrap">
+      <div>
+        <div class="kicker">21 个成员经济体</div>
+        <h1>亚太经济体互动百科</h1>
+        <p>从堪培拉到温哥华，从东京到利马。跨越太平洋的 21 个成员经济体，在这里被检索、被比较、被看见。</p>
+        <a class="btn" href="#">浏览经济体</a>
+      </div>
+        <div class="preview">T2 · 知识科普类　｜　风格原型预览区</div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <div class="block-head"><h2>成员经济体</h2><span>按 APEC 官方英文名排序</span></div>
+      <div class="card-grid">
+      <article class="card">
+        <div class="k">01</div>
+        <h3 class="t">澳大利亚</h3>
+        <p class="d">Australia</p>
+      </article>
+      <article class="card">
+        <div class="k">02</div>
+        <h3 class="t">文莱</h3>
+        <p class="d">Brunei Darussalam</p>
+      </article>
+      <article class="card">
+        <div class="k">03</div>
+        <h3 class="t">加拿大</h3>
+        <p class="d">Canada</p>
+      </article>
+      <article class="card">
+        <div class="k">04</div>
+        <h3 class="t">智利</h3>
+        <p class="d">Chile</p>
+      </article>
+      <article class="card">
+        <div class="k">05</div>
+        <h3 class="t">中国</h3>
+        <p class="d">China</p>
+      </article>
+      <article class="card">
+        <div class="k">06</div>
+        <h3 class="t">中国香港</h3>
+        <p class="d">Hong Kong, China</p>
+      </article>
+      <article class="card">
+        <div class="k">07</div>
+        <h3 class="t">印度尼西亚</h3>
+        <p class="d">Indonesia</p>
+      </article>
+      <article class="card">
+        <div class="k">08</div>
+        <h3 class="t">日本</h3>
+        <p class="d">Japan</p>
+      </article>
+      <article class="card">
+        <div class="k">09</div>
+        <h3 class="t">韩国</h3>
+        <p class="d">Korea</p>
+      </article>
+      <article class="card">
+        <div class="k">10</div>
+        <h3 class="t">马来西亚</h3>
+        <p class="d">Malaysia</p>
+      </article>
+      <article class="card">
+        <div class="k">11</div>
+        <h3 class="t">墨西哥</h3>
+        <p class="d">Mexico</p>
+      </article>
+      <article class="card">
+        <div class="k">12</div>
+        <h3 class="t">新西兰</h3>
+        <p class="d">New Zealand</p>
+      </article>
+      <article class="card">
+        <div class="k">13</div>
+        <h3 class="t">巴布亚新几内亚</h3>
+        <p class="d">Papua New Guinea</p>
+      </article>
+      <article class="card">
+        <div class="k">14</div>
+        <h3 class="t">秘鲁</h3>
+        <p class="d">Peru</p>
+      </article>
+      <article class="card">
+        <div class="k">15</div>
+        <h3 class="t">菲律宾</h3>
+        <p class="d">The Philippines</p>
+      </article>
+      <article class="card">
+        <div class="k">16</div>
+        <h3 class="t">俄罗斯</h3>
+        <p class="d">Russia</p>
+      </article>
+      <article class="card">
+        <div class="k">17</div>
+        <h3 class="t">新加坡</h3>
+        <p class="d">Singapore</p>
+      </article>
+      <article class="card">
+        <div class="k">18</div>
+        <h3 class="t">中国台北</h3>
+        <p class="d">Chinese Taipei</p>
+      </article>
+      <article class="card">
+        <div class="k">19</div>
+        <h3 class="t">泰国</h3>
+        <p class="d">Thailand</p>
+      </article>
+      <article class="card">
+        <div class="k">20</div>
+        <h3 class="t">美国</h3>
+        <p class="d">The United States</p>
+      </article>
+      <article class="card">
+        <div class="k">21</div>
+        <h3 class="t">越南</h3>
+        <p class="d">Viet Nam</p>
+      </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <div class="block-head"><h2>检索与筛选</h2><span>原型交互区</span></div>
+      <div class="list">
+      <div class="row"><div class="a">检索</div><div>按名称 / 英文名搜索　·　输入即筛选</div></div>
+      <div class="row"><div class="a">筛选</div><div>按加入批次 / 区域　·　多选标签</div></div>
+      <div class="row"><div class="a">对比</div><div>并排比较 2–3 个经济体　·　卡片对照</div></div>
+      <div class="row"><div class="a">详情</div><div>单个经济体资料页　·　数据 + 文化</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <div class="block-head"><h2>关键数据</h2><span>数据来源见页脚</span></div>
+      <div class="stats">
+      <div class="stat"><div class="n">21</div><div class="l">个成员经济体</div></div>
+      <div class="stat"><div class="n">1989</div><div class="l">年于堪培拉成立</div></div>
+      <div class="stat"><div class="n">1991</div><div class="l">年中国加入</div></div>
+      <div class="stat"><div class="n">2026</div><div class="l">年深圳主办</div></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <div class="wrap">
+      <div>表述规范：中国以主权国家身份加入，中国香港与中国台北以地区经济名义加入，全站统一写作「中国香港」「中国台北」。</div>
+      <div style="margin-top:12px">原型：T2 知识科普类 · 10-paper-zine 纸质手账　｜　作者：小满（xiaoman）· 设计原型与文档</div>
+      <div style="margin-top:6px">资料出处：赛事规则文档 / APEC 官网 / 深圳市政府与南山区政府公开信息　｜　本页为设计原型，内容以正式版为准</div>
+    </div>
+  </footer>
+
+</body>
+</html>

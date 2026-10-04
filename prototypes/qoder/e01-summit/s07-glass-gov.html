@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-01 峰会资讯 · s07 现代政务玻璃</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,"PingFang SC",sans-serif;color:#0f2544;line-height:1.6;min-height:100vh;
+    background:linear-gradient(135deg,#dbe7f5,#cfe0f0 40%,#e7eef7);position:relative;overflow-x:hidden}
+  .bg{position:fixed;border-radius:50%;filter:blur(60px);opacity:.4;z-index:0}
+  .b1{width:400px;height:400px;background:#7fb2ff;left:6%;top:10%}.b2{width:340px;height:340px;background:#9ad0e6;right:8%;top:40%}
+  a{text-decoration:none;color:inherit}
+  .bar{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;padding:14px clamp(16px,4vw,48px);background:rgba(255,255,255,.55);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.6);font-size:14px;font-weight:600}
+  .bar .nav{display:flex;gap:20px;color:#33507a}.bar .nav a:hover{color:#0a5cff}
+  .wrap{position:relative;z-index:2;max-width:1080px;margin:0 auto;padding:clamp(24px,5vw,48px) clamp(16px,4vw,48px)}
+  .glass{background:rgba(255,255,255,.5);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.7);border-radius:20px;box-shadow:0 10px 40px rgba(20,60,120,.08)}
+  .hero{padding:clamp(28px,5vw,52px);margin-bottom:20px}
+  .hero .crumb{font-size:13px;color:#3f6aa8;font-weight:600}
+  .hero h1{font-size:clamp(24px,5vw,42px);font-weight:800;margin:10px 0}
+  .hero p{color:#3a5578;max-width:56ch}
+  .chips{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+  .chip{background:rgba(255,255,255,.7);border:1px solid #cfe0f5;padding:7px 14px;border-radius:999px;font-size:13px;font-weight:600;color:#1e4a86}
+  .mods{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .m{padding:22px;transition:.2s}
+  .m:hover{transform:translateY(-3px);background:rgba(255,255,255,.65)}
+  .m .ic{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#0a5cff,#4fa3ff);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;margin-bottom:12px}
+  .m h3{font-size:18px;margin-bottom:6px}
+  .m p{font-size:13px;color:#3a5578}
+  .pending{margin-top:20px;padding:16px 22px;font-size:13px;color:#7a5a1a;background:rgba(255,236,200,.6);border:1px solid #f0d9a8;border-radius:14px}
+  footer{position:relative;z-index:2;text-align:center;color:#5b7aa5;font-size:12px;padding:24px}
+  @media(max-width:760px){.mods{grid-template-columns:1fr}.bar .nav{display:none}}
+</style>
+</head>
+<body>
+  <div class="bg b1"></div><div class="bg b2"></div>
+  <div class="bar"><span>APEC 2026 深圳峰会 · 资讯门户</span><div class="nav"><a href="#">峰会概览</a><a href="#">议题</a><a href="#">成员</a><a href="#">南山视角</a><a href="review-wall.html">评审墙</a></div></div>
+  <div class="wrap">
+    <section class="glass hero">
+      <div class="crumb">首页 › 峰会资讯类 › 峰会概览</div>
+      <h1>APEC 2026 深圳峰会</h1>
+      <p>亚太经合组织第三十三次领导人非正式会议，将于 2026 年 11 月 18—19 日在中国深圳举行，主题为「建设亚太共同体，促进共同繁荣」。</p>
+      <div class="chips"><span class="chip">🗓 2026.11.18—19</span><span class="chip">📍 中国 · 深圳（南山）</span><span class="chip">🕊 开放 · 创新 · 合作</span></div>
+    </section>
+    <section class="mods">
+      <div class="glass m"><div class="ic">标</div><h3>会标寓意</h3><p>鲲鹏·21 根交织羽翼，寓意「乘大势，共翱翔」。</p></div>
+      <div class="glass m"><div class="ic">历</div><h3>会议年历</h3><p>2025.12—2026.11 高官会 / 部长会 / 领导人会议时间轴。</p></div>
+      <div class="glass m"><div class="ic">员</div><h3>21 成员</h3><p>成员经济体网格，含加入批次（规范表述）。</p></div>
+      <div class="glass m"><div class="ic">城</div><h3>为什么是深圳</h3><p>鹏城典故、外贸第一城、千园之城。</p></div>
+      <div class="glass m"><div class="ic">域</div><h3>议题矩阵</h3><p>贸易、数字经济等 10 大专业部长会领域。</p></div>
+      <div class="glass m"><div class="ic">南</div><h3>南山视角</h3><p>主办城区南山，衔接《鹏城数字名片》入口。</p></div>
+    </section>
+    <div class="pending">⏳ 提示：具体会场与详细议程待官方发布，本页仅呈现已确认信息。</div>
+  </div>
+  <footer>s07 · Glass Governance 现代政务玻璃 ｜ 资料来源：新华社 / 中国政府网 / APEC 官网</footer>
+</body>
+</html>

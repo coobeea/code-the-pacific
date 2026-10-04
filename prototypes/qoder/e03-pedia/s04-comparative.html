@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-03 亚太经济体百科 · s04 对比分析</title>
+<style>
+  :root{--bg:#eef1f6;--card:#fff;--ink:#111827;--g2:#6b7280;--line:#e3e8ef;--p1:#2563eb;--p2:#0d9488;--p3:#d97706}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,"PingFang SC",sans-serif;background:var(--bg);color:var(--ink);line-height:1.5}
+  a{text-decoration:none;color:inherit}
+  .bar{display:flex;justify-content:space-between;padding:14px clamp(16px,4vw,44px);background:#fff;border-bottom:1px solid var(--line);font-size:13px;color:var(--g2)}
+  .wrap{max-width:1140px;margin:0 auto;padding:clamp(20px,4vw,40px) clamp(16px,4vw,44px)}
+  h1{font-size:clamp(22px,4vw,34px);font-weight:800}
+  .sub{color:var(--g2);margin:6px 0 24px;font-size:14px}
+  .picker{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:26px}
+  .pick{font-size:13px;padding:7px 13px;border:1px solid var(--line);border-radius:999px;cursor:pointer;background:#fff;transition:.15s}
+  .pick:hover{border-color:var(--ink)}
+  .pick.on{color:#fff;border-color:transparent}
+  .cmp{display:grid;gap:16px}
+  .col{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .col .hd{padding:18px 20px;color:#fff}
+  .col .hd .nm{font-size:22px;font-weight:800}
+  .col .hd .en{font-size:12px;opacity:.9}
+  .col .bd{padding:8px 20px 18px}
+  .line{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px dashed var(--line);font-size:14px}
+  .line:last-child{border-bottom:0}
+  .line span{color:var(--g2)}
+  .hint{text-align:center;color:var(--g2);padding:40px;font-size:14px;border:1px dashed var(--line);border-radius:14px;background:#fff}
+  footer{text-align:center;color:var(--g2);font-size:12px;padding:20px}
+</style>
+</head>
+<body>
+  <div class="bar"><span>亚太经济体 · 对比模式</span><a href="review-wall.html">← 评审墙</a></div>
+  <div class="wrap">
+    <h1>勾选 2–3 个经济体，并排对比</h1>
+    <p class="sub">仅对比官方已确认的属性（区域 / 加入年份 / 批次），不虚构各国经济数据。</p>
+    <div class="picker" id="picker"></div>
+    <div class="cmp" id="cmp"><div class="hint">请从上方至少选择 2 个经济体开始对比。</div></div>
+  </div>
+  <div style="max-width:1040px;margin:26px auto 0;padding:15px 20px;border:1px solid var(--line);border-left:4px solid #0d9488;border-radius:14px;background:#fff">
+    <div style="font-size:13px;font-weight:800;color:#0d9488;margin-bottom:6px">南山视角 · 亚太网络里的南山</div>
+    <div style="font-size:14px;line-height:1.6;color:#374151">对比经济体时，深圳南山是一个绕不开的节点：前海深港合作区、深圳西部港区、以及腾讯/中兴/大疆等面向亚太的企业总部，把南山连进了亚太共同体。（来源：深圳市南山区人民政府）</div>
+  </div>
+    <footer>s04 · Comparative Analysis · 对比分析 ｜ 资料来源：APEC 官网 Our members / 工信部</footer>
+<script>
+const D=[
+ {cn:'中国',rg:'东亚',yr:1991},{cn:'日本',rg:'东亚',yr:1989},{cn:'韩国',rg:'东亚',yr:1989},
+ {cn:'中国香港',rg:'东亚',yr:1991},{cn:'中国台北',rg:'东亚',yr:1991},{cn:'新加坡',rg:'东南亚',yr:1989},
+ {cn:'印度尼西亚',rg:'东南亚',yr:1989},{cn:'泰国',rg:'东南亚',yr:1989},{cn:'越南',rg:'东南亚',yr:1998},
+ {cn:'美国',rg:'北美',yr:1989},{cn:'加拿大',rg:'北美',yr:1989},{cn:'墨西哥',rg:'北美',yr:1993},
+ {cn:'智利',rg:'南美',yr:1994},{cn:'秘鲁',rg:'南美',yr:1998},{cn:'澳大利亚',rg:'大洋洲',yr:1989},
+ {cn:'新西兰',rg:'大洋洲',yr:1989},{cn:'俄罗斯',rg:'欧亚',yr:1998}];
+const B={1989:'创始成员',1991:'第二批',1993:'第三批',1994:'第四批',1998:'第五批'};
+const COL=['#2563eb','#0d9488','#d97706'];
+let sel=[];
+const picker=document.getElementById('picker'),cmp=document.getElementById('cmp');
+D.forEach(d=>{const b=document.createElement('div');b.className='pick';b.textContent=d.cn;
+ b.onclick=()=>{const i=sel.indexOf(d);if(i>=0)sel.splice(i,1);else{if(sel.length>=3)return;sel.push(d)}upd()};picker.appendChild(b)});
+function upd(){
+ [...picker.children].forEach((b,i)=>{const s=sel.indexOf(D[i]);b.classList.toggle('on',s>=0);b.style.background=s>=0?COL[s]:'';b.style.color=s>=0?'#fff':''});
+ if(sel.length<2){cmp.innerHTML='<div class="hint">请从上方至少选择 2 个经济体开始对比。</div>';cmp.style.gridTemplateColumns='1fr';return}
+ cmp.style.gridTemplateColumns=`repeat(${sel.length},1fr)`;
+ cmp.innerHTML=sel.map((d,s)=>`<div class="col"><div class="hd" style="background:${COL[s]}"><div class="nm">${d.cn}</div></div><div class="bd">
+   <div class="line"><span>所属区域</span><b>${d.rg}</b></div><div class="line"><span>加入年份</span><b>${d.yr}</b></div>
+   <div class="line"><span>加入批次</span><b>${B[d.yr]}</b></div></div></div>`).join('');
+}
+</script>
+</body>
+</html>

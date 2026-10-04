@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-03 亚太经济体百科 · s03 数据密集</title>
+<style>
+  :root{--bg:#f1f5f9;--card:#fff;--ink:#0f172a;--g2:#64748b;--line:#dbe2ea;--blue:#2563eb;--teal:#0d9488;--amber:#d97706;--rose:#e11d48}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,"PingFang SC",sans-serif;background:var(--bg);color:var(--ink);line-height:1.4}
+  a{text-decoration:none;color:inherit}
+  .bar{display:flex;justify-content:space-between;padding:12px clamp(14px,3vw,32px);background:#fff;border-bottom:1px solid var(--line);font-size:13px;color:var(--g2)}
+  .wrap{max-width:1240px;margin:0 auto;padding:clamp(14px,3vw,28px)}
+  h1{font-size:clamp(20px,3vw,28px);font-weight:800}
+  .sub{color:var(--g2);font-size:13px;margin:4px 0 18px}
+  .cols{display:grid;grid-template-columns:1fr 320px;gap:18px}
+  .tablewrap{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line)}
+  th{background:#f8fafc;font-size:12px;letter-spacing:.04em;color:var(--g2);text-transform:uppercase;position:sticky;top:0}
+  tbody tr:hover{background:#f8fbff}
+  td .en{font-size:11px;color:var(--g2)}
+  .rg{font-size:12px;padding:2px 8px;border-radius:6px;font-weight:600}
+  .r东亚{background:#fef3c7;color:#92400e}.r东南亚{background:#ccfbf1;color:#0f766e}.r北美{background:#dbeafe;color:#1e40af}
+  .r南美{background:#ede9fe;color:#5b21b6}.r大洋洲{background:#dcfce7;color:#166534}.r欧亚{background:#ffe4e6;color:#9f1239}
+  .side{display:flex;flex-direction:column;gap:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px}
+  .card h3{font-size:12px;color:var(--g2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px}
+  .mini{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .m b{display:block;font-size:22px;color:var(--blue)}.m span{font-size:12px;color:var(--g2)}
+  .barrow{display:flex;align-items:center;gap:8px;margin:8px 0;font-size:12px}
+  .barrow .lb{width:64px;color:var(--g2)}
+  .track{flex:1;height:8px;background:#eef2f7;border-radius:4px;overflow:hidden}
+  .track i{display:block;height:100%}
+  footer{text-align:center;color:var(--g2);font-size:12px;padding:14px}
+  @media(max-width:820px){.cols{grid-template-columns:1fr}.side{flex-direction:row;flex-wrap:wrap}.card{flex:1;min-width:220px}}
+</style>
+</head>
+<body>
+  <div class="bar"><span>APEC 经济体 · 数据密集视图</span><a href="review-wall.html">← 评审墙</a></div>
+  <div class="wrap">
+    <h1>21 成员经济体 · 总览</h1>
+    <p class="sub">按加入批次与区域排布；口径来自 APEC 官方成员名单。区域/年份可筛选项见 s01 检索原型。</p>
+    <div class="cols">
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>#</th><th>经济体</th><th>区域</th><th>加入</th><th>批次</th></tr></thead>
+          <tbody id="tb"></tbody>
+        </table>
+      </div>
+      <div class="side">
+        <div class="card">
+          <h3>机制含金量</h3>
+          <div class="mini">
+            <div class="m"><b>21</b><span>成员经济体</span></div>
+            <div class="m"><b>≈26亿</b><span>人口 · 约占世界40%</span></div>
+            <div class="m"><b>&gt;60%</b><span>经济总量占世界</span></div>
+            <div class="m"><b>≈48%</b><span>贸易额占世界</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <h3>区域分布</h3>
+          <div id="regionbars"></div>
+        </div>
+        <div class="card">
+          <h3>关税成果</h3>
+          <div class="barrow"><span class="lb">1989 前</span><div class="track"><i style="width:100%;background:var(--rose)"></i></div><b>17%</b></div>
+          <div class="barrow"><span class="lb">如今</span><div class="track"><i style="width:29%;background:var(--teal)"></i></div><b>5%</b></div>
+          <p class="sub" style="margin:8px 0 0">亚太平均关税 30 余年从 17% 降至 5%。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="max-width:1040px;margin:24px auto 0;padding:14px 20px;border:1px solid rgba(130,134,144,.42);border-left:4px solid #0d9488;border-radius:12px;background:#fff">
+    <div style="font-size:13px;font-weight:800;color:#0d9488;margin-bottom:6px">南山视角 · 亚太网络里的南山</div>
+    <div style="font-size:14px;line-height:1.6;color:#334155">深圳南山是亚太互联互通网络上的活跃节点：前海深港现代服务业合作区、深圳西部港区，以及腾讯、中兴、大疆等面向亚太的企业总部。（来源：深圳市南山区人民政府）</div>
+  </div>
+    <footer>s03 · Data-Dense · 数据密集 ｜ 资料来源：APEC 官网 Our members / 工信部 / 央视网</footer>
+<script>
+const D=[
+ ['澳大利亚','Australia','大洋洲',1989],['文莱','Brunei','东南亚',1989],['加拿大','Canada','北美',1989],
+ ['智利','Chile','南美',1994],['中国','China','东亚',1991],['中国香港','Hong Kong, China','东亚',1991],
+ ['印度尼西亚','Indonesia','东南亚',1989],['日本','Japan','东亚',1989],['韩国','Korea','东亚',1989],
+ ['马来西亚','Malaysia','东南亚',1989],['墨西哥','Mexico','北美',1993],['新西兰','New Zealand','大洋洲',1989],
+ ['巴布亚新几内亚','PNG','大洋洲',1993],['秘鲁','Peru','南美',1998],['菲律宾','Philippines','东南亚',1989],
+ ['俄罗斯','Russia','欧亚',1998],['新加坡','Singapore','东南亚',1989],['中国台北','Chinese Taipei','东亚',1991],
+ ['泰国','Thailand','东南亚',1989],['美国','United States','北美',1989],['越南','Viet Nam','东南亚',1998]];
+const B={1989:'创始',1991:'二',1993:'三',1994:'四',1998:'五'};
+document.getElementById('tb').innerHTML=D.map((d,i)=>`<tr><td>${i+1}</td><td>${d[0]}<div class="en">${d[1]}</div></td><td><span class="rg r${d[2]}">${d[2]}</span></td><td>${d[3]}</td><td>${B[d[3]]}</td></tr>`).join('');
+const rc={};D.forEach(d=>rc[d[2]]=(rc[d[2]]||0)+1);const mx=Math.max(...Object.values(rc));const cl={东亚:'#d97706',东南亚:'#0d9488',北美:'#2563eb',南美:'#7c3aed',大洋洲:'#059669',欧亚:'#e11d48'};
+document.getElementById('regionbars').innerHTML=Object.entries(rc).map(([k,v])=>`<div class="barrow"><span class="lb">${k}</span><div class="track"><i style="width:${v/mx*100}%;background:${cl[k]}"></i></div><b>${v}</b></div>`).join('');
+</script>
+</body>
+</html>

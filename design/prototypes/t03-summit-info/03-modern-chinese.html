@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>峰会资讯类 · 新中式 — 码上亚太 设计原型</title>
+<meta name="description" content="《APEC 2026 深圳峰会主题网站》 界面原型，设计风格：新中式。APEC 2026 深圳峰会主题网页，南山区教育科技节 AI 赛项主题三。">
+<meta name="author" content="小满 (xiaoman)">
+<meta name="theme-color" content="#FFFFFF">
+<style>
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;line-height:1.6}
+img{max-width:100%;display:block}
+a{transition:opacity .15s}
+a:hover{opacity:.72}
+h1,h2,h3,p{margin-top:0}
+.subnav{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:11px;padding:10px 0;opacity:.85;letter-spacing:.04em}
+.subnav b{font-weight:500;opacity:.75;margin-right:6px}
+.subnav a{text-decoration:none;border:1px solid currentColor;border-radius:4px;padding:2px 7px;opacity:.6}
+.subnav a.on{opacity:1;font-weight:500}
+
+body{background:#F7F3EA;color:#2A2620;font-family:"Songti SC","STSong","PingFang SC",serif}
+.wrap{max-width:1080px;margin:0 auto;padding:0 40px}
+.hdr{padding:22px 0;border-bottom:1px solid #D9D0BE}
+.hdr .wrap{display:flex;align-items:center;gap:22px}
+.brand{font-size:15px;letter-spacing:.3em}
+.nav{margin-left:auto;display:flex;gap:22px;font-size:13px;color:#6B6152}
+.nav a{color:inherit;text-decoration:none}
+.hero{padding:88px 0 72px}
+.hero .wrap{display:grid;grid-template-columns:1fr auto;gap:56px;align-items:center}
+.hero .kicker{font-size:12px;letter-spacing:.28em;color:#A8332A;margin-bottom:22px}
+.hero h1{font-size:50px;line-height:1.22;letter-spacing:.06em;font-weight:400;margin:0 0 22px}
+.hero p{font-size:15px;line-height:2;color:#5A5245;max-width:560px;margin:0 0 34px}
+.btn{display:inline-block;padding:12px 26px;border:1px solid #A8332A;color:#A8332A;text-decoration:none;font-size:13px;letter-spacing:.12em;background:transparent}
+.seal{width:104px;height:104px;border:3px solid #A8332A;color:#A8332A;display:flex;align-items:center;justify-content:center;font-size:26px;letter-spacing:.1em;line-height:1.15;text-align:center;border-radius:3px;flex:none}
+.block{padding:56px 0;border-top:1px solid #D9D0BE}
+.block-head{display:flex;align-items:baseline;gap:16px;margin-bottom:34px}
+.block-head h2{font-size:22px;font-weight:400;letter-spacing:.14em;margin:0}
+.block-head span{font-size:12px;color:#8A7F6C;letter-spacing:.1em}
+.card-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.card{padding:22px;background:#FDFBF6;border:1px solid #E3DACA}
+.card .k{font-size:11px;letter-spacing:.22em;color:#A8332A;margin-bottom:12px}
+.card .t{font-size:17px;letter-spacing:.1em;margin-bottom:8px}
+.card .d{font-size:12px;color:#7A7061;line-height:1.8}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.stat{padding:22px;border-left:2px solid #A8332A;background:#FDFBF6}
+.stat .n{font-size:36px;font-variant-numeric:tabular-nums;letter-spacing:.02em}
+.stat .l{font-size:12px;color:#7A7061;margin-top:8px;letter-spacing:.08em}
+.list{border-top:1px solid #E3DACA}
+.list .row{display:grid;grid-template-columns:180px 1fr;gap:24px;padding:20px 0;border-bottom:1px solid #E3DACA;font-size:13px}
+.list .row .a{color:#A8332A;letter-spacing:.1em}
+.foot{padding:32px 0 44px;border-top:1px solid #D9D0BE;font-size:12px;color:#8A7F6C;line-height:2;letter-spacing:.04em}
+.hero.centered{text-align:center}.hero.centered .wrap{grid-template-columns:1fr}
+.hero.bleed .wrap,.hero.left .wrap{grid-template-columns:minmax(0,1fr) auto}
+@media(max-width:900px){.card-grid,.stats{grid-template-columns:repeat(2,1fr)}.hero h1{font-size:32px}.hero .wrap{grid-template-columns:1fr}.seal{display:none}.list .row{grid-template-columns:1fr;gap:6px}}
+</style>
+<!-- ============================================================
+     设计原型 · 非生产代码
+     主题：T3 峰会资讯类（《APEC 2026 深圳峰会主题网站》）
+     风格：03-modern-chinese 新中式
+     作者：小满 (xiaoman)
+     生成：tools/gen-design-prototypes.mjs —— 手工修改会被重新生成覆盖
+     ============================================================ -->
+</head>
+<body class="theme-t03-summit-info style-03">
+
+  <header class="hdr">
+    <div class="wrap">
+      <div class="brand">码上亚太 Code the Pacific</div>
+      <nav class="nav">
+        <a href="#">首页</a>
+        <a href="#">峰会资讯类</a>
+        <a href="#">全部入口</a>
+      </nav>
+    </div>
+    <div class="wrap"><nav class="subnav"><b>切换风格</b><a href="01-minimal-swiss.html" title="极简瑞士">01</a><a href="02-ocean-gradient.html" title="深海渐变">02</a><a class="on" href="03-modern-chinese.html" title="新中式">03</a><a href="04-editorial.html" title="杂志编辑">04</a><a href="05-neo-tech.html" title="科技霓虹">05</a><a href="06-soft-pastel.html" title="柔和粉彩">06</a><a href="07-glassmorphism.html" title="玻璃拟态">07</a><a href="08-neo-brutalism.html" title="粗野主义">08</a><a href="09-dashboard.html" title="数据仪表盘">09</a><a href="10-paper-zine.html" title="纸质手账">10</a><a href="../index.html">全部 10 款</a></nav></div>
+  </header>
+
+  <section class="hero split">
+    <div class="wrap">
+      <div>
+        <div class="kicker">2026 年 11 月 18—19 日 · 深圳</div>
+        <h1>APEC 2026 深圳峰会</h1>
+        <p>建设亚太共同体，促进共同繁荣。开放、创新、合作——第 33 次 APEC 领导人非正式会议，深圳见。</p>
+        <a class="btn" href="#">查看议题与日程</a>
+      </div>
+        <div class="preview">T3 · 峰会资讯类　｜　风格原型预览区</div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <div class="block-head"><h2>峰会要点</h2><span>官方已公布信息</span></div>
+      <div class="card-grid">
+      <article class="card">
+        <div class="k">01</div>
+        <h3 class="t">时间</h3>
+        <p class="d">2026 年 11 月 18—19 日</p>
+      </article>
+      <article class="card">
+        <div class="k">02</div>
+        <h3 class="t">地点</h3>
+        <p class="d">中国 · 深圳</p>
+      </article>
+      <article class="card">
+        <div class="k">03</div>
+        <h3 class="t">会议</h3>
+        <p class="d">第 33 次领导人非正式会议</p>
+      </article>
+      <article class="card">
+        <div class="k">04</div>
+        <h3 class="t">主题</h3>
+        <p class="d">建设亚太共同体，促进共同繁荣</p>
+      </article>
+      <article class="card">
+        <div class="k">05</div>
+        <h3 class="t">优先领域</h3>
+        <p class="d">开放 · 创新 · 合作</p>
+      </article>
+      <article class="card">
+        <div class="k">06</div>
+        <h3 class="t">主办城市</h3>
+        <p class="d">继上海、北京后的第三座</p>
+      </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <div class="block-head"><h2>会标寓意</h2><span>2025 年 12 月 12 日于深圳发布</span></div>
+      <div class="list">
+      <div class="row"><div class="a">开放</div><div>整体形态如张开双臂　·　迎接八方来客</div></div>
+      <div class="row"><div class="a">创新</div><div>鲲鹏蜕变向上　·　象征发展动能转换</div></div>
+      <div class="row"><div class="a">合作</div><div>21 根羽翼交织　·　代表 21 个成员经济体</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <div class="block-head"><h2>关键数据</h2><span>数据来源见页脚</span></div>
+      <div class="stats">
+      <div class="stat"><div class="n">21</div><div class="l">根交织羽翼</div></div>
+      <div class="stat"><div class="n">11/18</div><div class="l">领导人会议开幕</div></div>
+      <div class="stat"><div class="n">300+</div><div class="l">场全年系列活动</div></div>
+      <div class="stat"><div class="n">3</div><div class="l">座中国主办城市</div></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <div class="wrap">
+      <div>会标寓意「乘大势，共翱翔」。尚未官方公布的会场、详细议程等细节，页面一律标注「待官方发布」，不作推测。</div>
+      <div style="margin-top:12px">原型：T3 峰会资讯类 · 03-modern-chinese 新中式　｜　作者：小满（xiaoman）· 设计原型与文档</div>
+      <div style="margin-top:6px">资料出处：赛事规则文档 / APEC 官网 / 深圳市政府与南山区政府公开信息　｜　本页为设计原型，内容以正式版为准</div>
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-03 亚太经济体百科 · s09 终端 AI 检索</title>
+<style>
+  :root{--bg:#0a0e0a;--panel:#0d120d;--grn:#4ade80;--grn2:#22c55e;--dim:#3a5a3f;--amber:#fbbf24;--ink:#d1e7d4}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:ui-monospace,"SF Mono",Menlo,Consolas,"PingFang SC",monospace;background:var(--bg);color:var(--ink);line-height:1.6;min-height:100vh}
+  a{text-decoration:none;color:var(--grn)}
+  .win{max-width:880px;margin:clamp(20px,6vh,60px) auto;background:var(--panel);border:1px solid #1a3a20;border-radius:10px;overflow:hidden;box-shadow:0 0 60px rgba(74,222,128,.08)}
+  .chrome{display:flex;align-items:center;gap:8px;padding:10px 16px;background:#0b100b;border-bottom:1px solid #1a3a20;font-size:13px;color:var(--dim)}
+  .dot{width:12px;height:12px;border-radius:50%}
+  .d1{background:#ef4444}.d2{background:#fbbf24}.d3{background:#22c55e}
+  .chrome .title{margin-left:12px}
+  .body{padding:20px clamp(16px,4vw,28px);font-size:14px}
+  .line{margin-bottom:12px}
+  .line .c{color:var(--grn2)}
+  .line .k{color:var(--dim)}
+  .out{margin-top:10px;color:var(--ink)}
+  .card{border-left:2px solid var(--grn);padding:8px 14px;margin:14px 0;background:#0f160f;border-radius:0 8px 8px 0}
+  .card h4{color:var(--grn);font-size:15px}
+  .card .r{display:flex;justify-content:space-between;font-size:13px;padding:4px 0;border-bottom:1px dashed #1a3a20}
+  .card .r:last-child{border-bottom:0}
+  .card .r span{color:var(--dim)}
+  .suggest{color:var(--amber);font-size:12px}
+  .input{display:flex;align-items:center;gap:10px;margin-top:18px;border-top:1px solid #1a3a20;padding-top:16px}
+  .input .ps{color:var(--grn2);font-weight:700}
+  .input input{flex:1;background:transparent;border:0;outline:0;color:var(--ink);font-family:inherit;font-size:14px}
+  footer{text-align:center;color:var(--dim);font-size:11px;margin-top:20px;padding-bottom:30px;font-family:inherit}
+</style>
+</head>
+<body>
+  <div class="win">
+    <div class="chrome"><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span><span class="title">apedia — apec@zh: ~/economies</span><a href="review-wall.html" style="margin-left:auto">← 评审墙</a></div>
+    <div class="body">
+      <div class="line"><span class="k">$</span> <span class="c">apedia</span> init --source="APEC.org / 工信部" --members=21</div>
+      <div class="out"><span class="k">✓ 索引 21 个成员经济体 · 支持名称 / 英文 / 区域 / 年份 查询 · 表述规范：中国香港 / 中国台北</span></div>
+
+      <div class="line" style="margin-top:18px"><span class="k">$</span> <span class="c">apedia</span> query "新加坡"</div>
+      <div class="out">
+        <div class="card">
+          <h4>新加坡 · Singapore</h4>
+          <div class="r"><span>所属区域</span><b>东南亚</b></div>
+          <div class="r"><span>加入年份</span><b>1989</b></div>
+          <div class="r"><span>批次</span><b>创始成员</b></div>
+          <div class="r"><span>详情</span><b>#/03-pedia/economy/sg</b></div>
+        </div>
+      </div>
+
+      <div class="line"><span class="k">$</span> <span class="c">apedia</span> filter --region="东亚"</div>
+      <div class="out"><span class="suggest">▸ 匹配 5 个：中国 / 中国香港 / 中国台北 / 日本 / 韩国</span></div>
+
+      <div class="input">
+        <span class="ps">$ apedia query</span>
+        <input id="q" placeholder="输入经济体名 / 英文 / 区域，回车查询…" autofocus>
+      </div>
+      <div class="out" id="result" style="min-height:56px;margin-top:8px"></div>
+    </div>
+  </div>
+  <div style="max-width:880px;margin:20px auto 0;padding:14px 18px;border:1px solid #1a3a20;border-left:3px solid #4ade80;border-radius:0 10px 10px 0;background:#0d120d">
+    <div style="font-size:12px;font-weight:700;color:#4ade80;margin-bottom:6px">▸ nanshan --perspective · 南山视角</div>
+    <div style="font-size:13px;line-height:1.6;color:#d1e7d4">21 个经济体环太平洋而居，深圳南山是一个活跃节点：前海深港合作区 / 深圳西部港区 / 腾讯·中兴·大疆企业总部（来源：深圳市南山区人民政府）</div>
+  </div>
+    <footer>s09 · Terminal / AI-Native · 终端检索 ｜ 数据来源：APEC 官网 / 工信部</footer>
+<script>
+const D=[['澳大利亚','Australia','大洋洲',1989],['文莱','Brunei','东南亚',1989],['加拿大','Canada','北美',1989],
+['智利','Chile','南美',1994],['中国','China','东亚',1991],['中国香港','Hong Kong, China','东亚',1991],
+['印度尼西亚','Indonesia','东南亚',1989],['日本','Japan','东亚',1989],['韩国','Republic of Korea','东亚',1989],
+['马来西亚','Malaysia','东南亚',1989],['墨西哥','Mexico','北美',1993],['新西兰','New Zealand','大洋洲',1989],
+['巴布亚新几内亚','Papua New Guinea','大洋洲',1993],['秘鲁','Peru','南美',1998],['菲律宾','Philippines','东南亚',1989],
+['俄罗斯','Russia','欧亚',1998],['新加坡','Singapore','东南亚',1989],['中国台北','Chinese Taipei','东亚',1991],
+['泰国','Thailand','东南亚',1989],['美国','United States','北美',1989],['越南','Viet Nam','东南亚',1998]];
+const R={'1989':'创始成员','1991':'第二批','1993':'第三批','1994':'第四批','1998':'第五批'};
+const q=document.getElementById('q'),out=document.getElementById('result');
+q.addEventListener('input',()=>{
+  const k=q.value.trim().toLowerCase();if(!k){out.innerHTML='';return}
+  const list=D.filter(d=>d[0].includes(k)||d[1].toLowerCase().includes(k)||d[2].includes(k)||String(d[3]).includes(k));
+  if(!list.length){out.innerHTML='<span style="color:#f87171">▸ 无匹配；试试：新加坡 / 东亚 / 1989</span>';return}
+  out.innerHTML=list.map(d=>`<div class="card"><h4>${d[0]} · ${d[1]}</h4><div class="r"><span>区域</span><b>${d[2]}</b></div><div class="r"><span>加入</span><b>${d[3]}</b></div><div class="r"><span>批次</span><b>${R[d[3]]}</b></div></div>`).join('');
+});
+</script>
+</body>
+</html>

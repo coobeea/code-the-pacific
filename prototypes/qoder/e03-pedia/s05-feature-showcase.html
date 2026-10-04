@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-03 亚太经济体百科 · s05 卡片流陈列</title>
+<style>
+  :root{--bg:#0c0f16;--card:#151a24;--ink:#eef1f7;--g2:#94a1b6;--line:#222a37}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,"PingFang SC",sans-serif;background:var(--bg);color:var(--ink);line-height:1.5}
+  a{text-decoration:none;color:inherit}
+  .bar{display:flex;justify-content:space-between;padding:16px clamp(16px,4vw,44px);font-size:13px;color:var(--g2)}
+  .head{max-width:1200px;margin:0 auto;padding:clamp(20px,4vw,40px) clamp(16px,4vw,44px) 8px}
+  .head h1{font-size:clamp(24px,4vw,40px);font-weight:800}
+  .head p{color:var(--g2);margin-top:8px;max-width:56ch}
+  .wrap{max-width:1200px;margin:0 auto;padding:24px clamp(16px,4vw,44px) 40px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .ec{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;transition:.25s}
+  .ec:hover{transform:translateY(-4px);border-color:var(--g2)}
+  .art{height:110px;position:relative;display:flex;align-items:flex-end;padding:14px;font-size:32px;font-weight:900;color:#fff}
+  .body{padding:16px 18px 18px}
+  .body .cn{font-size:19px;font-weight:800}
+  .body .en{font-size:12px;color:var(--g2)}
+  .body .d{font-size:13px;color:var(--g2);margin-top:10px;min-height:40px}
+  .tags{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap}
+  .tg{font-size:11px;padding:3px 9px;border:1px solid var(--line);border-radius:999px;color:var(--g2)}
+  .a东亚{background:linear-gradient(120deg,#b45309,#f59e0b)}.a东南亚{background:linear-gradient(120deg,#0f766e,#14b8a6)}
+  .a北美{background:linear-gradient(120deg,#1e40af,#3b82f6)}.a南美{background:linear-gradient(120deg,#5b21b6,#8b5cf6)}
+  .a大洋洲{background:linear-gradient(120deg,#166534,#22c55e)}.a欧亚{background:linear-gradient(120deg,#9f1239,#f43f5e)}
+  footer{max-width:1200px;margin:0 auto;padding:16px clamp(16px,4vw,44px);color:var(--g2);font-size:12px;border-top:1px solid var(--line)}
+  @media(max-width:900px){.wrap{grid-template-columns:1fr 1fr}}
+  @media(max-width:560px){.wrap{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+  <div class="bar"><span>Asia-Pacific Pedia · 文化陈列</span><a href="review-wall.html">← 评审墙</a></div>
+  <div class="head"><h1>21 经济体 · 文化卡片流</h1><p>每张卡片代表一个成员经济体，区域色带区分地理片区。点卡片进入详情（原型示意）。表述遵循官方口径：中国香港、中国台北。</p></div>
+  <div class="wrap" id="grid"></div>
+  <div style="max-width:1200px;margin:8px auto 0;padding:15px 20px;border:1px solid var(--line);border-left:4px solid #2dd4bf;border-radius:16px;color:var(--ink)">
+    <div style="font-size:13px;font-weight:800;color:#2dd4bf;margin-bottom:6px">南山视角 · 亚太网络里的南山</div>
+    <div style="font-size:14px;line-height:1.6;color:var(--g2)">浏览 21 经济体时，别忘了有一个中国城区与这张网紧密相连：深圳南山——前海深港合作区、深圳西部港区，以及腾讯/中兴/大疆等面向亚太的企业总部。（来源：深圳市南山区人民政府）</div>
+  </div>
+    <footer>s05 · Feature Showcase 卡片流 ｜ 资料来源：APEC 官网 Our members / 工信部 ｜ 卡片简介为占位文案，正式内容以百科 JSON 数据为准</footer>
+<script>
+const D=[
+ ['澳大利亚','Australia','大洋洲',1989,'袋鼠与歌剧院，南半球的多元文化国度'],
+ ['新西兰','New Zealand','大洋洲',1989,'毛利文化与长白云之乡'],
+ ['巴布亚新几内亚','Papua New Guinea','大洋洲',1993,'上千种语言的太平洋岛国'],
+ ['日本','Japan','东亚',1989,'传统与科技交织的岛国'],
+ ['韩国','Republic of Korea','东亚',1989,'汉江奇迹与流行文化'],
+ ['中国','China','东亚',1991,'五千年文明与改革开放'],
+ ['中国香港','Hong Kong, China','东亚',1991,'东西汇流的国际都会'],
+ ['中国台北','Chinese Taipei','东亚',1991,'半导体与人文荟萃'],
+ ['新加坡','Singapore','东南亚',1989,'花园城市与多元族群'],
+ ['印度尼西亚','Indonesia','东南亚',1989,'万岛之国的香料与海洋'],
+ ['泰国','Thailand','东南亚',1989,'微笑之国与佛教文化'],
+ ['越南','Viet Nam','东南亚',1998,'红河与南海的新兴力量'],
+ ['马来西亚','Malaysia','东南亚',1989,'多民族共融的热带之国'],
+ ['菲律宾','The Philippines','东南亚',1989,'七千岛屿的海洋文明'],
+ ['文莱','Brunei','东南亚',1989,'婆罗洲的和平苏坦国'],
+ ['美国','The United States','北美',1989,'太平洋东岸的创新引擎'],
+ ['加拿大','Canada','北美',1989,'枫叶与太平洋门户'],
+ ['墨西哥','Mexico','北美',1993,'玛雅阿兹特克的千年文明'],
+ ['秘鲁','Peru','南美',1998,'印加与安第斯的古国'],
+ ['智利','Chile','南美',1994,'狭长国土与太平洋之滨'],
+ ['俄罗斯','Russia','欧亚',1998,'横跨欧亚的辽阔疆域']];
+document.getElementById('grid').innerHTML=D.map(d=>`<article class="ec">
+ <div class="art a${d[2]}">${d[0][0]}</div>
+ <div class="body"><div class="cn">${d[0]}</div><div class="en">${d[1]}</div>
+ <div class="d">${d[4]}</div>
+ <div class="tags"><span class="tg">${d[2]}</span><span class="tg">加入 ${d[3]}</span></div></div></article>`).join('');
+</script>
+</body>
+</html>

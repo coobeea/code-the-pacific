@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-01 峰会资讯 · s02 会标 Hero</title>
+<style>
+  :root{--bg:#06182b;--ink:#eaf2ff;--g2:#9dc0e6;--gold:#e6b74a;--cyan:#38bdf8}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,"PingFang SC",sans-serif;background:radial-gradient(120% 100% at 50% 0%,#0c2b4a,#06182b 70%);color:var(--ink);line-height:1.6}
+  a{text-decoration:none;color:inherit}
+  .bar{display:flex;justify-content:space-between;padding:16px clamp(16px,4vw,44px);font-size:13px;color:var(--g2)}
+  .hero{max-width:1000px;margin:0 auto;padding:clamp(30px,6vw,70px) 20px;text-align:center}
+  .emblem{width:min(60vw,320px);height:auto;margin:0 auto 20px;display:block}
+  .emblem .wing{fill:none;stroke:var(--gold);stroke-width:2.5;opacity:.85;transition:.4s}
+  .emblem:hover .wing{stroke:var(--cyan);opacity:1}
+  .wordmark{font-size:clamp(28px,6vw,54px);font-weight:800;letter-spacing:.02em}
+  .wordmark b{color:var(--gold)}
+  .theme{font-size:clamp(17px,2.4vw,24px);color:var(--g2);margin-top:12px}
+  .theme em{color:#fff;font-style:normal;font-weight:700}
+  .meta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:26px;font-size:14px;color:var(--g2)}
+  .meta .pill{border:1px solid #2a4a6b;padding:8px 16px;border-radius:999px;background:#0c2b4a66}
+  .prior{max-width:900px;margin:clamp(30px,6vw,60px) auto 0;padding:0 20px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .p{border:1px solid #1c3a58;border-radius:14px;padding:22px;background:#08203a;cursor:pointer;transition:.2s}
+  .p:hover{border-color:var(--gold);transform:translateY(-3px)}
+  .p .zh{font-size:26px;font-weight:800;color:var(--gold)}
+  .p .en{font-size:12px;color:var(--g2);letter-spacing:.1em;margin:4px 0 10px;text-transform:uppercase}
+  .p .d{font-size:14px;color:#c6d9ee;line-height:1.6}
+  .note{max-width:900px;margin:26px auto;padding:0 20px;font-size:13px;color:var(--g2);text-align:center}
+  footer{max-width:1000px;margin:0 auto;text-align:center;font-size:12px;color:#5c7fa0;padding:20px;border-top:1px solid #12304f}
+  @media(max-width:640px){.prior{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+  <div class="bar"><span>APEC CHINA 2026</span><a href="review-wall.html">← 评审墙</a></div>
+  <section class="hero">
+    <svg class="emblem" viewBox="0 0 300 200" role="img" aria-label="APEC 2026 会标：21 根交织羽翼构成的鲲鹏">
+      <g id="wings"></g>
+      <text x="150" y="188" text-anchor="middle" fill="#9dc0e6" font-size="12" letter-spacing="3" font-family="sans-serif">APEC CHINA 2026</text>
+    </svg>
+    <div class="wordmark">深圳之约 · <b>2026</b></div>
+    <p class="theme">办会主题：<em>建设亚太共同体，促进共同繁荣</em></p>
+    <div class="meta"><span class="pill">2026.11.18—19</span><span class="pill">中国 · 深圳</span><span class="pill">第三十三次领导人非正式会议</span></div>
+  </section>
+
+  <section class="prior">
+    <div class="p"><div class="zh">开放</div><div class="en">Openness</div><div class="d">形态如张开双臂——建设开放型经济，反对保护主义。</div></div>
+    <div class="p"><div class="zh">创新</div><div class="en">Innovation</div><div class="d">鲲鹏蜕变翱翔——创新驱动增长，发展新质生产力。</div></div>
+    <div class="p"><div class="zh">合作</div><div class="en">Cooperation</div><div class="d">21 根羽翼紧密交织——政策协调、经验分享，实现共赢。</div></div>
+  </section>
+
+  <p class="note">会标以「鲲鹏」为核心（取深圳别称鹏城），由 21 根交织的羽翼构成展翅大鹏，寓意「乘大势，共翱翔」。悬停会标可看羽翼点亮。<br>⏳ 具体场馆与详细议程待官方发布。</p>
+  <p class="note" style="margin-top:8px">南山视角 · 主办城区为<b style="color:var(--gold)">深圳南山</b>：后海、深圳湾超级总部基地与前海深港合作区，正是峰会配套活动与外宾参访的重要承载地。</p>
+  <footer>s02 · Hero-Centric 会标 Hero ｜ 资料来源：新华社 / 中国政府网 / APEC 官网新闻稿 / 深圳广电</footer>
+<script>
+const g=document.getElementById('wings'),N=21,cx=150,cy=175;
+for(let i=0;i<N;i++){const a=Math.PI*(0.12+0.76*i/(N-1));const R=140;const x=cx-Math.cos(a)*R,y=cy-Math.sin(a)*R;const mx=cx-Math.cos(a)*40,my=cy-Math.sin(a)*40;
+const p=document.createElementNS('http://www.w3.org/2000/svg','path');p.setAttribute('class','wing');p.setAttribute('d',`M${cx} ${cy} Q ${x} ${y} ${mx} ${my}`);g.appendChild(p)}
+</script>
+</body>
+</html>

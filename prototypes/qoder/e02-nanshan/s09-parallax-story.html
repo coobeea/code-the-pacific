@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-02 南山名片 · s09 视差滚动叙事</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:"Songti SC",Georgia,"PingFang SC",serif;color:#fff;line-height:1.7;background:#0a141c}
+  a{text-decoration:none;color:inherit}
+  .bar{position:fixed;top:0;left:0;right:0;z-index:10;display:flex;justify-content:space-between;padding:16px clamp(16px,4vw,40px);font-size:13px;mix-blend-mode:difference}
+  .scene{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:80px 20px}
+  .scene .bg{position:absolute;inset:0;background-size:cover;transform:scale(1.1);transition:transform .1s linear}
+  .s1 .bg{background:linear-gradient(160deg,#0a3d62,#1e6f8f,#3fa9c9)}
+  .s2 .bg{background:linear-gradient(160deg,#0b3d2e,#1f7a4d,#6fbf73)}
+  .s3 .bg{background:linear-gradient(160deg,#3a2b1a,#7a5a2f,#c9a24b)}
+  .s4 .bg{background:linear-gradient(160deg,#12233d,#274060,#4a6fa5)}
+  .scene .bg::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 30% 30%,transparent,rgba(0,0,0,.45))}
+  .inner{position:relative;z-index:2;max-width:640px;text-align:center}
+  .idx{font-size:14px;letter-spacing:.3em;opacity:.85}
+  .inner h1{font-size:clamp(38px,9vw,88px);margin:12px 0 18px;font-weight:700;text-shadow:0 4px 24px rgba(0,0,0,.3)}
+  .inner p{font-size:clamp(15px,2vw,19px);opacity:.95}
+  .num{font-size:clamp(56px,12vw,120px);font-weight:800;opacity:.28;position:absolute;top:8vh;left:50%;transform:translateX(-50%);z-index:1}
+  .reveal{opacity:0;transform:translateY(40px);transition:.9s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+  .dots{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:10;display:flex;flex-direction:column;gap:12px}
+  .dots a{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.4)}
+  .dots a:hover{background:#fff}
+  footer{padding:26px;text-align:center;font-family:-apple-system,"PingFang SC",sans-serif;font-size:12px;color:#8ba3b5;background:#0a141c}
+</style>
+</head>
+<body>
+  <div class="bar"><span>山海连城 · 绿美南山</span><a href="review-wall.html">← 返回评审墙</a></div>
+  <div class="dots"><a href="#sea"></a><a href="#river"></a><a href="#city"></a><a href="#lake"></a></div>
+
+  <section class="scene s1" id="sea"><div class="bg parallax"></div><span class="num">01</span>
+    <div class="inner reveal"><div class="idx">一片海 · SEA</div><h1>后海逐浪</h1><p>深圳人才公园 · 深圳湾体育中心 · 海岸城。43.7 公里黄金海岸线，是南山面向太平洋的呼吸。</p></div>
+  </section>
+  <section class="scene s2" id="river"><div class="bg parallax"></div><span class="num">02</span>
+    <div class="inner reveal"><div class="idx">一条河 · RIVER</div><h1>燕晗栖羽</h1><p>大沙河生态长廊 13.7 公里 · 华侨城国家湿地公园。一条河的重生，把城市与自然重新缝合。</p></div>
+  </section>
+  <section class="scene s3" id="city"><div class="bg parallax"></div><span class="num">03</span>
+    <div class="inner reveal"><div class="idx">一座城 · CITY</div><h1>古城宁南</h1><p>南头古城，近 1700 年历史。中山公园、荷兰花卉小镇、蛇口老街——历史与潮流在此叠印。</p></div>
+  </section>
+  <section class="scene s4" id="lake"><div class="bg parallax"></div><span class="num">04</span>
+    <div class="inner reveal"><div class="idx">一个湖 · LAKE</div><h1>丽湖留仙</h1><p>西丽湖 · 环西丽湖碧道 15.5 公里 · 西丽湖国际科教城。湖光里，科创与教育一同生长。</p></div>
+  </section>
+
+  <footer>s09 · Parallax Storytelling · 视差滚动叙事 ｜ 资料来源：创新南山「南山八景」/ 深圳市南山区人民政府（数据以官方口径为准）</footer>
+<script>
+  // 轻量滚动：视差位移 + 进入淡入（只用 CSS transform 与 IntersectionObserver，不引库，稳定优先）
+  const bgs=document.querySelectorAll('.parallax');
+  addEventListener('scroll',()=>{const y=scrollY;bgs.forEach(b=>{const s=b.parentElement.getBoundingClientRect();b.style.transform='scale(1.1) translateY('+(s.top*-0.06)+'px)'});},{passive:true});
+  const io=new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting&&e.target.classList.add('in')),{threshold:.3});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

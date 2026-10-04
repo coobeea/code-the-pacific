@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>设计风格总览 — 码上亚太 30 款界面原型</title>
+<meta name="author" content="小满 (xiaoman)">
+<style>
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:#F4F5F7;color:#1A1C20;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",sans-serif;line-height:1.6}
+.wrap{max-width:1280px;margin:0 auto;padding:0 28px}
+header.top{padding:48px 0 28px;border-bottom:1px solid #E2E4E9;background:#FFFFFF}
+h1{font-size:30px;font-weight:500;letter-spacing:-.01em;margin:0 0 12px}
+.lede{font-size:14px;color:#5B6070;max-width:760px;margin:0 0 20px;line-height:1.85}
+.meta{display:flex;flex-wrap:wrap;gap:10px;font-size:12px;color:#5B6070}
+.meta span{background:#F4F5F7;border:1px solid #E2E4E9;border-radius:999px;padding:5px 12px}
+.legend{padding:20px 0 4px;font-size:12px;color:#5B6070}
+.legend b{font-weight:500;color:#1A1C20}
+.style-card{background:#FFFFFF;border:1px solid #E2E4E9;border-radius:14px;padding:24px;margin:24px 0}
+.style-card > header{display:grid;grid-template-columns:52px 1fr;gap:18px;align-items:start;margin-bottom:20px}
+.no{font-size:26px;font-weight:500;color:#9AA0AE;font-variant-numeric:tabular-nums;line-height:1.1}
+h3{font-size:17px;font-weight:500;margin:0 0 8px;display:flex;align-items:center;gap:10px}
+.tag{font-size:11px;font-weight:400;border-radius:999px;padding:3px 10px;border:1px solid #E2E4E9;color:#5B6070;background:#F4F5F7}
+.tag-dark{background:#1A1C20;color:#F4F5F7;border-color:#1A1C20}
+.mood{font-size:13px;color:#3A3F4B;margin:0 0 8px;line-height:1.75}
+.fit{font-size:12px;color:#7A8090;margin:0}
+.fit b{font-weight:500;color:#3A3F4B;margin-right:8px}
+.shots{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.shot{border:1px solid #E2E4E9;border-radius:10px;overflow:hidden;background:#FAFBFC;position:relative;height:544px;max-width:381px}
+.shot iframe{width:1400px;height:2000px;border:0;transform:scale(.2721);transform-origin:0 0;display:block;pointer-events:none}
+.shot-k{position:absolute;left:10px;bottom:34px;font-size:11px;background:rgba(26,28,32,.82);color:#fff;padding:4px 9px;border-radius:6px}
+.shot-l{position:absolute;right:10px;bottom:10px;font-size:11px;color:#1A1C20;background:#FFFFFF;border:1px solid #E2E4E9;padding:5px 11px;border-radius:999px;text-decoration:none}
+footer{padding:36px 0 60px;font-size:12px;color:#7A8090;line-height:1.9}
+@media(max-width:1000px){.shots{grid-template-columns:1fr}.shot{margin:0 auto}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <h1>设计风格总览 · 3 主题 × 10 风格 = 30 款界面原型</h1>
+    <p class="lede">每款风格都是一套完整的设计语言（配色 / 字体 / 圆角 / 边框 / 阴影 / 版式变体），并同时套用到 3 个内容主题上。横着看是"同一内容的不同视觉"，纵着看是"同一视觉的不同题材"——用来选定最终方向。</p>
+    <div class="meta">
+      <span>作者：小满（xiaoman）</span>
+      <span>生成器：tools/gen-design-prototypes.mjs</span>
+      <span>命名：&lt;主题&gt;/&lt;序号&gt;-&lt;风格&gt;.html</span>
+      <span>项目：码上亚太 Code the Pacific</span>
+    </div>
+    <div class="legend"><b>怎么用：</b>点任意缩略图右下角「打开 ↗」看全尺寸效果；也可直接进某个风格页，用页内「切换风格」横向对比。</div>
+  </div>
+</header>
+<main class="wrap">
+    <article class="style-card">
+      <header>
+        <div class="no">01</div>
+        <div>
+          <h3>极简瑞士<span class="tag tag-light">浅色</span></h3>
+          <p class="mood">白底、大留白、发丝分隔线、零圆角。信息优先，几乎不用装饰色。</p>
+          <p class="fit"><b>适合</b>峰会资讯类（信息密度高的场景最稳）</p>
+        </div>
+      </header>
+      <div class="shots">
+        <div class="shot">
+          <iframe src="prototypes/t01-nanshan-city/01-minimal-swiss.html" loading="lazy" title="城市名片类 · 极简瑞士"></iframe>
+          <div class="shot-k">T1 城市名片类</div>
+          <a class="shot-l" href="prototypes/t01-nanshan-city/01-minimal-swiss.html" target="_blank" rel="noopener">打开 ↗</a>
+        </div>
+        <div class="shot">
+          <iframe src="prototypes/t02-apac-pedia/01-minimal-swiss.html" loading="lazy" title="知识科普类 · 极简瑞士"></iframe>
+          <div class="shot-k">T2 知识科普类</div>
+          <a class="shot-l" href="prototypes/t02-apac-pedia/01-minimal-swiss.html" target="_blank" rel="noopener">打开 ↗</a>
+        </div>
+        <div class="shot">
+          <iframe src="prototypes/t03-summit-info/01-minimal-swiss.html" loading="lazy" title="峰会资讯类 · 极简瑞士"></iframe>
+          <div class="shot-k">T3 峰会资讯类</div>
+          <a class="shot-l" href="prototypes/t03-summit-info/01-minimal-swiss.html" target="_blank" rel="noopener">打开 ↗</a>
+        </div>
+      </div>
+    </article>
+    <article class="style-card">
+      <header>
+        <div class="no">02</div>
+        <div>
+          <h3>深海渐变<span class="tag tag-dark">深色</span></h3>
+          <p class="mood">深海蓝渐变打底，半透明玻璃卡片，光晕描边。沉稳、官方、有水感。</p>
+          <p class="fit"><b>适合</b>峰会资讯类 / 城市名片类（海洋与湾区意象）</p>
+        </div>
+      </header>
+      <div class="shots">
+        <div class="shot">
+          <iframe src="prototypes/t01-nanshan-city/02-ocean-gradient.html" loading="lazy" title="城市名片类 · 深海渐变"></iframe>
+          <div class="shot-k">T1 城市名片类</div>
+          <a class="shot-l" href="prototypes/t01-nanshan-city/02-ocean-gradient.html" target="_blank" rel="noopener">打开 ↗</a>
+        </div>
+        <div class="shot">
+          <iframe src="prototypes/t02-apac-pedia/02-ocean-gradient.html" loading="lazy" title="知识科普类 · 深海渐变"></iframe>
+          <div class="shot-k">T2 知识科普类</div>
+          <a class="shot-l" href="prototypes/t02-apac-pedia/02-ocean-gradient.html" target="_blank" rel="noopener">打开 ↗</a>
+        </div>
+        <div class="shot">
+          <iframe src="prototypes/t03-summit-info/02-ocean-gradient.html" loading="lazy" title="峰会资讯类 · 深海渐变"></iframe>
+          <div class="shot-k">T3 峰会资讯类</div>
+          <a class="shot-l" href="prototypes/t03-summit-info/02-ocean-gradient.html" target="_blank" rel="noopener">打开 ↗</a>
+        </div>
+      </div>
+    </article>
+    <article class="style-card">
+      <header>
+        <div class="no">03</div>
+        <div>
+          <h3>新中式<span class="tag tag-light">浅色</span></h3>
+          <p class="mood">宣纸米白、墨黑、朱红印章。宋体标题、细双线边框、竖排点缀。东方而不老气。</p>
+          <p class="fit"><b>适合</b>城市名片类（南山八景、南头古城最贴）</p>
+        </div>
+      </header>
+      <div class="shots">
+        <div class="shot">
+          <iframe src="prototypes/t01-nanshan-city/03-modern-chinese.html" loading="lazy" title="城市名片类 · 新中式"></iframe>
+          <div class="shot-k">T1 城市名片类</div>
+          <a class="shot-l" href="prototypes/t01-nanshan-city/03-modern-chinese.html" target="_blank" rel="noopener">打开 ↗</a>
+        </div>
+        <div class="shot">
+          <iframe src="prototypes/t02-apac-pedia/03-modern-chinese.html" loading="lazy" title="知识科普类 · 新中式"></iframe>
+          <div class="shot-k">T2 知识科普类</div>
+          <a class="shot-l" href="prototypes/t02-apac-pedia/03-modern-chinese.html" target="_blank" rel="noopener">打开 ↗</a>
+        </div>
+        <div class="shot">
+          <iframe src="prototypes/t03-summit-info/03-modern-chinese.html" loading="lazy" title="峰会资讯类 · 新中式"></iframe>
+          <div class="shot-k">T3 峰会资讯类</div>
+          <a class="shot-l" href="prototypes/t03-summit-info/03-modern-chinese.html" target="_blank" rel="noopener">打开 ↗</a>
+        </div>
+      </div>
+    </article>
+    <article class="style-card">
+      <header>
+        <div class="no">04</div>
+        <div>
+          <h3>杂志编辑<span class="tag tag-light">浅色</span></h3>
+          <p class="mood">大标题衬线字、粗顶栏、多栏正文、首字下沉、超细网格线。像一本特刊。</p>
+          <p class="fit"><b>适合</b>知识科普类（21 经济体适合做成长篇专题）</p>
+        </div>
+      </header>
+      <div class="shots">
+        <div class="shot">
+          <iframe src="prototypes/t01-nanshan-city/04-editorial.html" loading="lazy" title="城市名片类 · 杂志编辑"></iframe>
+          <div class="shot-k">T1 城市名片类</div>
+          <a class="shot-l" href="prototypes/t01-nanshan-city/04-editorial.html" target="_blank" rel="noopener">打开 ↗</a>
+        </div>
+        <div class="shot">
+          <iframe src="prototypes/t02-apac-pedia/04-editorial.html" loading="lazy" title="知识科普类 · 杂志编辑"></iframe>
+          <div class="shot-k">T2 知识科普类</div>
+          <a class="shot-l" href="prototypes/t02-apac-pedia/04-editorial.html" target="_blank" rel="noopener">打开 ↗</a>
+        </div>
+        <div class="shot">
+          <iframe src="prototypes/t03-summit-info/04-editorial.html" loading="lazy" title="峰会资讯类 · 杂志编辑"></iframe>
+          <div class="shot-k">T3 峰会资讯类</div>
+          <a class="shot-l" href="prototypes/t03-summit-info/04-editorial.html" target="_blank" rel="noopener">打开 ↗</a>
+        </div>
+      </div>
+    </article>
+    <article class="style-card">
+      <header>
+        <div class="no">05</div>
+        <div>
+          <h3>科技霓虹<span class="tag tag-dark">深色</span></h3>
+          <p class="mood">纯黑底、青紫霓虹、等宽字体、细网格背景、发光描边。技术感最强。</p>
+          <p class="fit"><b>适合</b>知识科普类的检索界面 / 数据可视化页</p>
+        </div>
+      </header>
+      <div class="shots">
+        <div class="shot">
+          <iframe src="prototypes/t01-nanshan-city/05-neo-tech.html" loading="lazy" title="城市名片类 · 科技霓虹"></iframe>
+          <div class="shot-k">T1 城市名片类</div>
+          <a class="shot-l" href="prototypes/t01-nanshan-city/05-neo-tech.html" target="_blank" rel="noopener">打开 ↗</a>
+        </div>
+        <div class="shot">
+          <iframe src="prototypes/t02-apac-pedia/05-neo-tech.html" loading="lazy" title="知识科普类 · 科技霓虹"></iframe>
+          <div class="shot-k">T2 知识科普类</div>
+          <a class="shot-l" href="prototypes/t02-apac-pedia/05-neo-tech.html" target="_blank" rel="noopener">打开 ↗</a>
+        </div>
+        <div class="shot">
+          <iframe src="prototypes/t03-summit-info/05-neo-tech.html" loading="lazy" title="峰会资讯类 · 科技霓虹"></iframe>
+          <div class="shot-k">T3 峰会资讯类</div>
+          <a class="shot-l" href="prototypes/t03-summit-info/05-neo-tech.html" target="_blank" rel="noopener">打开 ↗</a>
+        </div>
+      </div>
+    </article>
+    <article class="style-card">
+      <header>
+        <div class="no">06</div>
+        <div>
+          <h3>柔和粉彩<span class="tag tag-light">浅色</span></h3>
+          <p class="mood">奶油底、马卡龙点缀色、超大圆角、柔和投影、药丸标签。亲和力最高。</p>
+          <p class="fit"><b>适合</b>活动落地类 / 面向青少年的科普页</p>
+        </div>
+      </header>
+      <div class="shots">
+        <div class="shot">
+          <iframe src="prototypes/t01-nanshan-city/06-soft-pastel.html" loading="lazy" title="城市名片类 · 柔和粉彩"></iframe>
+          <div class="shot-k">T1 城市名片类</div>
+          <a class="shot-l" href="prototypes/t01-nanshan-city/06-soft-pastel.html" target="_blank" rel="noopener">打开 ↗</a>
+        </div>
+        <div class="shot">
+          <iframe src="prototypes/t02-apac-pedia/06-soft-pastel.html" loading="lazy" title="知识科普类 · 柔和粉彩"></iframe>
+          <div class="shot-k">T2 知识科普类</div>
+          <a class="shot-l" href="prototypes/t02-apac-pedia/06-soft-pastel.html" target="_blank" rel="noopener">打开 ↗</a>
+        </div>
+        <div class="shot">
+          <iframe src="prototypes/t03-summit-info/06-soft-pastel.html" loading="lazy" title="峰会资讯类 · 柔和粉彩"></iframe>
+          <div class="shot-k">T3 峰会资讯类</div>
+          <a class="shot-l" href="prototypes/t03-summit-info/06-soft-pastel.html" target="_blank" rel="noopener">打开 ↗</a>
+        </div>
+      </div>
+    </article>
+    <article class="style-card">
+      <header>
+        <div class="no">07</div>
+        <div>
+          <h3>玻璃拟态<span class="tag tag-dark">深色</span></h3>
+          <p class="mood">彩色渐变背景 + 磨砂玻璃卡片 + 亮色细边。通透、现代、层次感强。</p>
+          <p class="fit"><b>适合</b>城市名片类 / 峰会资讯类（视觉冲击优先）</p>
+        </div>
+      </header>
+      <div class="shots">
+        <div class="shot">
+          <iframe src="prototypes/t01-nanshan-city/07-glassmorphism.html" loading="lazy" title="城市名片类 · 玻璃拟态"></iframe>
+          <div class="shot-k">T1 城市名片类</div>
+          <a class="shot-l" href="prototypes/t01-nanshan-city/07-glassmorphism.html" target="_blank" rel="noopener">打开 ↗</a>
+        </div>
+        <div class="shot">
+          <iframe src="prototypes/t02-apac-pedia/07-glassmorphism.html" loading="lazy" title="知识科普类 · 玻璃拟态"></iframe>
+          <div class="shot-k">T2 知识科普类</div>
+          <a class="shot-l" href="prototypes/t02-apac-pedia/07-glassmorphism.html" target="_blank" rel="noopener">打开 ↗</a>
+        </div>
+        <div class="shot">
+          <iframe src="prototypes/t03-summit-info/07-glassmorphism.html" loading="lazy" title="峰会资讯类 · 玻璃拟态"></iframe>
+          <div class="shot-k">T3 峰会资讯类</div>
+          <a class="shot-l" href="prototypes/t03-summit-info/07-glassmorphism.html" target="_blank" rel="noopener">打开 ↗</a>
+        </div>
+      </div>
+    </article>
+    <article class="style-card">
+      <header>
+        <div class="no">08</div>
+        <div>
+          <h3>粗野主义<span class="tag tag-light">浅色</span></h3>
+          <p class="mood">粗黑描边、硬投影（无模糊）、高饱和色块、零圆角。态度最强，最不容易撞车。</p>
+          <p class="fit"><b>适合</b>知识科普类（个性表达）/ 城市名片类</p>
+        </div>
+      </header>
+      <div class="shots">
+        <div class="shot">
+          <iframe src="prototypes/t01-nanshan-city/08-neo-brutalism.html" loading="lazy" title="城市名片类 · 粗野主义"></iframe>
+          <div class="shot-k">T1 城市名片类</div>
+          <a class="shot-l" href="prototypes/t01-nanshan-city/08-neo-brutalism.html" target="_blank" rel="noopener">打开 ↗</a>
+        </div>
+        <div class="shot">
+          <iframe src="prototypes/t02-apac-pedia/08-neo-brutalism.html" loading="lazy" title="知识科普类 · 粗野主义"></iframe>
+          <div class="shot-k">T2 知识科普类</div>
+          <a class="shot-l" href="prototypes/t02-apac-pedia/08-neo-brutalism.html" target="_blank" rel="noopener">打开 ↗</a>
+        </div>
+        <div class="shot">
+          <iframe src="prototypes/t03-summit-info/08-neo-brutalism.html" loading="lazy" title="峰会资讯类 · 粗野主义"></iframe>
+          <div class="shot-k">T3 峰会资讯类</div>
+          <a class="shot-l" href="prototypes/t03-summit-info/08-neo-brutalism.html" target="_blank" rel="noopener">打开 ↗</a>
+        </div>
+      </div>
+    </article>
+    <article class="style-card">
+      <header>
+        <div class="no">09</div>
+        <div>
+          <h3>数据仪表盘<span class="tag tag-dark">深色</span></h3>
+          <p class="mood">深色面板、密集信息、等宽数字、KPI 磁贴、细边框表格。专业感与信息密度最高。</p>
+          <p class="fit"><b>适合</b>城市名片类的数据板块 / 峰会资讯类的排期看板</p>
+        </div>
+      </header>
+      <div class="shots">
+        <div class="shot">
+          <iframe src="prototypes/t01-nanshan-city/09-dashboard.html" loading="lazy" title="城市名片类 · 数据仪表盘"></iframe>
+          <div class="shot-k">T1 城市名片类</div>
+          <a class="shot-l" href="prototypes/t01-nanshan-city/09-dashboard.html" target="_blank" rel="noopener">打开 ↗</a>
+        </div>
+        <div class="shot">
+          <iframe src="prototypes/t02-apac-pedia/09-dashboard.html" loading="lazy" title="知识科普类 · 数据仪表盘"></iframe>
+          <div class="shot-k">T2 知识科普类</div>
+          <a class="shot-l" href="prototypes/t02-apac-pedia/09-dashboard.html" target="_blank" rel="noopener">打开 ↗</a>
+        </div>
+        <div class="shot">
+          <iframe src="prototypes/t03-summit-info/09-dashboard.html" loading="lazy" title="峰会资讯类 · 数据仪表盘"></iframe>
+          <div class="shot-k">T3 峰会资讯类</div>
+          <a class="shot-l" href="prototypes/t03-summit-info/09-dashboard.html" target="_blank" rel="noopener">打开 ↗</a>
+        </div>
+      </div>
+    </article>
+    <article class="style-card">
+      <header>
+        <div class="no">10</div>
+        <div>
+          <h3>纸质手账<span class="tag tag-light">浅色</span></h3>
+          <p class="mood">米黄纸纹、楷体、虚线胶带、贴纸式卡片、手写标注。最有人味，也最适合八景。</p>
+          <p class="fit"><b>适合</b>城市名片类（八景手账感最强）</p>
+        </div>
+      </header>
+      <div class="shots">
+        <div class="shot">
+          <iframe src="prototypes/t01-nanshan-city/10-paper-zine.html" loading="lazy" title="城市名片类 · 纸质手账"></iframe>
+          <div class="shot-k">T1 城市名片类</div>
+          <a class="shot-l" href="prototypes/t01-nanshan-city/10-paper-zine.html" target="_blank" rel="noopener">打开 ↗</a>
+        </div>
+        <div class="shot">
+          <iframe src="prototypes/t02-apac-pedia/10-paper-zine.html" loading="lazy" title="知识科普类 · 纸质手账"></iframe>
+          <div class="shot-k">T2 知识科普类</div>
+          <a class="shot-l" href="prototypes/t02-apac-pedia/10-paper-zine.html" target="_blank" rel="noopener">打开 ↗</a>
+        </div>
+        <div class="shot">
+          <iframe src="prototypes/t03-summit-info/10-paper-zine.html" loading="lazy" title="峰会资讯类 · 纸质手账"></iframe>
+          <div class="shot-k">T3 峰会资讯类</div>
+          <a class="shot-l" href="prototypes/t03-summit-info/10-paper-zine.html" target="_blank" rel="noopener">打开 ↗</a>
+        </div>
+      </div>
+    </article>
+</main>
+<footer>
+  <div class="wrap">
+    本页为设计原型集合，内容数据以正式版为准。设计风格探索属于「创意与原创性」与「交互与页面完成度」两项评分维度的前期准备。<br>
+    作者：小满（xiaoman）· 设计原型与文档　｜　生成时间：2026-10-04
+  </div>
+</footer>
+</body>
+</html>

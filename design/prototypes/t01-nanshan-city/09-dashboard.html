@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>城市名片类 · 数据仪表盘 — 码上亚太 设计原型</title>
+<meta name="description" content="《鹏城文化数字名片》 界面原型，设计风格：数据仪表盘。APEC 2026 深圳峰会主题网页，南山区教育科技节 AI 赛项主题三。">
+<meta name="author" content="小满 (xiaoman)">
+<meta name="theme-color" content="#FFFFFF">
+<style>
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;line-height:1.6}
+img{max-width:100%;display:block}
+a{transition:opacity .15s}
+a:hover{opacity:.72}
+h1,h2,h3,p{margin-top:0}
+.subnav{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:11px;padding:10px 0;opacity:.85;letter-spacing:.04em}
+.subnav b{font-weight:500;opacity:.75;margin-right:6px}
+.subnav a{text-decoration:none;border:1px solid currentColor;border-radius:4px;padding:2px 7px;opacity:.6}
+.subnav a.on{opacity:1;font-weight:500}
+
+body{background:#0B1220;color:#E2E8F0;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+.hdr{background:#0E1626;border-bottom:1px solid #1E293B;padding:14px 0}
+.hdr .wrap{display:flex;align-items:center;gap:20px}
+.brand{font-size:13px;font-weight:500;letter-spacing:.04em}
+.dot{width:8px;height:8px;border-radius:50%;background:#34D399;display:inline-block;margin-right:8px}
+.nav{margin-left:auto;display:flex;gap:6px;font-size:12px}
+.nav a{color:#94A3B8;text-decoration:none;padding:7px 13px;border-radius:8px;border:1px solid transparent}
+.hero{padding:52px 0 44px}
+.hero .kicker{font-size:11px;letter-spacing:.14em;color:#38BDF8;margin-bottom:18px;font-family:ui-monospace,Menlo,monospace}
+.hero h1{font-size:40px;line-height:1.15;font-weight:500;margin:0 0 18px;letter-spacing:-.01em}
+.hero p{font-size:14px;line-height:1.8;color:#94A3B8;max-width:640px;margin:0 0 28px}
+.btn{display:inline-block;padding:11px 22px;border-radius:8px;background:#1D4ED8;color:#FFFFFF;text-decoration:none;font-size:13px}
+.block{padding:36px 0;border-top:1px solid #1E293B}
+.block-head{display:flex;align-items:baseline;gap:14px;margin-bottom:20px}
+.block-head h2{font-size:15px;font-weight:500;margin:0;letter-spacing:.04em}
+.block-head span{font-size:11px;color:#64748B;font-family:ui-monospace,Menlo,monospace}
+.card-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.card{padding:18px;border-radius:10px;background:#121A2B;border:1px solid #1E293B}
+.card .k{font-size:10px;letter-spacing:.12em;color:#64748B;margin-bottom:8px;font-family:ui-monospace,Menlo,monospace}
+.card .t{font-size:14px;font-weight:500;margin-bottom:6px}
+.card .d{font-size:11px;color:#7D8FA6;line-height:1.65}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.stat{padding:20px;border-radius:10px;background:#121A2B;border:1px solid #1E293B;border-left:3px solid #38BDF8}
+.stat:nth-child(2){border-left-color:#34D399}.stat:nth-child(3){border-left-color:#A78BFA}.stat:nth-child(4){border-left-color:#FBBF24}
+.stat .n{font-size:32px;font-weight:500;font-variant-numeric:tabular-nums;font-family:ui-monospace,Menlo,monospace}
+.stat .l{font-size:11px;color:#7D8FA6;margin-top:8px}
+.list{border:1px solid #1E293B;border-radius:10px;overflow:hidden;background:#121A2B}
+.list .row{display:grid;grid-template-columns:190px 1fr;gap:20px;padding:15px 18px;border-bottom:1px solid #1E293B;font-size:12.5px}
+.list .row:last-child{border-bottom:0}
+.list .row:nth-child(odd){background:#0F1726}
+.list .row .a{color:#7D8FA6;font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.06em}
+.foot{padding:28px 0 40px;margin-top:24px;border-top:1px solid #1E293B;font-size:11px;color:#64748B;line-height:1.9;font-family:ui-monospace,Menlo,monospace}
+.hero.centered{text-align:center}.hero.centered p{margin-left:auto;margin-right:auto}
+.hero.split .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:44px;align-items:center}
+.hero.bleed .wrap{max-width:1240px}
+.hero.left .wrap{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:40px;align-items:end}
+@media(max-width:900px){.card-grid,.stats{grid-template-columns:repeat(2,1fr)}.hero h1{font-size:26px}.hero.split .wrap,.hero.left .wrap{grid-template-columns:1fr}.list .row{grid-template-columns:1fr;gap:6px}}
+</style>
+<!-- ============================================================
+     设计原型 · 非生产代码
+     主题：T1 城市名片类（《鹏城文化数字名片》）
+     风格：09-dashboard 数据仪表盘
+     作者：小满 (xiaoman)
+     生成：tools/gen-design-prototypes.mjs —— 手工修改会被重新生成覆盖
+     ============================================================ -->
+</head>
+<body class="theme-t01-nanshan-city style-09">
+
+  <header class="hdr">
+    <div class="wrap">
+      <div class="brand">码上亚太 Code the Pacific</div>
+      <nav class="nav">
+        <a href="#">首页</a>
+        <a href="#">城市名片类</a>
+        <a href="#">全部入口</a>
+      </nav>
+    </div>
+    <div class="wrap"><nav class="subnav"><b>切换风格</b><a href="01-minimal-swiss.html" title="极简瑞士">01</a><a href="02-ocean-gradient.html" title="深海渐变">02</a><a href="03-modern-chinese.html" title="新中式">03</a><a href="04-editorial.html" title="杂志编辑">04</a><a href="05-neo-tech.html" title="科技霓虹">05</a><a href="06-soft-pastel.html" title="柔和粉彩">06</a><a href="07-glassmorphism.html" title="玻璃拟态">07</a><a href="08-neo-brutalism.html" title="粗野主义">08</a><a class="on" href="09-dashboard.html" title="数据仪表盘">09</a><a href="10-paper-zine.html" title="纸质手账">10</a><a href="../index.html">全部 10 款</a></nav></div>
+  </header>
+
+  <section class="hero left">
+    <div class="wrap">
+      <div>
+        <div class="kicker">APEC 2026 · 深圳南山</div>
+        <h1>鹏城文化数字名片</h1>
+        <p>从 1700 年的南头古城，到今天的万亿科创城区。一海一河一城一湖，八景连缀成南山。</p>
+        <a class="btn" href="#">开始漫游八景</a>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <div class="block-head"><h2>南山八景</h2><span>2026 年 9 月揭晓</span></div>
+      <div class="card-grid">
+      <article class="card">
+        <div class="k">01</div>
+        <h3 class="t">古城宁南</h3>
+        <p class="d">南头古城 · 1700 年</p>
+      </article>
+      <article class="card">
+        <div class="k">02</div>
+        <h3 class="t">蛇口记忆</h3>
+        <p class="d">改革开放第一炮</p>
+      </article>
+      <article class="card">
+        <div class="k">03</div>
+        <h3 class="t">前海观潮</h3>
+        <p class="d">制度创新试验田</p>
+      </article>
+      <article class="card">
+        <div class="k">04</div>
+        <h3 class="t">后海逐浪</h3>
+        <p class="d">总部经济海岸</p>
+      </article>
+      <article class="card">
+        <div class="k">05</div>
+        <h3 class="t">深湾驭风</h3>
+        <p class="d">超级总部基地</p>
+      </article>
+      <article class="card">
+        <div class="k">06</div>
+        <h3 class="t">燕晗栖羽</h3>
+        <p class="d">华侨城生态绿心</p>
+      </article>
+      <article class="card">
+        <div class="k">07</div>
+        <h3 class="t">丽湖留仙</h3>
+        <p class="d">西丽湖科教城</p>
+      </article>
+      <article class="card">
+        <div class="k">08</div>
+        <h3 class="t">伶仃烟渚</h3>
+        <p class="d">内伶仃岛保护区</p>
+      </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <div class="block-head"><h2>一海 · 一河 · 一城 · 一湖</h2><span>南山的四种打开方式</span></div>
+      <div class="list">
+      <div class="row"><div class="a">海</div><div>深圳湾 · 人才公园　·　15 公里滨海休闲带</div></div>
+      <div class="row"><div class="a">河</div><div>大沙河生态长廊　·　13.7 公里 · 大学城段</div></div>
+      <div class="row"><div class="a">城</div><div>南头古城　·　近 1700 年历史</div></div>
+      <div class="row"><div class="a">湖</div><div>环西丽湖碧道　·　15.5 公里 · 科教融合</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <div class="block-head"><h2>关键数据</h2><span>数据来源见页脚</span></div>
+      <div class="stats">
+      <div class="stat"><div class="n">1.01</div><div class="l">万亿元 GDP（2025）</div></div>
+      <div class="stat"><div class="n">218</div><div class="l">家上市公司</div></div>
+      <div class="stat"><div class="n">6037</div><div class="l">家国家高新技术企业</div></div>
+      <div class="stat"><div class="n">860</div><div class="l">件 · 每万人发明专利</div></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <div class="wrap">
+      <div>南山特色元素：八景命名取自本地地名与典故，配色取自海洋蓝与科创青，手绘轮廓图用于八景地图交互。</div>
+      <div style="margin-top:12px">原型：T1 城市名片类 · 09-dashboard 数据仪表盘　｜　作者：小满（xiaoman）· 设计原型与文档</div>
+      <div style="margin-top:6px">资料出处：赛事规则文档 / APEC 官网 / 深圳市政府与南山区政府公开信息　｜　本页为设计原型，内容以正式版为准</div>
+    </div>
+  </footer>
+
+</body>
+</html>

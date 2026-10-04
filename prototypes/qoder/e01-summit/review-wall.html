@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-01 APEC 2026 峰会主题网站 · 评审墙</title>
+<style>
+  :root{--ink:#eef2f7;--g2:#95a3b5;--line:#232a34;--brand:#0a5cff;--gold:#fbbf24}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,"PingFang SC",sans-serif;background:#0b0d11;color:var(--ink);line-height:1.5}
+  a{text-decoration:none;color:inherit}
+  .top{position:sticky;top:0;z-index:20;background:#0b0d11f2;border-bottom:1px solid var(--line);padding:16px clamp(16px,4vw,40px);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+  .top .crumb{font-size:13px;color:var(--g2)}.top .crumb a{color:var(--brand)}
+  .top h1{font-size:clamp(18px,3vw,26px);font-weight:800;margin-top:2px}
+  .legend{font-size:12px;color:var(--g2)}
+  .wrap{max-width:1320px;margin:0 auto;padding:clamp(16px,3vw,32px) clamp(16px,4vw,40px) 60px}
+  .intro{color:var(--g2);font-size:14px;margin-bottom:22px;max-width:72ch}
+  .count{margin:6px 0 18px;font-size:13px;color:var(--g2)}.count b{color:var(--gold)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px}
+  .item{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#12161d;transition:.2s}
+  .item:hover{border-color:var(--brand)}.item.picked{border-color:var(--gold);box-shadow:0 0 0 2px var(--gold)55}
+  .shot{position:relative;height:220px;background:#fff;overflow:hidden;cursor:pointer}
+  .shot iframe{width:1280px;height:800px;border:0;transform:scale(.30);transform-origin:top left;pointer-events:none}
+  .shot .zoom{position:absolute;inset:0;background:linear-gradient(transparent 70%,#00000022);opacity:0;transition:.2s;display:flex;align-items:flex-end;justify-content:flex-end;padding:12px}
+  .shot:hover .zoom{opacity:1}.shot .zoom span{background:var(--brand);color:#fff;font-size:12px;padding:6px 12px;border-radius:8px;font-weight:700}
+  .meta{padding:14px 16px}
+  .row1{display:flex;justify-content:space-between;align-items:center;gap:8px}
+  .sid{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--g2)}
+  .score{font-size:11px;padding:3px 9px;border-radius:999px;background:#1e2837;color:#f5cf8a;font-weight:700}
+  .item h3{font-size:17px;margin:8px 0 4px;font-weight:700}.item p{font-size:13px;color:var(--g2);min-height:38px}
+  .actions{display:flex;gap:8px;margin-top:12px}
+  .btn{flex:1;text-align:center;font-size:12px;font-weight:700;padding:8px;border-radius:8px;border:1px solid var(--line);cursor:pointer;background:#0f1319;color:var(--ink)}
+  .btn.open:hover{border-color:var(--brand)}.btn.pick:hover,.btn.pick.on{border-color:var(--gold);color:var(--gold)}
+  footer{text-align:center;color:var(--g2);font-size:12px;padding:24px;border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+  <div class="top">
+    <div><div class="crumb"><a href="../index.html">总入口</a> / 主题三 · 峰会资讯</div><h1>APEC 2026 深圳峰会主题网站 · 10 风格评审墙</h1></div>
+    <div class="legend">🖱 点缩略图放大 · 点「候选」标记（仅存本机浏览器）</div>
+  </div>
+  <div class="wrap">
+    <p class="intro">内容主线：会标鲲鹏（21 羽翼 ·「乘大势，共翱翔」）· 开放/创新/合作三优先领域 · 会议年历时间轴 · 21 成员 · 为什么是深圳。s01 含真实峰会倒计时，s02 手绘可交互会标，s03 滚动时间轴。事实取权威口径，未公布项标注「待官方发布」。</p>
+    <div class="count">已选候选：<b id="picked">0</b> 个</div>
+    <div class="grid" id="grid"></div>
+  </div>
+  <footer>E-01 评审墙 · 负责人 Qoder ｜ 选型依据详见 docs/设计-Qoder.md 第六节</footer>
+<script>
+const STYLES=[
+ {f:'s01-exagg-minimalism.html',id:'s01',name:'夸张极简',en:'Exaggerated Minimalism',why:'超大字「2026深圳」+真实倒计时，宣言感',sc:'主题 20%'},
+ {f:'s02-hero-centric.html',id:'s02',name:'会标 Hero',en:'Hero-Centric',why:'手绘鲲鹏会标，21 羽翼悬停点亮',sc:'主题 20%'},
+ {f:'s03-parallax-timeline.html',id:'s03',name:'视差时间轴',en:'Parallax Timeline',why:'会议年历逐节点滚动叙事',sc:'交互 20%'},
+ {f:'s04-kinetic-type.html',id:'s04',name:'动力字体',en:'Kinetic Typography',why:'开放/创新/合作逐字轮播+跑马灯',sc:'创意 20%'},
+ {f:'s05-dark-gold.html',id:'s05',name:'暗夜鎏金',en:'Dark Gold',why:'深底鎏金，国家级庄重仪式感',sc:'主题 20%'},
+ {f:'s06-aurora-community.html',id:'s06',name:'共同体光晕',en:'Aurora Community',why:'多色交融呼应 21 羽翼交织意象',sc:'创意 20%'},
+ {f:'s07-glass-gov.html',id:'s07',name:'现代政务玻璃',en:'Glass Governance',why:'玻璃拟态门户，清晰层级与模块导航',sc:'交互 20%'},
+ {f:'s08-editorial-dossier.html',id:'s08',name:'峰会专刊',en:'Editorial Dossier',why:'分栏专稿 + 事实侧栏',sc:'主题 20%'},
+ {f:'s09-neubrutalism-youth.html',id:'s09',name:'新粗野年轻化',en:'Neo-Brutalism',why:'厚边贴纸色块，契合赛项活力',sc:'创意 20%'},
+ {f:'s10-bauhaus-triptych.html',id:'s10',name:'包豪斯三段',en:'Bauhaus Triptych',why:'圆三角方各承一个优先领域',sc:'创意 20%'},
+];
+const KEY='qoder-pick-e01';
+let picks=new Set(JSON.parse(localStorage.getItem(KEY)||'[]'));
+const grid=document.getElementById('grid');
+STYLES.forEach(s=>{
+  const el=document.createElement('div');el.className='item'+(picks.has(s.id)?' picked':'');
+  el.innerHTML=`<div class="shot" onclick="window.open('${s.f}')"><iframe src="${s.f}" loading="lazy" title="${s.name}"></iframe><div class="zoom"><span>放大查看 ↗</span></div></div>
+   <div class="meta"><div class="row1"><span class="sid">${s.id} · ${s.en}</span><span class="score">${s.sc}</span></div>
+   <h3>${s.name}</h3><p>${s.why}</p>
+   <div class="actions"><a class="btn open" href="${s.f}" target="_blank">打开原型</a><div class="btn pick ${picks.has(s.id)?'on':''}" onclick="toggle('${s.id}',this)">${picks.has(s.id)?'★ 已标候选':'☆ 标记候选'}</div></div></div>`;
+  grid.appendChild(el);
+});
+function toggle(id,btn){if(picks.has(id)){picks.delete(id);btn.classList.remove('on');btn.textContent='☆ 标记候选';btn.closest('.item').classList.remove('picked')}else{picks.add(id);btn.classList.add('on');btn.textContent='★ 已标候选';btn.closest('.item').classList.add('picked')}localStorage.setItem(KEY,JSON.stringify([...picks]));document.getElementById('picked').textContent=picks.size}
+document.getElementById('picked').textContent=picks.size;
+</script>
+</body>
+</html>

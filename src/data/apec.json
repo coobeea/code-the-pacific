@@ -1,0 +1,60 @@
+{
+  "name": "亚太经合组织（APEC）第三十三次领导人非正式会议",
+  "date": "2026 年 11 月 18 日 — 19 日",
+  "city": "广东省深圳市",
+  "host": "主办城区：深圳市南山区",
+  "hostOrder": "继 2001 年上海、2014 年北京之后，第三座举办 APEC 领导人非正式会议的中国城市",
+  "theme": "建设亚太共同体，促进共同繁荣",
+  "themeEn": "Building an Asia-Pacific Community To Prosper Together",
+  "emblem": { "core": "鲲鹏（取深圳别称「鹏城」）", "body": "21 根交织的羽翼，构成展翅高飞的大鹏形态", "meaning": "乘大势，共翱翔", "base": "以「APEC CHINA 2026」字样为基底，融入大鹏图形", "allusion": "大鹏出自《庄子·逍遥游》——「水击三千里，抟扶摇而上者九万里」" },
+  "emblemLayers": [
+    { "form": "形态如张开双臂", "to": "开放" },
+    { "form": "鲲鹏蜕变翱翔", "to": "创新" },
+    { "form": "21 根羽翼紧密交织", "to": "合作" }
+  ],
+  "priorities": [
+    { "key": "开放", "en": "Openness", "role": "亚太繁荣的生命线", "desc": "建设开放型经济，反对保护主义，推进贸易投资自由化便利化。" },
+    { "key": "创新", "en": "Innovation", "role": "亚太繁荣的动力源", "desc": "创新驱动增长，发展新质生产力。" },
+    { "key": "合作", "en": "Cooperation", "role": "亚太繁荣的基本盘", "desc": "政策协调、经验分享，实现共赢。" }
+  ],
+  "stats": [
+    { "value": "21", "label": "成员经济体" },
+    { "value": ">60%", "label": "经济总量占世界" },
+    { "value": "≈26亿", "label": "覆盖人口（约占世界 40%）" },
+    { "value": "≈48%", "label": "贸易额占世界总量" },
+    { "value": "17%→5%", "label": "区域平均关税（30 余年）" },
+    { "value": "≈300场", "label": "APEC 中国年活动总数" }
+  ],
+  "timeline": [
+    { "date": "2025.12.11—12", "place": "深圳", "title": "APEC 非正式高官会 ISOM", "desc": "中国担任东道主的首场活动，发布会标、通过主题与优先领域。" },
+    { "date": "2026.02.01—10", "place": "广州", "title": "第一次高官会 SOM1", "desc": "1400+ 代表参会。" },
+    { "date": "2026.05.11—19", "place": "上海", "title": "第二次高官会 SOM2", "desc": "含 5.15—16 妇女与经济论坛 WEF。" },
+    { "date": "2026.05 起", "place": "各地", "title": "约 10 场专业部长会", "desc": "覆盖贸易、数字经济、交通、旅游、人力资源、中小企业、能源、粮食安全、财政、妇女。" },
+    { "date": "2026.08", "place": "大连", "title": "第三次高官会 SOM3", "desc": "为领导人会议做成果准备。" },
+    { "date": "2026.11.18—19", "place": "深圳", "title": "APEC 领导人非正式会议", "desc": "第三十三次领导人非正式会议。", "key": true }
+  ],
+  "ministerial": ["贸易", "数字经济", "交通", "旅游", "人力资源", "中小企业", "能源", "粮食安全", "财政", "妇女"],
+  "week": ["工商领导人峰会 APEC CEO Summit", "外交和贸易双部长会", "领导人非正式会议"],
+  "aboutApec": {
+    "founded": "亚太地区层级最高、领域最广、影响力最大的经济合作机制",
+    "members": "21 个成员经济体（正式称谓是「经济体」而非「国家」，因主要处理贸易与经济议题）",
+    "milestone2026": "将进行《奥克兰行动计划》（Aotearoa Plan of Action）首次五年评估，对应 2040 年愿景——开放、活力、韧性、和平的亚太共同体",
+    "observers": ["东盟（ASEAN）秘书处", "太平洋经济合作理事会（PECC）", "太平洋岛国论坛（PIF）秘书处"]
+  },
+  "shenzhen": {
+    "why": "中国最早的经济特区之一，如今是中国外贸第一城；别称「鹏城」，APEC 会标的鲲鹏正源于此。",
+    "points": [
+      { "value": "2.7亿→3.68万亿", "label": "GDP（1980 → 2024，元）" },
+      { "value": "≈4.5万亿", "label": "2024 外贸进出口总额（元）" },
+      { "value": "全国第一", "label": "新能源汽车产量" },
+      { "value": "千园之城", "label": "把自然生态融入城市规划" }
+    ]
+  },
+  "pending": ["领导人非正式会议的具体场馆", "2026 年 11 月深圳会议周的详细议程表", "各场部长会的确切日期与场地"],
+  "sources": [
+    { "label": "新华社 / 中国政府网", "url": "https://www.gov.cn/yaowen/liebiao/202512/content_7051058.htm" },
+    { "label": "人民日报", "url": "https://paper.people.com.cn/rmrb/pc/content/202512/13/content_30120254.html" },
+    { "label": "央视网", "url": "https://news.cctv.cn/2025-12-16/ARTIFC5bKQ4OIvkCJBhUAzgF251216.shtml" },
+    { "label": "APEC 官网", "url": "https://apec.org/press/news-releases/2025/china-unveils-apec-2026-theme-and-priorities-in-shenzhen" }
+  ]
+}

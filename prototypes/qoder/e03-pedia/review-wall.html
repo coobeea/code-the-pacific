@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-03 亚太经济体百科 · 评审墙</title>
+<style>
+  :root{--ink:#eef2f7;--g2:#95a3b5;--line:#232a34;--brand:#0a5cff;--gold:#fbbf24}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,"PingFang SC",sans-serif;background:#0b0d11;color:var(--ink);line-height:1.5}
+  a{text-decoration:none;color:inherit}
+  .top{position:sticky;top:0;z-index:20;background:#0b0d11f2;border-bottom:1px solid var(--line);padding:16px clamp(16px,4vw,40px);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+  .top .crumb{font-size:13px;color:var(--g2)}.top .crumb a{color:var(--brand)}
+  .top h1{font-size:clamp(18px,3vw,26px);font-weight:800;margin-top:2px}
+  .legend{font-size:12px;color:var(--g2)}
+  .wrap{max-width:1320px;margin:0 auto;padding:clamp(16px,3vw,32px) clamp(16px,4vw,40px) 60px}
+  .intro{color:var(--g2);font-size:14px;margin-bottom:22px;max-width:72ch}
+  .count{margin:6px 0 18px;font-size:13px;color:var(--g2)}.count b{color:var(--gold)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px}
+  .item{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#12161d;transition:.2s}
+  .item:hover{border-color:var(--brand)}.item.picked{border-color:var(--gold);box-shadow:0 0 0 2px var(--gold)55}
+  .shot{position:relative;height:220px;background:#fff;overflow:hidden;cursor:pointer}
+  .shot iframe{width:1280px;height:800px;border:0;transform:scale(.30);transform-origin:top left;pointer-events:none}
+  .shot .zoom{position:absolute;inset:0;background:linear-gradient(transparent 70%,#00000022);opacity:0;transition:.2s;display:flex;align-items:flex-end;justify-content:flex-end;padding:12px}
+  .shot:hover .zoom{opacity:1}.shot .zoom span{background:var(--brand);color:#fff;font-size:12px;padding:6px 12px;border-radius:8px;font-weight:700}
+  .meta{padding:14px 16px}
+  .row1{display:flex;justify-content:space-between;align-items:center;gap:8px}
+  .sid{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--g2)}
+  .score{font-size:11px;padding:3px 9px;border-radius:999px;background:#1e2837;color:#7dd3fc;font-weight:700}
+  .item h3{font-size:17px;margin:8px 0 4px;font-weight:700}.item p{font-size:13px;color:var(--g2);min-height:38px}
+  .actions{display:flex;gap:8px;margin-top:12px}
+  .btn{flex:1;text-align:center;font-size:12px;font-weight:700;padding:8px;border-radius:8px;border:1px solid var(--line);cursor:pointer;background:#0f1319;color:var(--ink)}
+  .btn.open:hover{border-color:var(--brand)}.btn.pick:hover,.btn.pick.on{border-color:var(--gold);color:var(--gold)}
+  footer{text-align:center;color:var(--g2);font-size:12px;padding:24px;border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+  <div class="top">
+    <div><div class="crumb"><a href="../index.html">总入口</a> / 主题二 · 知识科普</div><h1>亚太经济体互动百科 · 10 风格评审墙</h1></div>
+    <div class="legend">🖱 点缩略图放大 · 点「候选」标记（仅存本机浏览器）</div>
+  </div>
+  <div class="wrap">
+    <p class="intro">内容主线：21 成员经济体网格 · 检索 + 区域/年份筛选 · 加入批次时间轴 · 对比模式 · 21 羽翼交互图。s01/s02/s04/s09 含真实前端交互，直接服务「技术应用 30% + 交互 20%」。所有成员与年份取官方口径，表述规范（中国香港 / 中国台北）。</p>
+    <div class="count">已选候选：<b id="picked">0</b> 个</div>
+    <div class="grid" id="grid"></div>
+  </div>
+  <footer>E-03 评审墙 · 负责人 Qoder ｜ 选型依据详见 docs/设计-Qoder.md 第五节</footer>
+<script>
+const STYLES=[
+ {f:'s01-swiss-search.html',id:'s01',name:'瑞士检索',en:'Minimalism · Search',why:'搜索优先网格，功能至上的可信百科感',sc:'技术 30%'},
+ {f:'s02-hud-fui.html',id:'s02',name:'科幻 HUD · 21 羽翼',en:'HUD / Sci-Fi FUI',why:'原创亮点：21 羽翼交互图，点羽翼展开经济体',sc:'技术 30%'},
+ {f:'s03-data-dense.html',id:'s03',name:'数据密集',en:'Data-Dense',why:'人口/经济/贸易一屏可读的紧凑表',sc:'技术 30%'},
+ {f:'s04-comparative.html',id:'s04',name:'对比分析',en:'Comparative',why:'勾选 2–3 个并排对比真实可交互',sc:'交互 20%'},
+ {f:'s05-feature-showcase.html',id:'s05',name:'卡片流陈列',en:'Feature Showcase',why:'21 经济体文化卡片化浏览',sc:'交互 20%'},
+ {f:'s06-aurora-ocean.html',id:'s06',name:'亚太海洋极光',en:'Aurora Ocean',why:'冷蓝渐变，互联互通的共同体意象',sc:'创意 20%'},
+ {f:'s07-eink-paper.html',id:'s07',name:'电子墨水纸感',en:'E-Ink / Paper',why:'纸书排版，突出知识可读性',sc:'主题 20%'},
+ {f:'s08-neo-brutalist-blocks.html',id:'s08',name:'新粗野色块',en:'Neo-Brutalism',why:'厚边框色块，区域强区分好记',sc:'创意 20%'},
+ {f:'s09-terminal-ai.html',id:'s09',name:'终端 AI 检索',en:'Terminal / AI-Native',why:'命令行式智能检索，体现技术力',sc:'技术 30%'},
+ {f:'s10-bento-regions.html',id:'s10',name:'便当分区',en:'Bento Regions',why:'按地理片区分组，分布一目了然',sc:'交互 20%'},
+];
+const KEY='qoder-pick-e03';
+let picks=new Set(JSON.parse(localStorage.getItem(KEY)||'[]'));
+const grid=document.getElementById('grid');
+STYLES.forEach(s=>{
+  const el=document.createElement('div');el.className='item'+(picks.has(s.id)?' picked':'');
+  el.innerHTML=`<div class="shot" onclick="window.open('${s.f}')"><iframe src="${s.f}" loading="lazy" title="${s.name}"></iframe><div class="zoom"><span>放大查看 ↗</span></div></div>
+   <div class="meta"><div class="row1"><span class="sid">${s.id} · ${s.en}</span><span class="score">${s.sc}</span></div>
+   <h3>${s.name}</h3><p>${s.why}</p>
+   <div class="actions"><a class="btn open" href="${s.f}" target="_blank">打开原型</a><div class="btn pick ${picks.has(s.id)?'on':''}" onclick="toggle('${s.id}',this)">${picks.has(s.id)?'★ 已标候选':'☆ 标记候选'}</div></div></div>`;
+  grid.appendChild(el);
+});
+function toggle(id,btn){if(picks.has(id)){picks.delete(id);btn.classList.remove('on');btn.textContent='☆ 标记候选';btn.closest('.item').classList.remove('picked')}else{picks.add(id);btn.classList.add('on');btn.textContent='★ 已标候选';btn.closest('.item').classList.add('picked')}localStorage.setItem(KEY,JSON.stringify([...picks]));document.getElementById('picked').textContent=picks.size}
+document.getElementById('picked').textContent=picks.size;
+</script>
+</body>
+</html>

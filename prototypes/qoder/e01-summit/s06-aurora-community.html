@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-01 峰会资讯 · s06 共同体光晕</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,"PingFang SC",sans-serif;color:#fff;line-height:1.6;background:#05060f;overflow-x:hidden;min-height:100vh;position:relative}
+  .g{position:fixed;border-radius:50%;filter:blur(90px);opacity:.6;z-index:0;pointer-events:none;animation:float 14s ease-in-out infinite alternate}
+  .g1{width:520px;height:520px;left:-6%;top:-8%;background:#f0568a}
+  .g2{width:560px;height:560px;right:-8%;top:6%;background:#4f6bff}
+  .g3{width:520px;height:520px;left:24%;bottom:-24%;background:#22c8c8}
+  @keyframes float{to{transform:translate(30px,20px)}}
+  a{text-decoration:none;color:inherit}
+  .bar{position:relative;z-index:2;display:flex;justify-content:space-between;padding:20px clamp(18px,5vw,52px);color:#cbd3ff;font-size:13px}
+  .hero{position:relative;z-index:2;text-align:center;padding:clamp(40px,12vh,120px) 20px 30px}
+  .hero .k{letter-spacing:.35em;font-size:13px;color:#bcd}
+  .hero h1{font-size:clamp(32px,7vw,72px);font-weight:800;margin:16px 0;background:linear-gradient(100deg,#f7b0d0,#a9c2ff,#8ff0e6);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p{color:#c8d0ea;max-width:48ch;margin:0 auto}
+  .cards{position:relative;z-index:2;display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:1000px;margin:40px auto 0;padding:0 clamp(18px,5vw,52px)}
+  .c{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:22px;padding:26px;backdrop-filter:blur(12px);transition:.25s}
+  .c:hover{background:rgba(255,255,255,.14);transform:translateY(-4px)}
+  .c .i{font-size:14px;color:#e6c1ff;letter-spacing:.1em}
+  .c h3{font-size:26px;margin:10px 0 8px}
+  .c p{font-size:14px;color:#d3d9ec;text-align:left}
+  .why{position:relative;z-index:2;max-width:1000px;margin:26px auto 0;padding:0 clamp(18px,5vw,52px);text-align:center;color:#c0c8e0;font-size:14px}
+  .why b{color:#fff}
+  footer{position:relative;z-index:2;text-align:center;color:#8590b5;font-size:12px;padding:44px 20px}
+  @media(max-width:720px){.cards{grid-template-columns:1fr}}
+  @media(prefers-reduced-motion:reduce){.g{animation:none}}
+</style>
+</head>
+<body>
+  <div class="g g1"></div><div class="g g2"></div><div class="g g3"></div>
+  <div class="bar"><span>APEC 2026 · SHENZHEN</span><a href="review-wall.html">← 评审墙</a></div>
+  <section class="hero">
+    <div class="k">21 根交织羽翼 · 共翱翔</div>
+    <h1>建设亚太共同体</h1>
+    <p>2026.11.18—19，APEC 第三十三次领导人非正式会议在深圳举行。多色交融的光晕，是 21 个经济体彼此依存、共赴繁荣的意象。</p>
+  </section>
+  <section class="cards">
+    <div class="c"><div class="i">PRIORITY · 01</div><h3>开放</h3><p>亚太繁荣的生命线：建设开放型经济，推进贸易投资自由化便利化。</p></div>
+    <div class="c"><div class="i">PRIORITY · 02</div><h3>创新</h3><p>亚太繁荣的动力源：创新驱动增长，发展新质生产力。</p></div>
+    <div class="c"><div class="i">PRIORITY · 03</div><h3>合作</h3><p>亚太繁荣的基本盘：政策协调、经验分享，实现共赢。</p></div>
+  </section>
+  <p class="why">深圳是继 2001 上海、2014 北京之后，<b>第三座</b>主办 APEC 领导人非正式会议的中国城市；主办城区为<b>南山</b>。</p>
+  <footer>s06 · Aurora Community 共同体光晕 ｜ 资料来源：新华社 / 中国政府网 / APEC 官网</footer>
+</body>
+</html>

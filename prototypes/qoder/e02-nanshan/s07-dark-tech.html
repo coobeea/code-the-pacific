@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-02 南山名片 · s07 暗夜科创</title>
+<style>
+  :root{--bg:#060810;--panel:#0b1020;--ink:#dfe9ff;--g2:#7c8bb0;--cyan:#22d3ee;--mag:#e879f9;--lime:#a3e635}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:ui-monospace,"SF Mono",Menlo,"PingFang SC",monospace;background:var(--bg);color:var(--ink);line-height:1.6;
+    background-image:linear-gradient(rgba(34,211,238,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(34,211,238,.05) 1px,transparent 1px);background-size:40px 40px}
+  a{color:inherit;text-decoration:none}
+  .bar{display:flex;justify-content:space-between;align-items:center;padding:14px clamp(16px,4vw,44px);border-bottom:1px solid #16233f;font-size:12px;color:var(--g2);letter-spacing:.1em}
+  .bar .on{color:var(--lime)}
+  .bar .on::before{content:"● ";animation:blink 1.4s infinite}
+  @keyframes blink{50%{opacity:.25}}
+  .wrap{max-width:1100px;margin:0 auto;padding:clamp(28px,5vw,56px) clamp(16px,4vw,44px)}
+  .hero .k{color:var(--cyan);font-size:12px;letter-spacing:.3em}
+  .hero h1{font-size:clamp(28px,6vw,56px);font-weight:800;margin:12px 0;letter-spacing:-.01em}
+  .hero h1 span{color:var(--mag)}
+  .hero p{color:var(--g2);max-width:52ch;font-size:14px}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:34px 0}
+  .p{background:var(--panel);border:1px solid #16233f;border-radius:10px;padding:18px;position:relative}
+  .p::before{content:"";position:absolute;top:0;left:0;width:34px;height:2px;background:var(--cyan)}
+  .p .v{font-size:30px;font-weight:800;color:var(--cyan)}
+  .p .l{font-size:12px;color:var(--g2);margin-top:6px}
+  .p .bar{height:6px;background:#13203c;border-radius:3px;margin-top:12px;overflow:hidden}
+  .p .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--cyan),var(--mag))}
+  .firms{border-top:1px solid #16233f;padding-top:24px}
+  .firms h2{font-size:12px;letter-spacing:.2em;color:var(--g2);margin-bottom:16px}
+  .rows{display:flex;flex-direction:column;gap:10px}
+  .row{display:flex;justify-content:space-between;align-items:center;font-size:13px;padding:10px 14px;background:var(--panel);border-left:2px solid var(--lime);border-radius:6px}
+  .row .n{color:var(--lime)}
+  .row .d{color:var(--g2)}
+  .scenes{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px}
+  .tag{font-size:12px;padding:6px 12px;border:1px solid #16233f;border-radius:6px;color:var(--g2)}
+  .tag:hover{border-color:var(--cyan);color:var(--cyan)}
+  footer{color:var(--g2);font-size:11px;padding:18px clamp(16px,4vw,44px);border-top:1px solid #16233f;letter-spacing:.06em}
+  @media(max-width:760px){.grid{grid-template-columns:1fr 1fr}}
+  @media(max-width:480px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+  <div class="bar"><span>NANSHAN // SCI-TECH HUB</span><span class="on">SYSTEM ONLINE</span><a href="review-wall.html">← 返回评审墙</a></div>
+  <div class="wrap">
+    <section class="hero">
+      <div class="k">// 中国·深圳·南山</div>
+      <h1>暗夜里的<span>科创硅谷</span></h1>
+      <p>当城市入睡，南山的研发算力仍在运行。这里是中国密度最高的创新引擎之一。</p>
+    </section>
+
+    <section class="grid">
+      <div class="p"><div class="v">1.01万亿</div><div class="l">GDP 元 · 首个万亿地市辖区</div><div class="bar"><i style="width:92%"></i></div></div>
+      <div class="p"><div class="v">6037</div><div class="l">国家高新技术企业</div><div class="bar"><i style="width:78%"></i></div></div>
+      <div class="p"><div class="v">7.87%</div><div class="l">研发投入强度</div><div class="bar"><i style="width:66%"></i></div></div>
+      <div class="p"><div class="v">860+</div><div class="l">每万人发明专利（约全国 22.9×）</div><div class="bar"><i style="width:88%"></i></div></div>
+      <div class="p"><div class="v">2.5万件</div><div class="l">PCT 国际专利（约全国 1/14）</div><div class="bar"><i style="width:70%"></i></div></div>
+      <div class="p"><div class="v">503亿</div><div class="l">AI 产业集群增加值（占全市约 62%）</div><div class="bar"><i style="width:80%"></i></div></div>
+    </section>
+
+    <section class="firms">
+      <h2>// 企业梯队 · 热带雨林</h2>
+      <div class="rows">
+        <div class="row"><span class="n">腾讯</span><span class="d">2025 营收 7517.66 亿元 · 研发 857.5 亿</span></div>
+        <div class="row"><span class="n">大疆</span><span class="d">消费级无人机全球份额 70%+</span></div>
+        <div class="row"><span class="n">中兴通讯</span><span class="d">6G 专利储备超万件</span></div>
+        <div class="row"><span class="n">速腾聚创</span><span class="d">激光雷达 · 机器人领域销量 +1141.8%</span></div>
+        <div class="row"><span class="n">拓竹科技</span><span class="d">消费级 3D 打印全球市占率 29%</span></div>
+      </div>
+      <div class="scenes">
+        <span class="tag">南山八景</span><span class="tag">后海逐浪</span><span class="tag">深湾驭风</span>
+        <span class="tag">前海观潮</span><span class="tag">丽湖留仙</span><span class="tag">西丽湖国际科教城</span>
+      </div>
+    </section>
+  </div>
+  <footer>s07 · Dark Tech OLED · 暗夜科创 ｜ 数据来源：深圳市南山区人民政府 / 创新南山（2025 年口径，以官方发布为准）</footer>
+</body>
+</html>

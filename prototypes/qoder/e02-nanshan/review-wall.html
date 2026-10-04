@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-02 鹏城数字名片（南山）· 评审墙</title>
+<style>
+  :root{--bg:#0f1115;--ink:#eef2f7;--g2:#95a3b5;--line:#232a34;--brand:#0a5cff;--gold:#fbbf24}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,"PingFang SC",sans-serif;background:#0b0d11;color:var(--ink);line-height:1.5}
+  a{text-decoration:none;color:inherit}
+  .top{position:sticky;top:0;z-index:20;background:#0b0d11f2;border-bottom:1px solid var(--line);padding:16px clamp(16px,4vw,40px);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+  .top .crumb{font-size:13px;color:var(--g2)}
+  .top .crumb a{color:var(--brand)}
+  .top h1{font-size:clamp(18px,3vw,26px);font-weight:800;margin-top:2px}
+  .legend{font-size:12px;color:var(--g2)}
+  .wrap{max-width:1320px;margin:0 auto;padding:clamp(16px,3vw,32px) clamp(16px,4vw,40px) 60px}
+  .intro{color:var(--g2);font-size:14px;margin-bottom:22px;max-width:70ch}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px}
+  .item{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#12161d;transition:.2s}
+  .item:hover{border-color:var(--brand)}
+  .item.picked{border-color:var(--gold);box-shadow:0 0 0 2px var(--gold)55}
+  .shot{position:relative;height:220px;background:#fff;overflow:hidden;cursor:pointer}
+  .shot iframe{width:1280px;height:800px;border:0;transform:scale(.30);transform-origin:top left;pointer-events:none;border-radius:0}
+  .shot .zoom{position:absolute;inset:0;background:linear-gradient(transparent 70%,#00000022);opacity:0;transition:.2s;display:flex;align-items:flex-end;justify-content:flex-end;padding:12px}
+  .shot:hover .zoom{opacity:1}
+  .shot .zoom span{background:var(--brand);color:#fff;font-size:12px;padding:6px 12px;border-radius:8px;font-weight:700}
+  .meta{padding:14px 16px}
+  .row1{display:flex;justify-content:space-between;align-items:center;gap:8px}
+  .sid{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--g2)}
+  .score{font-size:11px;padding:3px 9px;border-radius:999px;background:#1e2837;color:#7dd3fc;font-weight:700}
+  .item h3{font-size:17px;margin:8px 0 4px;font-weight:700}
+  .item p{font-size:13px;color:var(--g2);min-height:38px}
+  .actions{display:flex;gap:8px;margin-top:12px}
+  .btn{flex:1;text-align:center;font-size:12px;font-weight:700;padding:8px;border-radius:8px;border:1px solid var(--line);cursor:pointer;background:#0f1319;color:var(--ink)}
+  .btn.open:hover{border-color:var(--brand)}
+  .btn.pick:hover,.btn.pick.on{border-color:var(--gold);color:var(--gold)}
+  .count{margin:6px 0 18px;font-size:13px;color:var(--g2)}
+  .count b{color:var(--gold)}
+  footer{text-align:center;color:var(--g2);font-size:12px;padding:24px;border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+  <div class="top">
+    <div>
+      <div class="crumb"><a href="../index.html">总入口</a> / 主题一 · 城市名片</div>
+      <h1>鹏城文化数字名片（南山）· 10 风格评审墙 ★主推</h1>
+    </div>
+    <div class="legend">🖱 点缩略图放大 · 点「候选」标记（仅存本机浏览器）</div>
+  </div>
+
+  <div class="wrap">
+    <p class="intro">内容主线：南山八景 · 一海一河一城一湖 · 科创雨林数据。下面 10 个方向覆盖理性、生态、科技、画册等多种美学，横向比较后选出主推 1–2 个进入正式开发。所有数据取官方口径，来源标注见各原型页脚。</p>
+    <div class="count">已选候选：<b id="picked">0</b> 个</div>
+
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <footer>E-02 评审墙 · 负责人 Qoder ｜ 选型依据详见 docs/设计-Qoder.md 第四节</footer>
+
+<script>
+const STYLES=[
+ {f:'s01-swiss-grid.html',id:'s01',name:'瑞士网格极简',en:'Minimalism & Swiss Style',why:'理性栅格陈列八景与数据，庄重可信',sc:'主题 20%'},
+ {f:'s02-bento-box.html',id:'s02',name:'便当盒网格',en:'Bento Box Grid',why:'一屏容纳八景+数据+生态，信息密度高',sc:'交互 20%'},
+ {f:'s03-organic-biophilic.html',id:'s03',name:'自然有机',en:'Organic Biophilic',why:'山海曲线绿系，呼应绿美南山生态叙事',sc:'南山 10%'},
+ {f:'s04-aurora-gradient.html',id:'s04',name:'极光渐变',en:'Aurora UI',why:'深圳湾天际线晨光渐变，滨海光感',sc:'创意 20%'},
+ {f:'s05-glassmorphism.html',id:'s05',name:'玻璃拟态',en:'Glassmorphism',why:'通透玻璃与海滨反光质感',sc:'交互 20%'},
+ {f:'s06-editorial-magazine.html',id:'s06',name:'杂志画册',en:'Editorial Magazine',why:'把南山做成可翻阅的城市画册',sc:'创意 20%'},
+ {f:'s07-dark-tech.html',id:'s07',name:'暗夜科创',en:'Dark Tech OLED',why:'深底霓虹，呈现科创硅谷夜景',sc:'技术 30%'},
+ {f:'s08-data-dashboard.html',id:'s08',name:'数据面板',en:'Data Dashboard',why:'GDP 1.01 万亿等数据可视化',sc:'技术 30%'},
+ {f:'s09-parallax-story.html',id:'s09',name:'视差滚动叙事',en:'Parallax Storytelling',why:'一海一河一城一湖逐屏展开',sc:'创意 20%'},
+ {f:'s10-bauhaus-geo.html',id:'s10',name:'包豪斯几何',en:'Bauhaus Geo',why:'原色几何构成，辨识度强',sc:'创意 20%'},
+ {f:'s11-eightscape-map.html',id:'s11',name:'八景一张图 ★原创交互',en:'Eight-Scapes Map',why:'需求点名的招牌交互：手绘地图点位点击展开，吃创意20%+南山10%',sc:'创意+南山'},
+];
+const KEY='qoder-pick-e02';
+let picks=new Set(JSON.parse(localStorage.getItem(KEY)||'[]'));
+const grid=document.getElementById('grid');
+STYLES.forEach(s=>{
+  const el=document.createElement('div');
+  el.className='item'+(picks.has(s.id)?' picked':'');
+  el.innerHTML=`
+   <div class="shot" onclick="window.open('${s.f}')">
+     <iframe src="${s.f}" loading="lazy" title="${s.name}"></iframe>
+     <div class="zoom"><span>放大查看 ↗</span></div>
+   </div>
+   <div class="meta">
+     <div class="row1"><span class="sid">${s.id} · ${s.en}</span><span class="score">${s.sc}</span></div>
+     <h3>${s.name}</h3>
+     <p>${s.why}</p>
+     <div class="actions">
+       <a class="btn open" href="${s.f}" target="_blank">打开原型</a>
+       <div class="btn pick ${picks.has(s.id)?'on':''}" onclick="toggle('${s.id}',this)">${picks.has(s.id)?'★ 已标候选':'☆ 标记候选'}</div>
+     </div>
+   </div>`;
+  grid.appendChild(el);
+});
+function toggle(id,btn){
+  if(picks.has(id)){picks.delete(id);btn.classList.remove('on');btn.textContent='☆ 标记候选';btn.closest('.item').classList.remove('picked')}
+  else{picks.add(id);btn.classList.add('on');btn.textContent='★ 已标候选';btn.closest('.item').classList.add('picked')}
+  localStorage.setItem(KEY,JSON.stringify([...picks]));
+  document.getElementById('picked').textContent=picks.size;
+}
+document.getElementById('picked').textContent=picks.size;
+</script>
+</body>
+</html>

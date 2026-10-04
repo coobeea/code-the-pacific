@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-03 亚太经济体百科 · s01 瑞士检索</title>
+<style>
+  :root{--ink:#0f172a;--g2:#64748b;--line:#e5e9f0;--bg:#fff;--accent:#0a5cff}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Helvetica Neue",Arial,"PingFang SC",sans-serif;color:var(--ink);background:var(--bg);line-height:1.5}
+  a{text-decoration:none;color:inherit}
+  .bar{display:flex;justify-content:space-between;padding:14px clamp(16px,4vw,48px);border-bottom:1px solid var(--line);font-size:13px}
+  .bar .nav{color:var(--g2);letter-spacing:.08em;text-transform:uppercase}
+  .wrap{max-width:1180px;margin:0 auto;padding:clamp(24px,5vw,52px) clamp(16px,4vw,48px)}
+  .head{border-bottom:2px solid var(--ink);padding-bottom:22px;margin-bottom:24px}
+  .head .k{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:700}
+  .head h1{font-size:clamp(28px,6vw,56px);font-weight:800;margin:8px 0;letter-spacing:-.02em}
+  .head p{color:var(--g2);max-width:60ch}
+  .tools{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:20px}
+  .search{flex:1;min-width:220px;display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:10px;padding:11px 14px}
+  .search input{border:0;outline:0;flex:1;font-size:15px;font-family:inherit}
+  .search svg{width:18px;height:18px;stroke:var(--g2)}
+  .chips{display:flex;gap:8px;flex-wrap:wrap}
+  .chip{font-size:13px;padding:8px 14px;border:1px solid var(--line);border-radius:999px;cursor:pointer;user-select:none;transition:.15s}
+  .chip:hover{border-color:var(--ink)}
+  .chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .stat{font-size:13px;color:var(--g2);margin-bottom:14px}
+  .stat b{color:var(--ink)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:0;border-top:1px solid var(--line);border-left:1px solid var(--line)}
+  .ec{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:16px 16px 18px;min-height:110px;cursor:pointer;transition:.15s}
+  .ec:hover{background:#f8fafc}
+  .ec .top{display:flex;justify-content:space-between;align-items:baseline}
+  .ec .cn{font-size:18px;font-weight:700}
+  .ec .en{font-size:11px;color:var(--g2)}
+  .ec .rg{display:inline-block;font-size:11px;margin-top:8px;padding:2px 8px;border-radius:6px;background:#eef2ff;color:#3730a3}
+  .ec .yr{font-size:12px;color:var(--g2);margin-top:6px}
+  .empty{padding:40px;text-align:center;color:var(--g2)}
+  .flag{width:26px;height:26px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;flex:none}
+  footer{padding:22px clamp(16px,4vw,48px);border-top:1px solid var(--line);font-size:12px;color:var(--g2);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+</style>
+</head>
+<body>
+  <div class="bar"><div class="nav">Asia-Pacific · Interactive Pedia</div><a href="review-wall.html">← 返回评审墙</a></div>
+  <div class="wrap">
+    <div class="head">
+      <div class="k">APEC · 21 成员经济体</div>
+      <h1>亚太经济体互动百科</h1>
+      <p>APEC 以"经济体（economies）"而非"国家"称呼成员——因其合作进程主要处理贸易与经济议题。共 21 个成员，覆盖人口约 26 亿（约占世界 40%），经济总量超世界 60%。</p>
+    </div>
+
+    <div class="tools">
+      <div class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+        <input id="q" type="search" placeholder="搜索经济体名称 / 英文…" aria-label="搜索经济体">
+      </div>
+      <div class="chips" id="chips"></div>
+    </div>
+
+    <div class="stat">显示 <b id="shown">21</b> / 21 个成员经济体 · 点击卡片查看详情（原型示意）</div>
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <div style="max-width:1040px;margin:28px auto 0;padding:15px 20px;border:1px solid rgba(130,134,144,.42);border-left:4px solid #0d9488;border-radius:12px">
+    <div style="font-size:13px;font-weight:800;color:#0d9488;letter-spacing:.03em;margin-bottom:7px">南山视角 · 亚太网络里的南山</div>
+    <div style="font-size:14px;line-height:1.65;opacity:.9">21 个成员经济体环抱太平洋，而深圳南山正是这张互联互通网络上的活跃节点——前海深港现代服务业合作区、深圳西部港区，以及腾讯、中兴、大疆等面向亚太的企业总部，把这座城区连进了亚太共同体。（来源：深圳市南山区人民政府）</div>
+  </div>
+    <footer><span>s01 · Minimalism &amp; Swiss Style · 检索优先</span><span>资料来源：APEC 官网 Our members / 工业和信息化部（成员与加入年份以官方口径为准）</span></footer>
+
+<script>
+// 21 成员经济体：中/英文名、区域、加入批次（表述规范：中国香港、中国台北，不称国家）
+const D=[
+ {cn:'澳大利亚',en:'Australia',rg:'大洋洲',yr:1989},{cn:'文莱',en:'Brunei Darussalam',rg:'东南亚',yr:1989},
+ {cn:'加拿大',en:'Canada',rg:'北美',yr:1989},{cn:'智利',en:'Chile',rg:'南美',yr:1994},
+ {cn:'中国',en:'China',rg:'东亚',yr:1991},{cn:'中国香港',en:'Hong Kong, China',rg:'东亚',yr:1991},
+ {cn:'印度尼西亚',en:'Indonesia',rg:'东南亚',yr:1989},{cn:'日本',en:'Japan',rg:'东亚',yr:1989},
+ {cn:'韩国',en:'Republic of Korea',rg:'东亚',yr:1989},{cn:'马来西亚',en:'Malaysia',rg:'东南亚',yr:1989},
+ {cn:'墨西哥',en:'Mexico',rg:'北美',yr:1993},{cn:'新西兰',en:'New Zealand',rg:'大洋洲',yr:1989},
+ {cn:'巴布亚新几内亚',en:'Papua New Guinea',rg:'大洋洲',yr:1993},{cn:'秘鲁',en:'Peru',rg:'南美',yr:1998},
+ {cn:'菲律宾',en:'The Philippines',rg:'东南亚',yr:1989},{cn:'俄罗斯',en:'Russia',rg:'欧亚',yr:1998},
+ {cn:'新加坡',en:'Singapore',rg:'东南亚',yr:1989},{cn:'中国台北',en:'Chinese Taipei',rg:'东亚',yr:1991},
+ {cn:'泰国',en:'Thailand',rg:'东南亚',yr:1989},{cn:'美国',en:'The United States',rg:'北美',yr:1989},
+ {cn:'越南',en:'Viet Nam',rg:'东南亚',yr:1998}
+];
+const REGIONS=['全部','东亚','东南亚','北美','南美','大洋洲','欧亚'];
+const RGB={'东亚':'#b45309','东南亚':'#0d9488','北美':'#1d4ed8','南美':'#7c3aed','大洋洲':'#059669','欧亚':'#be123c'};
+let region='全部';
+const grid=document.getElementById('grid'),q=document.getElementById('q'),chips=document.getElementById('chips'),shown=document.getElementById('shown');
+REGIONS.forEach(r=>{const c=document.createElement('div');c.className='chip'+(r==='全部'?' on':'');c.textContent=r;c.onclick=()=>{region=r;[...chips.children].forEach(x=>x.classList.toggle('on',x.textContent===r));render()};chips.appendChild(c)});
+function render(){
+  const kw=q.value.trim().toLowerCase();
+  const list=D.filter(d=>(region==='全部'||d.rg===region)&&(!kw||d.cn.includes(kw)||d.en.toLowerCase().includes(kw)));
+  shown.textContent=list.length;
+  grid.innerHTML=list.length?'':`<div class="empty" style="grid-column:1/-1;border-right:0">没有匹配的经济体，试试更换关键词或区域。</div>`;
+  list.forEach(d=>{const e=document.createElement('div');e.className='ec';
+    e.innerHTML=`<div class="top"><span class="cn">${d.cn}</span><span class="flag" style="background:${RGB[d.rg]}">${d.cn[0]}</span></div><div class="en">${d.en}</div><div><span class="rg">${d.rg}</span></div><div class="yr">加入年份 ${d.yr}</div>`;
+    grid.appendChild(e)});
+}
+q.addEventListener('input',render);render();
+</script>
+</body>
+</html>

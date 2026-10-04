@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>码上亚太 · 首页展厅 Hub 原型</title>
+<style>
+  /* 公共外壳样式（四入口共享）+ 南山符号令牌（见 nanshan-symbols.html） */
+  :root{
+    --ink:#0f2540;--g2:#5b7089;--line:#e3e9f2;--bg:#f4f7fb;--card:#fff;
+    --sea:#0b5c73;--park:#3f7d54;--gold:#c9962a;--data:#0a5cff;--youth:#d64591;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,"PingFang SC",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+  a{text-decoration:none;color:inherit}
+
+  /* AppHeader */
+  header.shell{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line)}
+  .hd{max-width:1160px;margin:0 auto;display:flex;align-items:center;gap:18px;padding:12px clamp(16px,4vw,40px)}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800}
+  .brand .mk{width:30px;height:30px}
+  .brand small{display:block;font-size:11px;font-weight:600;color:var(--g2);letter-spacing:.04em}
+  nav.switch{margin-left:auto;display:flex;gap:4px;flex-wrap:wrap}
+  nav.switch a{font-size:13px;padding:7px 12px;border-radius:999px;color:var(--g2);font-weight:600}
+  nav.switch a:hover{background:#eef3fb;color:var(--ink)}
+  nav.switch a.cur{background:var(--ink);color:#fff}
+
+  .wrap{max-width:1160px;margin:0 auto;padding:clamp(24px,5vw,44px) clamp(16px,4vw,40px) 60px}
+  .hero{text-align:center;padding:clamp(24px,6vw,56px) 0 8px}
+  .hero .k{font-size:13px;letter-spacing:.2em;color:var(--sea);font-weight:700;text-transform:uppercase}
+  .hero h1{font-size:clamp(30px,7vw,64px);font-weight:900;letter-spacing:-.02em;margin:12px 0}
+  .hero h1 em{font-style:normal;color:var(--gold)}
+  .hero p{color:var(--g2);max-width:58ch;margin:0 auto;font-size:clamp(15px,2vw,18px)}
+  .idea{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:22px 0 40px;font-size:13px;color:var(--g2)}
+  .idea span{background:#eaf1fb;border:1px solid #dbe7f7;padding:6px 14px;border-radius:999px}
+
+  /* 四入口卡片：同一布局 + 不同强调色 = 同源不同貌 */
+  .entries{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+  .entry{--acc:var(--sea);background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;transition:.22s;display:flex;flex-direction:column}
+  .entry:hover{transform:translateY(-5px);box-shadow:0 18px 44px rgba(15,37,64,.12);border-color:transparent}
+  .entry .top{height:120px;background:var(--acc);color:#fff;padding:18px 22px;position:relative;display:flex;flex-direction:column;justify-content:space-between}
+  .entry .top .no{font-family:ui-monospace,Menlo,monospace;font-size:13px;opacity:.85;letter-spacing:.1em}
+  .entry .top h2{font-size:24px;font-weight:800}
+  .entry .top .wing{position:absolute;right:-6px;bottom:-10px;width:110px;opacity:.28}
+  .entry .body{padding:18px 22px 20px;flex:1;display:flex;flex-direction:column}
+  .entry .body p{color:var(--g2);font-size:14px;min-height:44px}
+  .entry .feat{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0}
+  .entry .feat i{font-style:normal;font-size:12px;background:#f2f5fa;color:#41556e;padding:3px 10px;border-radius:7px}
+  .entry .route{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--acc);font-weight:700}
+  .entry .ns{margin-top:12px;font-size:12px;color:var(--park);background:#eef7f0;border-left:3px solid var(--park);padding:8px 12px;border-radius:0 8px 8px 0}
+  .entry .go{margin-top:16px;align-self:flex-start;font-weight:700;font-size:14px;color:#fff;background:var(--acc);padding:9px 18px;border-radius:10px}
+
+  .e1{--acc:var(--gold)}.e2{--acc:var(--sea)}.e3{--acc:var(--data)}.e4{--acc:var(--youth)}
+
+  .tools{margin-top:26px;display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+  .tools a{font-size:13px;font-weight:600;color:var(--ink);background:#fff;border:1px solid var(--line);padding:9px 16px;border-radius:10px}
+  .tools a:hover{border-color:var(--sea)}
+
+  /* AppFooter */
+  footer.shell{background:var(--ink);color:#c7d3e2;font-size:13px}
+  .ft{max-width:1160px;margin:0 auto;padding:26px clamp(16px,4vw,40px);display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px}
+  .ft a{color:#8fc3e6}
+  @media(max-width:760px){.entries{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+  <!-- 共享外壳 AppHeader + 入口切换器（R-03） -->
+  <header class="shell">
+    <div class="hd">
+      <a class="brand" href="index.html">
+        <svg class="mk" viewBox="0 0 40 40" fill="none" stroke="#0b5c73" stroke-width="2"><path d="M20 32C8 30 5 20 6 8c12 2 16 12 14 24"/><path d="M20 32c4-8 12-12 16-12-2 8-9 12-16 12"/></svg>
+        <span>码上亚太<small>Code the Pacific · APEC 2026</small></span>
+      </a>
+      <nav class="switch">
+        <a class="cur" href="#">首页展厅</a>
+        <a href="../e01-summit/review-wall.html">峰会资讯</a>
+        <a href="../e02-nanshan/review-wall.html">城市名片</a>
+        <a href="../e03-pedia/review-wall.html">知识科普</a>
+        <a href="#">活动落地</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <section class="hero">
+      <div class="k">单项目 · 四入口 · 一套架构</div>
+      <h1>一套地基，<em>四种题材</em></h1>
+      <p>官方四个 AI Coding 选题方向全部开发，置于同一应用、共享同一套设计系统与外壳，从展厅自由进入、相互比较——这正是本作品的原创立意。</p>
+    </section>
+    <div class="idea"><span>① 峰会资讯</span><span>② 城市名片 ★主推</span><span>③ 知识科普</span><span>④ 活动落地</span><span>每个入口都有南山元素</span></div>
+
+    <section class="entries">
+      <a class="entry e1" href="../e01-summit/review-wall.html">
+        <div class="top"><div class="no">E-01 · #/01-summit</div><h2>APEC 2026 深圳峰会主题网站</h2>
+          <svg class="wing" viewBox="0 0 100 60" fill="none" stroke="#fff" stroke-width="3"><path d="M50 55C15 50 8 30 10 8c30 4 42 24 40 47"/><path d="M50 55c8-20 28-28 40-27-6 18-24 28-40 27"/></svg></div>
+        <div class="body"><p>会标鲲鹏 21 羽翼 · 开放/创新/合作 · 会议年历时间轴。</p>
+          <div class="feat"><i>主题契合 20%</i><i>会标交互</i><i>倒计时</i></div>
+          <div class="ns">🏙 南山视角：主办城区为南山，前海 · 后海 · 深圳湾超级总部</div>
+          <span class="route">→ 10 个风格原型（含真实倒计时/时间轴）</span>
+          <span class="go">进入入口</span></div>
+      </a>
+
+      <a class="entry e2" href="../e02-nanshan/review-wall.html">
+        <div class="top"><div class="no">E-02 · #/02-nanshan ★</div><h2>鹏城文化数字名片</h2>
+          <svg class="wing" viewBox="0 0 100 60" fill="none" stroke="#fff" stroke-width="3"><path d="M50 55C15 50 8 30 10 8c30 4 42 24 40 47"/><path d="M50 55c8-20 28-28 40-27-6 18-24 28-40 27"/></svg></div>
+        <div class="body"><p>南山八景 · 一海一河一城一湖 · 科创雨林数据面板。</p>
+          <div class="feat"><i>南山特色 10%</i><i>创意 20%</i><i>八景一张图</i></div>
+          <div class="ns">🏙 整站即南山：八景 2026-09 最新官方素材，评委尚未见过</div>
+          <span class="route">→ 11 个原型（含「八景一张图」原创交互）</span>
+          <span class="go">进入入口</span></div>
+      </a>
+
+      <a class="entry e3" href="../e03-pedia/review-wall.html">
+        <div class="top"><div class="no">E-03 · #/03-pedia</div><h2>亚太经济体互动百科</h2>
+          <svg class="wing" viewBox="0 0 100 60" fill="none" stroke="#fff" stroke-width="3"><path d="M50 55C15 50 8 30 10 8c30 4 42 24 40 47"/><path d="M50 55c8-20 28-28 40-27-6 18-24 28-40 27"/></svg></div>
+        <div class="body"><p>21 成员经济体 · 检索/筛选/对比 · 21 羽翼数据联动。</p>
+          <div class="feat"><i>技术应用 30%</i><i>检索筛选</i><i>中国香港/中国台北规范</i></div>
+          <div class="ns">🏙 南山视角：亚太互联互通网络里的南山节点</div>
+          <span class="route">→ 10 个原型（含真实检索/对比交互）</span>
+          <span class="go">进入入口</span></div>
+      </a>
+
+      <a class="entry e4" href="#">
+        <div class="top"><div class="no">E-04 · #/04-youth</div><h2>少年亚太对话</h2>
+          <svg class="wing" viewBox="0 0 100 60" fill="none" stroke="#fff" stroke-width="3"><path d="M50 55C15 50 8 30 10 8c30 4 42 24 40 47"/><path d="M50 55c8-20 28-28 40-27-6 18-24 28-40 27"/></svg></div>
+        <div class="body"><p>青少年线上交流平台 · 报名(跳转第三方) · 作品展示。</p>
+          <div class="feat"><i>交互完成度 20%</i><i>表单校验</i><i>本轮未做风格探索</i></div>
+          <div class="ns">🏙 南山视角：南山"百校焕新"143 所学校，教育强区</div>
+          <span class="route">待开发 · 复用同一外壳与符号</span>
+          <span class="go">进入入口</span></div>
+      </a>
+    </section>
+
+    <div class="tools">
+      <a href="../nanshan-symbols.html">🎨 南山视觉符号系统</a>
+      <a href="../e02-nanshan/s11-eightscape-map.html">🗺 八景一张图（招牌交互）</a>
+      <a href="../index.html">← 返回原型总入口</a>
+    </div>
+  </div>
+
+  <!-- 共享外壳 AppFooter -->
+  <footer class="shell"><div class="ft">
+    <div>资料来源：新华社 / 中国政府网 / APEC 官网 / 深圳市南山区人民政府 / 工信部<br>未公布内容标注「待官方发布」，全站不编造、不收集用户信息。</div>
+    <div>《码上亚太》Code the Pacific<br>纯前端 · Vue+Tailwind · GitHub Pages 部署 · 负责人：Qoder</div>
+  </div></footer>
+</body>
+</html>
