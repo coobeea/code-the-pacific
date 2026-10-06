@@ -1,96 +1,31 @@
-/* ===== Tailwind v4 CSS-first 配置（技术选型 · 第 4 节）===== */
 @import "tailwindcss";
 
-/* 全局 @theme 令牌 = 原型收敛后的公共设计系统（docs/设计-Qoder.md 选型台账 + nanshan-symbols.html）
-   这里定义的 --color / --font / --radius / --shadow 令牌，会同时生成工具类与 CSS 变量。 */
 @theme {
-  /* 色彩 · 山海符号 */
-  --color-sea-deep: #0b5c73;
-  --color-sea: #2f9bb8;
-  --color-sky: #8fcfe0;
-  --color-foam: #e4f3f6;
-  --color-park: #3f7d54;
-  --color-park-soft: #7fb069;
-  --color-land: #f0ead8;
-  --color-sand: #d9c9a3;
-  --color-gold: #c9962a;
-  --color-gold-soft: #e8c877;
-  --color-tech: #0b1020;
-  --color-neon: #22d3ee;
-  --color-data: #0a5cff;
-  --color-ink: #122031;
-  --color-muted: #5b7089;
-  --color-line: #e3e9f2;
-  --color-surface: #f4f7fb;
-  --color-card: #ffffff;
-  --color-success: #0b7a4b;
-
-  /* 字体 */
-  --font-display: "Songti SC", "Noto Serif SC", Georgia, serif;
-  --font-sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
-  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-
-  /* 圆角 / 阴影 */
-  --radius-card: 18px;
-  --radius-pill: 999px;
-  --shadow-card: 0 6px 18px rgba(18, 32, 49, 0.1);
-  --shadow-pop: 0 16px 40px rgba(18, 32, 49, 0.14);
-
-  /* 动效时长（守"交互稳定"：≤400ms，无重型动画库）*/
-  --ease-smooth: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --color-gold: #e8c877;
+  --color-sea: #0b5c73;
+  --color-ink: #f3f6fb;
+  --font-display: "Songti SC", -apple-system, "PingFang SC", serif;
+  --font-sans: -apple-system, "PingFang SC", system-ui, sans-serif;
+  --font-mono: ui-monospace, Menlo, "SF Mono", monospace;
 }
 
-/* ===== 强调色开关：同一地基、只换 --accent（同源不同貌）=====
-   入口用 <div data-entry="..."> 包裹即可整体换肤，组件一律引用 var(--accent)。 */
-:root {
-  --accent: var(--color-sea);
-  --accent-soft: var(--color-sky);
-  --accent-tint: #e4f3f6;
-  --accent-ink: #0b3a48; /* 强调色文本（浅色底上） */
-  --accent-fg: #ffffff;  /* accent 实底上的文字色 */
-}
-[data-entry="nanshan"] {
-  --accent: var(--color-sea);
-  --accent-soft: var(--color-sky);
-  --accent-tint: #e4f3f6;
-  --accent-ink: #0b3a48;
-  --accent-fg: #ffffff;
-}
-[data-entry="pedia"] {
-  --accent: var(--color-data);
-  --accent-soft: #7dd3fc;
-  --accent-tint: #e8effe;
-  --accent-ink: #0a3d91;
-  --accent-fg: #ffffff;
-}
-[data-entry="summit"] {
-  --accent: var(--color-gold);
-  --accent-soft: var(--color-gold-soft);
-  --accent-tint: #f6ecd6;
-  --accent-ink: #7a5510;
-  --accent-fg: #0b1020;
-}
-[data-entry="youth"] {
-  --accent: #d64591;
-  --accent-soft: #f7a8ce;
-  --accent-tint: #fbe6f1;
-  --accent-ink: #8f2560;
-  --accent-fg: #ffffff;
+/* 全局 */
+html { scroll-behavior: smooth }
+body {
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+  line-height: 1.75;
+  background: #0a1078;
+  transition: background 1.1s ease;
+  min-height: 100vh;
 }
 
-/* 基础排版 */
-@layer base {
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: var(--font-sans);
-    color: var(--color-ink);
-    background: var(--color-surface);
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-  }
-  /* 尊重"减少动态效果"偏好（无障碍 N-07） */
-  @media (prefers-reduced-motion: reduce) {
-    html { scroll-behavior: auto; }
-    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
-  }
+/* 进场动画 */
+.reveal { opacity: .15; transform: translateY(30px); transition: .9s cubic-bezier(.2,.7,.2,1) }
+.reveal.on { opacity: 1; transform: none }
+
+/* reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto }
+  .reveal { transition: none; opacity: 1; transform: none }
 }
