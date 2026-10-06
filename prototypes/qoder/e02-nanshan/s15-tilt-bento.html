@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-02 · s15 立体倾斜 Bento 2.0</title>
+<style>
+  :root{--ink:#0e1a2b;--mut:#5b7089;--card:#ffffffcc;--line:#ffffff;--sea:#2f9bb8;--gold:#c9962a;--data:#0a5cff}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,"PingFang SC",system-ui,sans-serif;color:var(--ink);min-height:100vh;
+    background:#eef3fb;
+    background-image:
+      radial-gradient(48% 42% at 12% 18%,#bfe3eeaa,transparent 60%),
+      radial-gradient(46% 40% at 88% 12%,#f3e4c1aa,transparent 60%),
+      radial-gradient(52% 46% at 78% 88%,#cdd8f7aa,transparent 60%),
+      radial-gradient(44% 40% at 18% 92%,#cfe8d6aa,transparent 60%)}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1200px;margin:0 auto;padding:clamp(24px,5vw,52px)}
+  .head{margin-bottom:26px}
+  .head .kick{font-size:13px;letter-spacing:.24em;text-transform:uppercase;color:var(--data);font-weight:800}
+  .head h1{font-size:clamp(32px,6vw,60px);font-weight:900;letter-spacing:-.02em;margin-top:6px}
+  .head p{color:var(--mut);margin-top:8px;max-width:52ch}
+
+  .bento{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:170px;gap:16px;perspective:1400px}
+  .tile{position:relative;border-radius:22px;padding:20px;overflow:hidden;
+    background:linear-gradient(160deg,#ffffffd8,#ffffffa0);border:1px solid #ffffff;
+    box-shadow:0 8px 26px #143a5a12;transform-style:preserve-3d;transition:transform .18s ease,box-shadow .3s;
+    will-change:transform;display:flex;flex-direction:column;justify-content:space-between}
+  .tile .glow{position:absolute;width:200px;height:200px;border-radius:50%;pointer-events:none;
+    background:radial-gradient(circle,#ffffffcc,transparent 60%);left:var(--mx,50%);top:var(--my,50%);transform:translate(-50%,-50%);opacity:0;transition:opacity .3s}
+  .tile:hover .glow{opacity:.7}
+  .tile .lbl{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);font-weight:700;transform:translateZ(30px)}
+  .tile .big{font-size:clamp(24px,3vw,40px);font-weight:900;transform:translateZ(46px)}
+  .tile .big b{color:var(--sea)}
+  .tile .desc{font-size:13px;color:var(--mut);transform:translateZ(24px)}
+  .tile .chip{position:absolute;top:16px;right:16px;font-size:11px;font-weight:800;padding:4px 10px;border-radius:999px;background:#0e1a2b0d;color:var(--ink)}
+
+  .span2{grid-column:span 2}.row2{grid-row:span 2}
+  .tile.hero{background:linear-gradient(150deg,#0b5c73,#2f9bb8 60%,#8fcfe0);color:#fff}
+  .tile.hero .lbl,.tile.hero .desc{color:#eafcff}
+  .tile.hero .big{color:#fff}
+  .tile.gold{background:linear-gradient(150deg,#c9962a,#e8c877)}
+  .tile.gold .big{color:#4a3505}
+  .tile.gold .lbl,.tile.gold .desc{color:#6a4d10}
+  .tile.data{background:linear-gradient(150deg,#0a5cff,#5b9bff)}
+  .tile.data .big,.tile.data .lbl,.tile.data .desc{color:#fff}
+  .minipins{display:flex;flex-wrap:wrap;gap:6px;transform:translateZ(20px)}
+  .minipins span{font-size:11px;padding:3px 8px;border-radius:8px;background:#ffffff55;color:#0b3a48;font-weight:700}
+
+  .foot{margin-top:24px;font-size:12px;color:var(--mut)}
+  @media(max-width:900px){.bento{grid-template-columns:repeat(2,1fr)}.span2.row2{grid-column:span 2;grid-row:span 1}}
+  @media(max-width:520px){.bento{grid-template-columns:1fr;grid-auto-rows:150px}.span2,.row2{grid-column:span 1;grid-row:span 1}}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="head">
+      <div class="kick">NANSHAN · CITY CARD</div>
+      <h1>鹏城数字名片 · 立体便当盒</h1>
+      <p>把山海、八景、科创数据装进一格一格的便当盒，鼠标划过会向你的手倾斜。悬停试试。</p>
+    </div>
+
+    <div class="bento" id="bento">
+      <div class="tile hero span2 row2">
+        <div class="glow"></div>
+        <div class="lbl">八景一张图 · 山海连城</div>
+        <div class="big">从山到海<br>一屏读南山</div>
+        <div>
+          <div class="minipins"><span>古城宁南</span><span>蛇口记忆</span><span>前海观潮</span><span>后海逐浪</span><span>燕晗栖羽</span><span>丽湖留仙</span><span>伶仃烟渚</span></div>
+        </div>
+      </div>
+      <div class="tile data span2">
+        <div class="glow"></div><span class="chip">万亿城区</span>
+        <div class="lbl">GDP</div><div class="big">1.01 万亿元</div>
+        <div class="desc">全国首个万亿 GDP 地市辖区 · 陆域 185.3 km²</div>
+      </div>
+      <div class="tile"><div class="glow"></div><div class="lbl">上市公司</div><div class="big"><b>218</b></div><div class="desc">密度全国第一</div></div>
+      <div class="tile"><div class="glow"></div><div class="lbl">国家高企</div><div class="big"><b>6037</b></div><div class="desc">家</div></div>
+      <div class="tile gold">
+        <div class="glow"></div><div class="lbl">一片海 · 43.7km</div><div class="big">深圳湾</div>
+        <div class="desc">超级总部基地 · 人才公园</div>
+      </div>
+      <div class="tile"><div class="glow"></div><div class="lbl">一条河</div><div class="big">大沙河</div><div class="desc">生态长廊 13.7 km</div></div>
+      <div class="tile span2"><div class="glow"></div><div class="lbl">一座城 · 一个湖</div><div class="big">南头古城 1700年 · 西丽湖碧道 15.5km</div><div class="desc">历史之根与科教之湖</div></div>
+    </div>
+
+    <div class="foot">数据来源：深圳市南山区人民政府 / 创新南山 / 经济日报（2025 年口径）· s15 原型 by Qoder · 纯 CSS 3D transform，无 WebGL</div>
+  </div>
+
+<script>
+  const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  document.querySelectorAll('.tile').forEach(card=>{
+    if(reduce) return;
+    card.addEventListener('mousemove',e=>{
+      const r=card.getBoundingClientRect();
+      const px=(e.clientX-r.left)/r.width, py=(e.clientY-r.top)/r.height;
+      const rx=(py-.5)*-14, ry=(px-.5)*16;
+      card.style.transform=`rotateX(${rx}deg) rotateY(${ry}deg) translateZ(6px) scale(1.015)`;
+      card.style.boxShadow='0 24px 50px #143a5a2a';
+      card.style.setProperty('--mx',px*100+'%');
+      card.style.setProperty('--my',py*100+'%');
+    });
+    card.addEventListener('mouseleave',()=>{card.style.transform='';card.style.boxShadow='';});
+  });
+</script>
+</body>
+</html>

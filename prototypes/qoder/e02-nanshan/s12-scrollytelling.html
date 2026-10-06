@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-02 · s12 从山到海 · 沉浸式滚动叙事</title>
+<style>
+  :root{--ink:#eaf3f2;--mut:#9db4bd;--sea:#2f9bb8;--park:#3f7d54;--gold:#e8c877}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-snap-type:y mandatory;scroll-behavior:smooth}
+  body{font-family:-apple-system,"PingFang SC",system-ui,sans-serif;color:var(--ink);background:#06222b;overflow-x:hidden}
+  a{text-decoration:none;color:inherit}
+
+  /* 固定背景舞台：五层视差（远山/近山/水面/光/颗粒） */
+  .stage{position:fixed;inset:0;z-index:-1;transition:background 1.1s ease}
+  .stage .layer{position:absolute;left:0;right:0;transition:transform 1.1s cubic-bezier(.2,.7,.2,1),opacity 1.1s}
+  .ridge{position:absolute;bottom:0;left:0;width:100%;height:60vh}
+  .ridge path{transition:fill 1.1s}
+
+  body[data-step="0"] .stage{background:linear-gradient(180deg,#0b3a2e,#06222b)}
+  body[data-step="1"] .stage{background:linear-gradient(180deg,#2a2416,#0a0c12)}
+  body[data-step="2"] .stage{background:linear-gradient(180deg,#0b3f49,#06222b)}
+  body[data-step="3"] .stage{background:linear-gradient(180deg,#0a4a5c,#06222b)}
+  body[data-step="4"] .stage{background:linear-gradient(180deg,#0b5c73,#041a22)}
+
+  .chapter{min-height:100vh;scroll-snap-align:center;display:flex;flex-direction:column;justify-content:center;padding:clamp(24px,7vw,110px);position:relative}
+  .kicker{font-size:14px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);font-weight:700}
+  .chapter h2{font-size:clamp(40px,11vw,132px);font-weight:900;line-height:.98;letter-spacing:-.02em;margin:.12em 0 .1em;font-family:"Songti SC",serif}
+  .chapter .en{color:var(--mut);font-size:clamp(14px,1.6vw,18px);max-width:40ch;line-height:1.7}
+  .stat{margin-top:26px;display:flex;gap:34px;flex-wrap:wrap}
+  .stat b{font-size:clamp(30px,5vw,56px);font-weight:900;color:#fff;font-variant-numeric:tabular-nums}
+  .stat span{display:block;font-size:13px;color:var(--mut);letter-spacing:.1em}
+
+  /* 进场：文字随章节激活淡入上浮 */
+  .chapter .body{opacity:.15;transform:translateY(26px);transition:.9s cubic-bezier(.2,.7,.2,1)}
+  .chapter.on .body{opacity:1;transform:none}
+
+  /* 进度轨 */
+  .rail{position:fixed;right:clamp(14px,3vw,34px);top:50%;transform:translateY(-50%);z-index:5;display:flex;flex-direction:column;gap:14px}
+  .rail i{width:8px;height:8px;border-radius:50%;background:#ffffff33;transition:.3s}
+  .rail i.on{background:var(--gold);transform:scale(1.5)}
+  .hint{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:5;font-size:12px;letter-spacing:.2em;color:#ffffff88;animation:bob 1.8s infinite}
+  @keyframes bob{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,8px)}}
+  .foot{position:fixed;left:clamp(16px,4vw,40px);bottom:18px;z-index:5;font-size:11px;color:#ffffff66}
+  .src{margin-top:18px;font-size:12px;color:var(--mut)}
+  @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.chapter .body,.stage,.rail i{transition:none}}
+  @media(max-width:640px){.rail{display:none}}
+</style>
+</head>
+<body data-step="0">
+  <div class="stage" aria-hidden="true">
+    <svg class="ridge" viewBox="0 0 1440 600" preserveAspectRatio="none">
+      <path class="p3" d="M0 380 L260 250 L520 360 L820 210 L1120 340 L1440 240 L1440 600 L0 600Z" fill="#ffffff10"/>
+      <path class="p2" d="M0 460 L320 340 L640 440 L980 320 L1440 430 L1440 600 L0 600Z" fill="#ffffff18"/>
+      <path class="p1" d="M0 540 L400 470 L760 540 L1120 480 L1440 540 L1440 600 L0 600Z" fill="#00000030"/>
+    </svg>
+  </div>
+
+  <nav class="rail"><i class="on"></i><i></i><i></i><i></i><i></i></nav>
+  <div class="hint">SCROLL ↓ 从山到海</div>
+  <div class="foot">E-02 鹏城数字名片 · s12 Scrollytelling · 原型 by Qoder</div>
+
+  <main>
+    <section class="chapter on">
+      <div class="body">
+        <div class="kicker">01 · 一座山</div>
+        <h2>阳台山</h2>
+        <p class="en">深圳的绿肺从城市边缘升起，南山因海与山而得名。绿美南山的叙事，从海拔 587 米的山脊开始。</p>
+        <div class="stat"><div><b>587m</b><span>阳台山主峰</span></div><div><b>185.3km²</b><span>南山陆域面积</span></div></div>
+      </div>
+    </section>
+
+    <section class="chapter">
+      <div class="body">
+        <div class="kicker">02 · 一座城</div>
+        <h2>南头古城</h2>
+        <p class="en">近 1700 年的深港城市之根，经「焕新」活化为人文创意街区——古城宁南，是南山八景之首。</p>
+        <div class="stat"><div><b>1700年</b><span>建城史</span></div><div><b>八景之首</b><span>古城宁南</span></div></div>
+      </div>
+    </section>
+
+    <section class="chapter">
+      <div class="body">
+        <div class="kicker">03 · 一条河</div>
+        <h2>大沙河</h2>
+        <p class="en">13.7 公里生态长廊从阳台山一路奔向深圳湾，城央的绿水青山，也是燕晗栖羽的湿地带。</p>
+        <div class="stat"><div><b>13.7km</b><span>生态长廊</span></div></div>
+      </div>
+    </section>
+
+    <section class="chapter">
+      <div class="body">
+        <div class="kicker">04 · 一个湖</div>
+        <h2>西丽湖</h2>
+        <p class="en">环湖碧道 15.5 公里，西丽湖国际科教城与留仙洞总部基地在此汇聚——丽湖留仙，山水之间的科创腹地。</p>
+        <div class="stat"><div><b>15.5km</b><span>环湖碧道</span></div></div>
+      </div>
+    </section>
+
+    <section class="chapter">
+      <div class="body">
+        <div class="kicker">05 · 一片海</div>
+        <h2>深圳湾</h2>
+        <p class="en">43.7 公里黄金海岸线收束于深圳湾超级总部基地与人才公园——这片海，连接整个亚太。</p>
+        <div class="stat"><div><b>43.7km</b><span>海岸线</span></div><div><b>1.01万亿</b><span>南山 GDP</span></div><div><b>218</b><span>上市公司</span></div></div>
+        <p class="src">数据来源：深圳市南山区人民政府 / 创新南山 / 经济日报（2025 年口径）</p>
+      </div>
+    </section>
+  </main>
+
+<script>
+  const chapters=[...document.querySelectorAll('.chapter')];
+  const rail=[...document.querySelectorAll('.rail i')];
+  const layers={p1:document.querySelector('.p1'),p2:document.querySelector('.p2'),p3:document.querySelector('.p3')};
+  const io=new IntersectionObserver((es)=>{
+    es.forEach(e=>{
+      if(!e.isIntersecting) return;
+      const idx=chapters.indexOf(e.target);
+      e.target.classList.add('on');
+      document.body.dataset.step=idx;
+      rail.forEach((r,i)=>r.classList.toggle('on',i===idx));
+      // 视差：不同层不同位移速率
+      const k=(idx/4);
+      layers.p1.style.transform=`translateY(${-k*30}px)`;
+      layers.p2.style.transform=`translateY(${-k*60}px)`;
+      layers.p3.style.transform=`translateY(${-k*95}px)`;
+    });
+  },{threshold:.55});
+  chapters.forEach(c=>io.observe(c));
+</script>
+</body>
+</html>

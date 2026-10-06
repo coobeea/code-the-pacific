@@ -3,6 +3,8 @@ import { ref } from 'vue'
 import PageShell from '../components/PageShell.vue'
 import SectionTitle from '../components/SectionTitle.vue'
 import SourceList from '../components/SourceList.vue'
+import RegistrationForm from '../components/RegistrationForm.vue'
+import Countdown from '../components/Countdown.vue'
 import youth from '../data/youth.json'
 
 // 分论坛 Tab 切换（用 v-if + <Transition> 淡入，无重型动画库）
@@ -61,11 +63,17 @@ const toggleFaq = (i) => (openFaq.value = openFaq.value === i ? -1 : i)
       </Transition>
     </section>
 
-    <!-- 报名表单（诚实说明：无后端） -->
-    <section class="my-10 bg-[#fdeaea] border border-[#f3b8b8] rounded-card p-5 text-sm">
-      <h4 class="font-extrabold text-[#8f2560] mb-2">📋 如何报名 / 征集</h4>
-      <p class="text-[#7a3b57]">本页只做展示，真正提交请通过<b>腾讯问卷等第三方表单外链</b>完成。表单字段（示例）：姓名、年级、学校、联系方式、<b>监护人联系方式</b>、参与分论坛、作品类型、<b>监护人同意勾选</b>、自我介绍。</p>
-      <p class="text-[#7a3b57] mt-2 text-xs"><b>原因</b>：本站为纯前端、无后端，无法存储报名信息——这是诚实、且符合「涉未成年人信息须监护人同意」合规要求的做法。</p>
+    <!-- 倒计时 + 报名表单 -->
+    <section class="my-10">
+      <SectionTitle title="距 APEC 深圳峰会" en="Countdown · Nov 18, 2026" />
+      <Countdown target="2026-11-18T09:00:00+08:00" class="my-4" />
+    </section>
+
+    <section class="my-10">
+      <SectionTitle title="在线报名" en="Register" />
+      <div class="bg-card border border-line rounded-card p-6">
+        <RegistrationForm />
+      </div>
     </section>
 
     <!-- FAQ 折叠 -->

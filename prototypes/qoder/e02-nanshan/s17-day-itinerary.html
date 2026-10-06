@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-02 · s17 一日漫游行程攻略</title>
+<style>
+  :root{--cream:#fbf6ee;--ink:#2b2622;--mut:#8a8073;--coral:#ef6a4d;--sea:#2f9bb8;--park:#5b8a5a;--gold:#d99a2b;--card:#fffdf9}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,"PingFang SC",system-ui,sans-serif;background:var(--cream);color:var(--ink);line-height:1.6}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:860px;margin:0 auto;padding:clamp(22px,5vw,48px)}
+  .head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap}
+  .head h1{font-size:clamp(28px,6vw,46px);font-weight:900;letter-spacing:-.01em}
+  .head .k{font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--coral);font-weight:800}
+  .head p{color:var(--mut);margin-top:8px;max-width:44ch;font-size:15px}
+  .meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  .pill{font-size:13px;font-weight:700;padding:6px 14px;border-radius:999px;background:#fff;border:1px solid #eadfce;color:var(--ink)}
+  .pill b{color:var(--coral)}
+
+  .bar{height:8px;border-radius:999px;background:#ece1d1;margin:22px 0 8px;overflow:hidden}
+  .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--coral),var(--gold));transition:width .4s}
+  .barlab{font-size:12px;color:var(--mut);margin-bottom:18px}
+
+  .route{position:relative;padding-left:34px}
+  .route::before{content:"";position:absolute;left:11px;top:8px;bottom:8px;width:3px;background:repeating-linear-gradient(var(--coral) 0 8px,transparent 8px 16px);opacity:.4}
+  .stop{position:relative;margin-bottom:18px;background:var(--card);border:1px solid #eee2d2;border-radius:18px;padding:16px 18px;box-shadow:0 8px 22px #d99a2b12;transition:.2s}
+  .stop:hover{box-shadow:0 14px 30px #d99a2b22;transform:translateY(-2px)}
+  .stop::before{content:"";position:absolute;left:-30px;top:22px;width:16px;height:16px;border-radius:50%;background:#fff;border:4px solid var(--coral)}
+  .stop.done::before{background:var(--coral)}
+  .time{display:inline-flex;align-items:center;gap:8px;font-family:ui-monospace,monospace;font-weight:800;color:var(--coral)}
+  .stop h3{font-size:22px;font-weight:900;margin:6px 0 2px}
+  .stop .where{font-size:12px;color:var(--mut);letter-spacing:.1em;text-transform:uppercase}
+  .stop p{font-size:14px;color:#5a5249;margin-top:8px}
+  .tips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .tip{font-size:12px;padding:5px 11px;border-radius:9px;background:#f6ede0;color:#6a5a44;font-weight:600}
+  .tip.food{background:#fde9e3;color:#a5432f}
+  .tip.metro{background:#e5f2f7;color:#1d6a80}
+  .chk{position:absolute;right:16px;top:16px;font-size:13px;font-weight:700;padding:6px 12px;border-radius:999px;border:1.5px solid var(--coral);color:var(--coral);cursor:pointer;background:#fff;transition:.15s;user-select:none}
+  .stop.done .chk{background:var(--coral);color:#fff}
+  .foot{margin-top:22px;font-size:12px;color:var(--mut);border-top:1px dashed #e3d6c2;padding-top:14px}
+  @media(max-width:560px){.stop{padding:14px}.chk{position:static;display:inline-block;margin-top:10px}}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <div class="k">NANSHAN ONE-DAY · 南山一日漫游</div>
+        <h1>一条线，玩透南山</h1>
+        <p>从古城到海湾的一日行程攻略——每站标了时间、停留、交通与美食 tip，玩过的点「打卡」，进度条会走。</p>
+      </div>
+      <div class="meta"><span class="pill"><b>6</b> 站精华</span><span class="pill"><b>约 10h</b> 全天</span></div>
+    </div>
+
+    <div class="bar"><i id="fill"></i></div>
+    <div class="barlab" id="barlab">已打卡 0 / 6</div>
+
+    <div class="route" id="route"></div>
+
+    <div class="foot">行程为参考建议，站点顺序按"山—城—湖—海"由北向南串线；时长/交通以实地为准。数据来源：深圳市南山区人民政府 / 创新南山 · s17 原型 by Qoder</div>
+  </div>
+
+<script>
+  const T=[
+    {t:'09:00',n:'南头古城',w:'古城宁南 · 城',p:'深港 1700 年城市之根，焕新后的文创街区，从一杯古城咖啡开始一天。',dur:'2 小时',food:'古城手作咖啡、粤式早茶',metro:'地铁 12 号线沿线'},
+    {t:'11:30',n:'大沙河 · 华侨城湿地',w:'燕晗栖羽 · 河',p:'沿 13.7 km 大沙河生态长廊骑行到华侨城湿地，城央绿水青山。',dur:'1.5 小时',food:'创意文化园简餐',metro:'地铁 1 号线 华侨城站'},
+    {t:'14:00',n:'西丽湖',w:'丽湖留仙 · 湖',p:'环湖碧道散步，科教城与留仙洞总部基地藏在水光之间。',dur:'1.5 小时',food:'西丽湖周边农家乐',metro:'地铁 5/7 号线 西丽站'},
+    {t:'16:00',n:'深圳湾公园',w:'深湾驭风 · 海',p:'滨海绿道一路向海，落日与候鸟是这片海岸的名片。',dur:'1.5 小时',food:'海边轻食、椰子冻',metro:'地铁 9 号线沿线'},
+    {t:'18:00',n:'后海 · 春笋',w:'后海逐浪 · 海',p:'超级总部基地与人才公园，夜幕下春笋亮起、灯光秀上演。',dur:'1.5 小时',food:'海岸城 / 万象城晚餐',metro:'地铁 2/11 号线 后海站'},
+    {t:'20:00',n:'蛇口海上世界',w:'蛇口记忆 · 海',p:'夜色里的海上世界与明华轮，一顿蛇口海鲜为一天收尾。',dur:'2 小时',food:'蛇口海鲜、价值工厂夜咖啡',metro:'地铁 2 号线 海上世界站'},
+  ];
+  const route=document.getElementById('route');
+  const fill=document.getElementById('fill'), lab=document.getElementById('barlab');
+  T.forEach((s,i)=>{
+    const el=document.createElement('div');
+    el.className='stop';
+    el.innerHTML='<span class="chk" data-i="'+i+'">☆ 打卡</span>'+
+      '<div class="time">🕘 '+s.t+'</div><h3>'+s.n+'</h3>'+
+      '<div class="where">'+s.w+' · 建议停留 '+s.dur+'</div>'+
+      '<p>'+s.p+'</p>'+
+      '<div class="tips"><span class="tip metro">🚇 '+s.metro+'</span><span class="tip food">🍽 '+s.food+'</span></div>';
+    route.appendChild(el);
+  });
+  const done=new Set();
+  route.querySelectorAll('.chk').forEach(c=>c.addEventListener('click',()=>{
+    const i=+c.dataset.i; const card=c.closest('.stop');
+    if(done.has(i)){done.delete(i);card.classList.remove('done');c.textContent='☆ 打卡';}
+    else{done.add(i);card.classList.add('done');c.textContent='✓ 已打卡';}
+    fill.style.width=(done.size/T.length*100)+'%';
+    lab.textContent='已打卡 '+done.size+' / '+T.length;
+  }));
+</script>
+</body>
+</html>

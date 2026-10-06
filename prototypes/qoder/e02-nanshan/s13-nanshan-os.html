@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-02 · s13 NANSHAN OS 城市操作系统</title>
+<style>
+  :root{--bg:#05070d;--panel:#0d1320;--line:#1c2740;--cy:#22d3ee;--sea:#2f9bb8;--gold:#e8c877;--ink:#dbe6f5;--mut:#6b7d99;--ok:#4ade80}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:ui-monospace,"SF Mono","PingFang SC",Menlo,monospace;color:var(--ink);background:
+    radial-gradient(1200px 600px at 80% -10%,#0a2033 0%,transparent 60%),
+    radial-gradient(900px 500px at -10% 110%,#0a1c2e 0%,transparent 55%),var(--bg);min-height:100vh}
+  a{color:inherit;text-decoration:none}
+  .topbar{display:flex;align-items:center;gap:16px;padding:14px 20px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#05070dcc;backdrop-filter:blur(10px);z-index:10;flex-wrap:wrap}
+  .logo{font-weight:900;letter-spacing:.14em;font-size:15px}
+  .logo b{color:var(--cy)}
+  .tag{font-size:11px;color:var(--mut)}
+  .clock{margin-left:auto;font-size:14px;color:var(--cy);letter-spacing:.08em}
+  .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 10px var(--ok);animation:blink 1.6s infinite}
+  @keyframes blink{50%{opacity:.35}}
+
+  .layout{display:grid;grid-template-columns:220px 1fr;gap:18px;padding:18px clamp(14px,3vw,26px);max-width:1280px;margin:0 auto}
+  .rail{border:1px solid var(--line);border-radius:14px;background:#0a1120aa;padding:12px;align-self:start}
+  .rail h4{font-size:11px;letter-spacing:.2em;color:var(--mut);margin-bottom:10px}
+  .mod{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:10px;cursor:pointer;font-size:13px;transition:.18s;border:1px solid transparent}
+  .mod:hover{background:#12203a}
+  .mod.on{border-color:var(--cy);background:#0e2438;color:#eafcff}
+  .mod i{width:6px;height:6px;border-radius:50%;background:var(--mut)}
+  .mod.on i,.mod:hover i{background:var(--cy);box-shadow:0 0 8px var(--cy)}
+
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  .card{border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,#0d1320,#0a0f19);padding:18px;position:relative;overflow:hidden}
+  .card::after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent 40%,#22d3ee0f 50%,transparent 60%);transform:translateX(-100%);animation:sweep 4.5s infinite}
+  @keyframes sweep{0%,60%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+  .card .k{font-size:11px;letter-spacing:.14em;color:var(--mut);text-transform:uppercase}
+  .card .v{font-size:clamp(26px,4vw,40px);font-weight:900;color:#fff;margin-top:6px;font-variant-numeric:tabular-nums}
+  .card .v b{color:var(--cy)}
+  .card .sub{font-size:12px;color:var(--mut);margin-top:4px}
+
+  .detail{grid-column:1/-1;border:1px solid var(--cy);border-radius:16px;background:#0b1626;padding:20px;display:flex;gap:22px;align-items:center;flex-wrap:wrap}
+  .radar{width:120px;height:120px;flex:none;border-radius:50%;border:1px solid var(--line);position:relative;background:radial-gradient(#0e2438,transparent 70%)}
+  .radar::before{content:"";position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,#22d3ee55,transparent 25%);animation:spin 3.5s linear infinite}
+  .radar::after{content:"";position:absolute;inset:30%;border:1px solid #22d3ee33;border-radius:50%}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .detail .idx{font-size:12px;color:var(--gold);letter-spacing:.16em}
+  .detail h3{font-size:clamp(24px,4vw,38px);font-weight:900;color:#fff}
+  .detail p{font-size:14px;color:var(--mut);max-width:46ch;margin-top:6px}
+  .pts{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  .pts span{font-size:12px;padding:5px 10px;border-radius:8px;background:#0e2438;border:1px solid var(--line);color:#bfe9f5}
+  .foot{grid-column:1/-1;font-size:11px;color:var(--mut);border-top:1px solid var(--line);padding-top:12px}
+  @media(max-width:820px){.layout{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.clock{margin-left:0}}
+</style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="logo">NANSHAN <b>OS</b> <span style="color:var(--mut);font-weight:400">· 鹏城数字名片</span></div>
+    <div class="tag"><span class="dot"></span> SYSTEM ONLINE · APEC 2026 主办城区</div>
+    <div class="clock" id="clock">--:--:--</div>
+  </div>
+
+  <div class="layout">
+    <aside class="rail">
+      <h4>八景 · MODULES</h4>
+      <div id="mods"></div>
+    </aside>
+
+    <main class="grid">
+      <div class="card"><div class="k">GDP / 万亿地市辖区</div><div class="v"><b>1.01</b> 万亿</div><div class="sub">全国首个 · 元</div></div>
+      <div class="card"><div class="k">上市公司</div><div class="v">218</div><div class="sub">密度全国第一</div></div>
+      <div class="card"><div class="k">国家高新技术企业</div><div class="v">6037</div><div class="sub">家</div></div>
+      <div class="card"><div class="k">黄金海岸线</div><div class="v">43.7<b>km</b></div><div class="sub">深圳湾 · 伶仃洋</div></div>
+
+      <div class="detail">
+        <div class="radar"></div>
+        <div>
+          <div class="idx" id="didx">MODULE 04 / 08</div>
+          <h3 id="dname">后海逐浪</h3>
+          <p id="dintro">深圳湾超级总部基地与人才公园，湾区对外的城市客厅。</p>
+          <div class="pts" id="dpts"></div>
+        </div>
+      </div>
+
+      <div class="foot">数据来源：深圳市南山区人民政府 / 创新南山 / 经济日报（2025 年口径）· s13 原型 by Qoder · 纯 CSS，无 WebGL</div>
+    </main>
+  </div>
+
+<script>
+  const M=[
+    {n:'古城宁南',i:'南头古城 · 中山公园 · 荷兰花卉小镇',d:'近 1700 年的深港城市之根，焕新活化的人文街区。',p:['南头古城','中山公园','荷兰花卉小镇']},
+    {n:'蛇口记忆',i:'改革开放的地标群',d:'招商局与海上世界见证蛇口从渔镇到湾区门户。',p:['海上世界','蛇口老街','南海意库','K11 ECOAST']},
+    {n:'前海观潮',i:'深港合作的前沿',d:'前海深港现代服务业合作区。',p:['前海石公园','前海国际会议中心','万象前海']},
+    {n:'后海逐浪',i:'总部经济与湾区客厅',d:'深圳湾超级总部基地与人才公园，湾区对外的城市客厅。',p:['深圳湾体育中心','深圳人才公园','中国华润大厦','万象城']},
+    {n:'深湾驭风',i:'滨海绿道与超级总部',d:'43.7 公里海岸线的一段。',p:['深圳湾公园','深圳湾滨海绿道','深圳湾大桥']},
+    {n:'燕晗栖羽',i:'湿地与创意文化',d:'大沙河生态长廊与华侨城国家湿地。',p:['大沙河长廊','华侨城湿地','世界之窗','欢乐海岸']},
+    {n:'丽湖留仙',i:'科教与总部高地',d:'西丽湖国际科教城与留仙洞总部基地。',p:['西丽湖','留仙洞总部基地']},
+    {n:'伶仃烟渚',i:'山海与历史回响',d:'赤湾天后宫、大小南山与内伶仃岛。',p:['赤湾天后宫','大小南山','内伶仃岛']},
+  ];
+  const mods=document.getElementById('mods');
+  M.forEach((m,idx)=>{
+    const el=document.createElement('div');
+    el.className='mod'+(idx===3?' on':'');
+    el.innerHTML='<i></i>'+m.n;
+    el.onclick=()=>{document.querySelectorAll('.mod').forEach(x=>x.classList.remove('on'));el.classList.add('on');show(idx);};
+    mods.appendChild(el);
+  });
+  function show(idx){
+    const m=M[idx];
+    document.getElementById('didx').textContent='MODULE '+String(idx+1).padStart(2,'0')+' / 08';
+    document.getElementById('dname').textContent=m.n;
+    document.getElementById('dintro').textContent=m.d;
+    document.getElementById('dpts').innerHTML=m.p.map(p=>'<span>'+p+'</span>').join('');
+  }
+  show(3);
+  // 实时时钟
+  const clk=document.getElementById('clock');
+  function tick(){const d=new Date();clk.textContent=d.toLocaleTimeString('zh-CN',{hour12:false})+' CST';}
+  tick();setInterval(tick,1000);
+</script>
+</body>
+</html>

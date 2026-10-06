@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-02 · s14 山海墨 · 现代中式竖排</title>
+<style>
+  :root{--paper:#efe9db;--ink:#161311;--ink2:#4a423a;--seal:#a32e1c;--park:#3f7d54;--sea:#0b5c73}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Songti SC","Noto Serif SC",Georgia,serif;color:var(--ink);background:var(--paper);
+    background-image:radial-gradient(60% 50% at 85% 15%,#dfe7dc88,transparent 60%),radial-gradient(50% 40% at 10% 90%,#e7ddc788,transparent 60%);min-height:100vh}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1200px;margin:0 auto;padding:clamp(24px,5vw,56px)}
+  header{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;border-bottom:1px solid #0002;padding-bottom:22px}
+  .brand{font-size:15px;letter-spacing:.4em;color:var(--ink2)}
+  .hero{display:flex;gap:26px;align-items:flex-end}
+  .hero .big{font-size:clamp(56px,12vw,150px);font-weight:900;line-height:.86;letter-spacing:.02em}
+  .hero .vert{writing-mode:vertical-rl;font-size:clamp(20px,3vw,30px);color:var(--seal);letter-spacing:.3em;border-left:2px solid var(--seal);padding-left:10px;height:clamp(150px,26vw,230px)}
+  .hero p{max-width:34ch;color:var(--ink2);font-size:16px;line-height:1.9}
+
+  /* 竖排八景手风琴 */
+  .accordion{display:flex;gap:8px;margin-top:34px;height:min(62vh,520px)}
+  .panel{position:relative;flex:1;overflow:hidden;border-radius:6px;cursor:pointer;transition:flex .55s cubic-bezier(.2,.7,.2,1),box-shadow .4s;border:1px solid #0001;background:#e7dfcd}
+  .panel:nth-child(1){background:linear-gradient(160deg,#0b5c73,#084151)}
+  .panel:nth-child(2){background:linear-gradient(160deg,#3f7d54,#2c5a3c)}
+  .panel:nth-child(3){background:linear-gradient(160deg,#a32e1c,#6f1f13)}
+  .panel:nth-child(4){background:linear-gradient(160deg,#0a5cff,#0a3a91)}
+  .panel:nth-child(5){background:linear-gradient(160deg,#c9962a,#8f6a18)}
+  .panel:nth-child(6){background:linear-gradient(160deg,#155e75,#0b3d4a)}
+  .panel:nth-child(7){background:linear-gradient(160deg,#4c6b3f,#31452a)}
+  .panel:nth-child(8){background:linear-gradient(160deg,#2b3a4a,#161f29)}
+  .panel .title{writing-mode:vertical-rl;font-size:clamp(22px,3.4vw,40px);color:#fff;font-weight:900;letter-spacing:.28em;padding:26px 0 0 18px;transition:opacity .4s;text-shadow:0 2px 12px #0006}
+  .panel .num{position:absolute;bottom:16px;left:0;right:0;text-align:center;color:#ffffff88;font-size:13px;letter-spacing:.2em}
+  .panel .content{position:absolute;inset:0;padding:clamp(20px,2.4vw,34px);color:#fff;display:flex;flex-direction:column;justify-content:flex-end;opacity:0;transform:translateX(24px);transition:.5s;background:linear-gradient(90deg,transparent,#00000020)}
+  .panel.open{flex:5;box-shadow:0 20px 50px #0002}
+  .panel.open .title{opacity:.25}
+  .panel.open .num{opacity:0}
+  .panel.open .content{opacity:1;transform:none}
+  .content .k{font-size:13px;letter-spacing:.3em;color:#ffffffbb}
+  .content h3{font-size:clamp(28px,4vw,48px);font-weight:900;margin:6px 0}
+  .content p{font-size:15px;line-height:1.9;max-width:44ch;color:#f2efe7}
+  .content .pts{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px}
+  .content .pts span{font-size:12px;padding:5px 12px;border:1px solid #ffffff55;border-radius:2px}
+  .foot{margin-top:26px;color:var(--ink2);font-size:13px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;border-top:1px solid #0002;padding-top:16px}
+  .stats b{font-family:"Songti SC",serif;color:var(--seal);font-size:18px}
+  @media(max-width:720px){.accordion{flex-direction:column;height:auto}.panel{min-height:64px}.panel.open{flex:5}.panel .title{writing-mode:horizontal-tb;padding:18px 22px}.panel .num{display:none}}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <div class="brand">PENGCHENG · 数字名片</div>
+        <div class="hero" style="margin-top:14px">
+          <div class="big">山海连城</div>
+          <div class="vert">绿美南山</div>
+        </div>
+      </div>
+      <p>一海、一河、一城、一湖；八景各擅其胜。以现代中式竖排，重读南山的文脉与山海。</p>
+    </header>
+
+    <div class="accordion" id="acc"></div>
+
+    <div class="foot">
+      <div class="stats">GDP <b>1.01 万亿</b> · 上市公司 <b>218</b> · 高企 <b>6037</b> · 海岸线 <b>43.7km</b></div>
+      <div>数据来源：深圳市南山区人民政府 / 创新南山（2025 年口径）· s14 原型 by Qoder</div>
+    </div>
+  </div>
+
+<script>
+  const S=[
+    {n:'古城宁南',k:'城 · 人文之韵',p:'南头古城近 1700 年，深港城市之根，焕新活化为人文创意街区。',t:['南头古城','中山公园','荷兰花卉小镇']},
+    {n:'蛇口记忆',k:'海 · 改革地标',p:'招商局与海上世界，见证蛇口从渔镇到湾区门户。',t:['海上世界','蛇口老街','南海意库','K11 ECOAST']},
+    {n:'前海观潮',k:'城 · 深港前沿',p:'前海深港现代服务业合作区，祖国改革开放最新前沿。',t:['前海石公园','前海国际会议中心','万象前海']},
+    {n:'后海逐浪',k:'海 · 湾区客厅',p:'深圳湾超级总部基地与人才公园，湾区对外的城市客厅。',t:['深圳湾体育中心','深圳人才公园','中国华润大厦']},
+    {n:'深湾驭风',k:'海 · 滨海绿道',p:'深圳湾公园滨海绿道，43.7 公里黄金海岸线的一段。',t:['深圳湾公园','深圳湾滨海绿道','深圳湾大桥']},
+    {n:'燕晗栖羽',k:'河 · 湿地创意',p:'大沙河生态长廊与华侨城国家湿地，城央绿水青山。',t:['大沙河长廊','华侨城湿地','世界之窗','欢乐海岸']},
+    {n:'丽湖留仙',k:'湖 · 科教总部',p:'西丽湖国际科教城与留仙洞总部基地，山水之间的科创腹地。',t:['西丽湖','西丽湖国际科教城','留仙洞总部基地']},
+    {n:'伶仃烟渚',k:'山海 · 历史回响',p:'赤湾天后宫、大小南山与内伶仃岛，文天祥零丁洋的回响。',t:['赤湾天后宫','大小南山','内伶仃岛']},
+  ];
+  const acc=document.getElementById('acc');
+  S.forEach((s,i)=>{
+    const el=document.createElement('div');
+    el.className='panel'+(i===3?' open':'');
+    el.innerHTML='<div class="title">'+s.n+'</div><div class="num">0'+(i+1)+'</div>'
+      +'<div class="content"><div class="k">'+s.k+'</div><h3>'+s.n+'</h3><p>'+s.p+'</p>'
+      +'<div class="pts">'+s.t.map(t=>'<span>'+t+'</span>').join('')+'</div></div>';
+    el.onmouseenter=()=>{acc.querySelectorAll('.panel').forEach(p=>p.classList.remove('open'));el.classList.add('open');};
+    el.onclick=()=>{acc.querySelectorAll('.panel').forEach(p=>p.classList.remove('open'));el.classList.add('open');};
+    acc.appendChild(el);
+  });
+</script>
+</body>
+</html>

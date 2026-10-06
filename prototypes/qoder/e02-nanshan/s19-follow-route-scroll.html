@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-02 · s19 跟随式路线漫游</title>
+<style>
+  :root{--ink:#0e1a2b;--mut:#6b7a8c;--sea:#0b5c73;--gold:#c9962a;--park:#3f7d54;--line:#dfe7ef;--card:#fff}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,"PingFang SC",system-ui,sans-serif;color:var(--ink);background:linear-gradient(180deg,#eef4f8,#e6eef6);line-height:1.6}
+  a{color:inherit;text-decoration:none}
+  .head{max-width:1000px;margin:0 auto;padding:clamp(24px,5vw,48px) clamp(18px,4vw,32px) 6px}
+  .kick{font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--sea);font-weight:800}
+  .head h1{font-size:clamp(28px,5vw,48px);font-weight:900;margin-top:6px}
+  .head p{color:var(--mut);margin-top:8px;max-width:52ch}
+
+  .journey{display:grid;grid-template-columns:150px 1fr;gap:clamp(16px,3vw,36px);max-width:1000px;margin:0 auto;padding:clamp(10px,3vw,28px) clamp(18px,4vw,32px) 40px}
+  .rail{position:sticky;top:60px;align-self:start;height:calc(100vh - 120px)}
+  .rail svg{width:100%;height:100%}
+  #route{fill:none;stroke:#c4d3e0;stroke-width:6;stroke-linecap:round}
+  #routeFill{fill:none;stroke:var(--sea);stroke-width:6;stroke-linecap:round;stroke-dasharray:var(--len);stroke-dashoffset:var(--len)}
+  .node circle{fill:#fff;stroke:#9fb2c4;stroke-width:4;transition:.3s}
+  .node.lit circle{stroke:var(--gold);fill:var(--gold)}
+  .node text{font-size:11px;fill:var(--mut);font-weight:800;text-anchor:middle;pointer-events:none}
+  .node.lit text{fill:#fff}
+  #token{fill:var(--sea);stroke:#fff;stroke-width:3;filter:drop-shadow(0 3px 6px #0b5c7355)}
+
+  .cards{display:flex;flex-direction:column;gap:22px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:26px clamp(18px,3vw,32px);box-shadow:0 12px 30px #143a5a10;opacity:.4;transform:translateY(20px);transition:.5s;scroll-margin-top:100px}
+  .card.active{opacity:1;transform:none}
+  .card .st{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.1em;color:#fff;background:var(--sea);padding:4px 12px;border-radius:999px}
+  .card h3{font-size:clamp(24px,4vw,36px);font-weight:900;margin:12px 0 4px}
+  .card .cat{color:var(--mut);font-size:13px}
+  .card p{margin-top:12px;font-size:15px;color:#3a4a5a;max-width:56ch}
+  .card .row{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+  .card .row span{font-size:13px;padding:6px 12px;border-radius:10px;background:#f1f5f9;font-weight:600}
+  .foot{grid-column:1/-1;text-align:center;color:var(--mut);font-size:12px;padding-top:10px}
+  @media(max-width:640px){.journey{grid-template-columns:1fr}.rail{display:none}}
+</style>
+</head>
+<body>
+  <div class="head">
+    <div class="kick">FOLLOW THE ROUTE · 南山漫游</div>
+    <h1>跟着这条线，一站一站往下看</h1>
+    <p>向下滚动——左侧定位标记会沿「山海连城」线路前进，经过的站点依次点亮、右侧攻略卡随之浮现。点线路上的站点可直接跳过去。</p>
+  </div>
+
+  <div class="journey" id="journey">
+    <div class="rail">
+      <svg viewBox="0 0 150 1000" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+        <path id="route" d="M75 30 C20 170 130 230 75 360 C20 500 130 560 75 690 C30 820 120 880 75 970"/>
+        <path id="routeFill" d="M75 30 C20 170 130 230 75 360 C20 500 130 560 75 690 C30 820 120 880 75 970"/>
+        <g id="nodes"></g>
+        <circle id="token" r="11" cx="75" cy="30"/>
+      </svg>
+    </div>
+
+    <div class="cards" id="cards"></div>
+    <div class="foot">线路为概念串联，非实际轨道；时长为参考建议 · 数据来源：深圳市南山区人民政府 / 创新南山 · s19 原型 by Qoder</div>
+  </div>
+
+<script>
+  const S=[
+    {n:'古城宁南',c:'城',d:'南头古城近 1700 年深港之根，中山公园与荷兰花卉小镇串起人文创意带。',t:['南头古城','中山公园'],dur:'2 小时'},
+    {n:'燕晗栖羽',c:'河',d:'13.7 公里大沙河生态长廊一路向海，华侨城国家湿地与创意文化园相伴。',t:['大沙河长廊','华侨城湿地'],dur:'半天'},
+    {n:'丽湖留仙',c:'湖',d:'西丽湖环湖碧道 15.5 公里，科教城与留仙洞总部基地藏于山水之间。',t:['西丽湖','留仙洞总部基地'],dur:'2–3 小时'},
+    {n:'前海观潮',c:'城',d:'前海石公园与国际会议中心——深港合作前沿的天际线。',t:['前海石公园','万象前海'],dur:'1–2 小时'},
+    {n:'蛇口记忆',c:'海',d:'招商局与海上世界，从渔镇到湾区门户的改革开放地标群。',t:['海上世界','K11 ECOAST'],dur:'半天'},
+    {n:'伶仃烟渚',c:'山海',d:'赤湾天后宫、大小南山与内伶仃岛，文天祥零丁洋的历史回响。',t:['赤湾天后宫','内伶仃岛'],dur:'半天'},
+    {n:'深湾驭风',c:'海',d:'深圳湾公园滨海绿道，43.7 公里黄金海岸线上看落日与候鸟。',t:['深圳湾公园','深圳湾大桥'],dur:'2 小时'},
+    {n:'后海逐浪',c:'海',d:'深圳湾超级总部基地与人才公园——湾区对外的城市客厅。',t:['深圳人才公园','春笋'],dur:'半天'},
+  ];
+  const path=document.getElementById('route'), rf=document.getElementById('routeFill');
+  const len=path.getTotalLength(); rf.style.setProperty('--len',len); rf.style.strokeDasharray=len; rf.style.strokeDashoffset=len;
+  const nodesG=document.getElementById('nodes'), cardsBox=document.getElementById('cards'), token=document.getElementById('token'), journey=document.getElementById('journey');
+  const N=S.length, fr=S.map((s,i)=>0.02 + i*(0.96/(N-1))); // 站点在路径上的位置比例
+
+  // 建节点 + 卡片
+  S.forEach((s,i)=>{
+    const pt=path.getPointAtLength(fr[i]*len);
+    const g=document.createElementNS('http://www.w3.org/2000/svg','g');
+    g.setAttribute('class','node'); g.dataset.i=i; g.style.cursor='pointer';
+    g.innerHTML='<circle cx="'+pt.x+'" cy="'+pt.y+'" r="12"/><text x="'+pt.x+'" y="'+(pt.y+4)+'">'+(i+1)+'</text>';
+    g.addEventListener('click',()=>document.getElementById('card'+i).scrollIntoView({behavior:'smooth',block:'center'}));
+    nodesG.appendChild(g);
+
+    const card=document.createElement('div');
+    card.className='card'; card.id='card'+i; card.style.scrollMarginTop='90px';
+    card.innerHTML='<span class="st">站点 0'+(i+1)+' · 南山</span><h3>'+s.n+'</h3><div class="cat">'+s.c+' 类景观 · 建议 '+s.dur+'</div><p>'+s.d+'</p><div class="row">'+s.t.map(t=>'<span>'+t+'</span>').join('')+'</div>';
+    cardsBox.appendChild(card);
+  });
+  const nodes=[...nodesG.children], cards=[...cardsBox.children];
+
+  function onScroll(){
+    const r=journey.getBoundingClientRect(), vh=innerHeight;
+    const p=Math.max(0,Math.min(1,(vh*0.5 - r.top)/r.height));
+    rf.style.strokeDashoffset=len*(1-p);
+    const pt=path.getPointAtLength(p*len); token.setAttribute('cx',pt.x); token.setAttribute('cy',pt.y);
+    nodes.forEach((n,i)=>n.classList.toggle('lit',p+0.001>=fr[i]));
+    let act=Math.round(p*(N-1)); act=Math.max(0,Math.min(N-1,act));
+    cards.forEach((c,i)=>c.classList.toggle('active',i<=act));
+  }
+  addEventListener('scroll',onScroll,{passive:true}); addEventListener('resize',onScroll); onScroll();
+</script>
+</body>
+</html>

@@ -8,8 +8,10 @@ import SourceList from '../components/SourceList.vue'
 import SceneMap from '../components/SceneMap.vue'
 import BarChart from '../components/BarChart.vue'
 import Reveal from '../components/Reveal.vue'
+import TimelineSection from '../components/TimelineSection.vue'
 import scenes from '../data/scenes.json'
 import nanshan from '../data/nanshan.json'
+import timeline from '../data/timeline.json'
 
 // 地图 ↔ 卡片联动：共享一个 activeId
 const activeId = ref('houhai')
@@ -53,6 +55,9 @@ function selectScene(id) {
       </div>
       <p class="text-xs text-muted mt-2">提示：点任意卡片 → 上方地图对应片区高亮；卡片右上「查看详情」进入独立介绍页。</p>
     </section>
+
+    <!-- 南山成长时光轴（12 个已考证里程碑） -->
+    <TimelineSection :items="timeline" />
 
     <!-- 一海一河一城一湖 -->
     <Reveal>

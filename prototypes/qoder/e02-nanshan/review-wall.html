@@ -44,13 +44,13 @@
   <div class="top">
     <div>
       <div class="crumb"><a href="../index.html">总入口</a> / 主题一 · 城市名片</div>
-      <h1>鹏城文化数字名片（南山）· 10 风格评审墙 ★主推</h1>
+      <h1>鹏城文化数字名片（南山）· 评审墙（s01–s11 基础 + s12–s20 实验：现代/路线/深海） ★主推</h1>
     </div>
     <div class="legend">🖱 点缩略图放大 · 点「候选」标记（仅存本机浏览器）</div>
   </div>
 
   <div class="wrap">
-    <p class="intro">内容主线：南山八景 · 一海一河一城一湖 · 科创雨林数据。下面 10 个方向覆盖理性、生态、科技、画册等多种美学，横向比较后选出主推 1–2 个进入正式开发。所有数据取官方口径，来源标注见各原型页脚。</p>
+    <p class="intro">内容主线：南山八景 · 一海一河一城一湖 · 科创雨林数据。s01–s11 为初始探索方向；s12–s15 为「现代感/创意」实验组；<b>s16–s19 为新增的「旅行攻略 / 漫游路线 / 站点跟随」组</b>（线路图·一日行程·集章护照·跟随式滚动）。横向比较后选出主推进入正式开发。所有数据取官方口径，来源标注见各原型页脚。</p>
     <div class="count">已选候选：<b id="picked">0</b> 个</div>
 
     <div class="grid" id="grid"></div>
@@ -71,6 +71,15 @@ const STYLES=[
  {f:'s09-parallax-story.html',id:'s09',name:'视差滚动叙事',en:'Parallax Storytelling',why:'一海一河一城一湖逐屏展开',sc:'创意 20%'},
  {f:'s10-bauhaus-geo.html',id:'s10',name:'包豪斯几何',en:'Bauhaus Geo',why:'原色几何构成，辨识度强',sc:'创意 20%'},
  {f:'s11-eightscape-map.html',id:'s11',name:'八景一张图 ★原创交互',en:'Eight-Scapes Map',why:'需求点名的招牌交互：手绘地图点位点击展开，吃创意20%+南山10%',sc:'创意+南山'},
+ {f:'s12-scrollytelling.html',id:'s12',name:'从山到海 · 沉浸式滚动叙事',en:'Scrollytelling',why:'分层视差+滚动叙事，用一海一河一城一湖串成城市长卷，现代叙事感',sc:'创意+交互'},
+ {f:'s13-nanshan-os.html',id:'s13',name:'NANSHAN OS 城市操作系统',en:'Neon HUD',why:'玻璃+霓虹+实时时钟/脉冲指标，把南山做成可操作的“城市 OS”',sc:'技术 30%'},
+ {f:'s14-modern-chinese-ink.html',id:'s14',name:'山海墨 · 现代中式竖排',en:'Modern Oriental',why:'巨字竖排+水墨+八景手风琴（悬停展开），独特东方现代美学',sc:'创意+南山'},
+ {f:'s15-tilt-bento.html',id:'s15',name:'立体倾斜 Bento 2.0',en:'Tilt Bento',why:'便当盒网格 + 跟随鼠标 CSS 3D 倾斜，纵深现代质感，零 WebGL',sc:'交互+创意'},
+ {f:'s16-roaming-line-map.html',id:'s16',name:'南山漫游线路图',en:'Roaming Line Map',why:'把八景画成地铁式线路，点站点弹攻略（看点/时长/交通）——旅行攻略感',sc:'创意+交互'},
+ {f:'s17-day-itinerary.html',id:'s17',name:'一日漫游行程攻略',en:'One-Day Itinerary',why:'上午到夜游时间轴，每站带时长/交通/美食 tip + 打卡进度条',sc:'交互+南山'},
+ {f:'s18-roaming-passport.html',id:'s18',name:'南山漫游护照 · 集章',en:'Roaming Passport',why:'逐站盖章集齐 8 枚解锁漫游达人，印章动效有趣味',sc:'创意'},
+ {f:'s19-follow-route-scroll.html',id:'s19',name:'跟随式路线漫游',en:'Follow-The-Route',why:'滚动时定位标记沿弯曲线路前进、逐站点亮并浮现攻略卡',sc:'交互+创意'},
+ {f:'s20-nanshan-timeline.html',id:'s20',name:'南山成长时光轴 · 穿越年代',en:'Growth Timeline',why:'只借“沿线索随滚动逐段推进”的交互范式，线索换成南山自身的发展年代：年份 1979→2026 随滚动推进、背景逐时代渐变、9 个里程碑（蛇口开山炮→特区→建区→高新区→前海→人才公园→扩区→破万亿→APEC）',sc:'创意+主题'},
 ];
 const KEY='qoder-pick-e02';
 let picks=new Set(JSON.parse(localStorage.getItem(KEY)||'[]'));

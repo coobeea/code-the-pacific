@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-02 · s18 南山漫游护照</title>
+<style>
+  :root{--paper:#f3ead6;--ink:#2a2620;--mut:#7c7263;--seal:#b02b1e;--sea:#0b5c73;--line:#d8cba8}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Songti SC",-apple-system,"PingFang SC",serif;color:var(--ink);line-height:1.6;
+    background:var(--paper) radial-gradient(60% 50% at 80% 0%,#e7dcc0,transparent 60%);min-height:100vh}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:960px;margin:0 auto;padding:clamp(22px,5vw,48px)}
+  .cover{background:#fffdf6;border:1px solid var(--line);border-radius:20px;padding:clamp(20px,4vw,36px);box-shadow:0 16px 40px #b02b1e14;position:relative;overflow:hidden}
+  .cover::before{content:"PASSPORT";position:absolute;right:-10px;top:14px;font-family:ui-monospace,monospace;font-size:60px;font-weight:900;color:#00000008;letter-spacing:.1em}
+  .stamp-h{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+  .cover h1{font-size:clamp(26px,5vw,42px);font-weight:900}
+  .cover .sub{color:var(--mut);font-size:14px;margin-top:6px}
+  .count{font-family:ui-monospace,monospace;text-align:right}
+  .count b{font-size:34px;color:var(--seal);font-weight:900}
+  .count span{display:block;font-size:12px;color:var(--mut);letter-spacing:.1em}
+  .track{height:10px;border-radius:999px;background:#eaddbe;margin:22px 0 6px;overflow:hidden;border:1px solid var(--line)}
+  .track i{display:block;height:100%;width:0;background:repeating-linear-gradient(45deg,var(--seal) 0 12px,#c9443a 12px 24px);transition:width .5s}
+  .unlock{text-align:center;font-weight:800;color:var(--seal);margin-top:6px;opacity:0;transition:.4s}
+  .unlock.on{opacity:1}
+
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:26px}
+  .cell{background:#fffdf7;border:1px dashed #cbbd97;border-radius:16px;padding:16px 12px;text-align:center;cursor:pointer;position:relative;transition:.2s;min-height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+  .cell:hover{border-color:var(--seal);transform:translateY(-3px)}
+  .cell .name{font-weight:900;font-size:16px}
+  .cell .cat{font-size:11px;color:var(--mut);letter-spacing:.14em}
+  .cell .hint{font-size:11px;color:#a99;font-style:italic}
+  .cell.done{border-style:solid;border-color:var(--seal)}
+
+  .seal{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;opacity:0;transform:scale(2.2) rotate(-24deg)}
+  .cell.done .seal{opacity:.92;transform:scale(1) rotate(-14deg);transition:transform .4s cubic-bezier(.2,1.6,.4,1),opacity .3s}
+  .seal .ring{width:104px;height:104px;border:3px solid var(--seal);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--seal);font-weight:900;mix-blend-mode:multiply;background:#b02b1e12}
+  .seal .ring .zh{font-size:22px;line-height:1}
+  .seal .ring .en{font-size:8px;letter-spacing:.12em;margin-top:3px}
+  .seal .ring .no{font-size:11px;font-family:ui-monospace,monospace;border-top:1px solid var(--seal);padding-top:2px;margin-top:4px}
+
+  .foot{margin-top:24px;font-size:12px;color:var(--mut);text-align:center}
+  @media(max-width:720px){.grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="cover">
+      <div class="stamp-h">
+        <div>
+          <h1>南山漫游护照</h1>
+          <p class="sub">沿「山海连城」线路打卡八景——逐站盖章，集齐 8 枚成为南山漫游达人。</p>
+        </div>
+        <div class="count"><b id="cn">0</b><span>/ 8 枚印章</span></div>
+      </div>
+      <div class="track"><i id="fill"></i></div>
+      <div class="unlock" id="unlock">🎉 八景集齐 · 南山漫游达人</div>
+
+      <div class="grid" id="grid"></div>
+      <p class="foot">点击任意站点卡片即可盖章（原型演示，进度仅存本机浏览器）· 数据来源：深圳市南山区人民政府 / 创新南山 · s18 原型 by Qoder</p>
+    </div>
+  </div>
+
+<script>
+  const S=[
+    {n:'古城宁南',c:'城',z:'古城'},
+    {n:'蛇口记忆',c:'海',z:'蛇口'},
+    {n:'前海观潮',c:'城',z:'前海'},
+    {n:'后海逐浪',c:'海',z:'后海'},
+    {n:'深湾驭风',c:'海',z:'深湾'},
+    {n:'燕晗栖羽',c:'河',z:'燕晗'},
+    {n:'丽湖留仙',c:'湖',z:'丽湖'},
+    {n:'伶仃烟渚',c:'山海',z:'伶仃'},
+  ];
+  const grid=document.getElementById('grid'), fill=document.getElementById('fill'), cn=document.getElementById('cn'), unlock=document.getElementById('unlock');
+  const done=new Set();
+  S.forEach((s,i)=>{
+    const el=document.createElement('div');
+    el.className='cell';
+    el.innerHTML='<div class="cat">'+String(i+1).padStart(2,'0')+' · '+s.c+'</div><div class="name">'+s.n+'</div><div class="hint">轻触盖章</div>'+
+      '<div class="seal"><div class="ring"><div class="zh">'+s.z+'</div><div class="en">NANSHAN</div><div class="no">'+String(i+1).padStart(2,'0')+'/08</div></div></div>';
+    el.onclick=()=>{
+      el.classList.toggle('done');
+      if(el.classList.contains('done'))done.add(i);else done.delete(i);
+      fill.style.width=(done.size/8*100)+'%';
+      cn.textContent=done.size;
+      unlock.classList.toggle('on',done.size===8);
+    };
+    grid.appendChild(el);
+  });
+</script>
+</body>
+</html>
