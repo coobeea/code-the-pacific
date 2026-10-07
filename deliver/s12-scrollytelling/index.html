@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>从山到海，走向亚太 · 山海连城南山叙事 · 码上亚太 APEC 2026</title>
+<style>
+  :root{--ink:#eaf3f2;--mut:#9db4bd;--sea:#2f9bb8;--park:#3f7d54;--gold:#e8c877}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-snap-type:y mandatory;scroll-behavior:smooth}
+  body{font-family:-apple-system,"PingFang SC",system-ui,sans-serif;color:var(--ink);background:#06222b;overflow-x:hidden}
+  a{text-decoration:none;color:inherit}
+
+  /* 固定背景舞台：视差层（远山/近山/水面） */
+  .stage{position:fixed;inset:0;z-index:-1;transition:background 1.1s ease}
+  .stage .layer{position:absolute;left:0;right:0;transition:transform 1.1s cubic-bezier(.2,.7,.2,1),opacity 1.1s}
+  .ridge{position:absolute;bottom:0;left:0;width:100%;height:60vh}
+  .ridge path{transition:fill 1.1s}
+
+  body[data-step="0"] .stage{background:linear-gradient(180deg,#0b3a2e,#06222b)}
+  body[data-step="1"] .stage{background:linear-gradient(180deg,#2a2416,#0a0c12)}
+  body[data-step="2"] .stage{background:linear-gradient(180deg,#0b3f49,#06222b)}
+  body[data-step="3"] .stage{background:linear-gradient(180deg,#0a4a5c,#06222b)}
+  body[data-step="4"] .stage{background:linear-gradient(180deg,#083b4a,#041a22)}
+  body[data-step="5"] .stage{background:linear-gradient(180deg,#0b5c73,#041a22)}
+
+  .chapter{min-height:100vh;scroll-snap-align:center;display:flex;flex-direction:column;justify-content:center;padding:clamp(24px,7vw,110px);position:relative}
+  .kicker{font-size:14px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);font-weight:700}
+  .chapter h2{font-size:clamp(40px,11vw,132px);font-weight:900;line-height:.98;letter-spacing:-.02em;margin:.12em 0 .1em;font-family:"Songti SC",serif}
+  .chapter .en{color:#dbe7ea;font-size:clamp(14px,1.8vw,19px);max-width:52ch;line-height:1.85;margin-top:6px}
+  .stat{margin-top:26px;display:flex;gap:34px;flex-wrap:wrap}
+  .stat b{font-size:clamp(30px,5vw,56px);font-weight:900;color:#fff;font-variant-numeric:tabular-nums}
+  .stat span{display:block;font-size:13px;color:var(--mut);letter-spacing:.1em}
+  .apec-line{margin-top:24px;font-size:14px;font-weight:800;color:var(--gold);letter-spacing:.04em;max-width:44ch;line-height:1.7}
+  .apec-line::before{content:'◈ ';opacity:.7}
+
+  /* 进场：文字随章节激活淡入上浮 */
+  .chapter .body{opacity:.15;transform:translateY(26px);transition:.9s cubic-bezier(.2,.7,.2,1)}
+  .chapter.on .body{opacity:1;transform:none}
+
+  /* 进度轨 */
+  .rail{position:fixed;right:clamp(14px,3vw,34px);top:50%;transform:translateY(-50%);z-index:5;display:flex;flex-direction:column;gap:14px}
+  .rail i{width:8px;height:8px;border-radius:50%;background:#ffffff33;transition:.3s}
+  .rail i.on{background:var(--gold);transform:scale(1.5)}
+  .hint{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:5;font-size:12px;letter-spacing:.2em;color:#ffffff88;animation:bob 1.8s infinite}
+  @keyframes bob{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,8px)}}
+  .foot{position:fixed;left:clamp(16px,4vw,40px);bottom:18px;z-index:5;font-size:11px;color:#ffffff66;max-width:60ch;line-height:1.6}
+  .src{margin-top:18px;font-size:12px;color:var(--mut);max-width:60ch;line-height:1.7}
+  @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.chapter .body,.stage,.rail i{transition:none}}
+  @media(max-width:640px){.rail{display:none}}
+</style>
+</head>
+<body data-step="0">
+  <div class="stage" aria-hidden="true">
+    <svg class="ridge" viewBox="0 0 1440 600" preserveAspectRatio="none">
+      <path class="p3" d="M0 380 L260 250 L520 360 L820 210 L1120 340 L1440 240 L1440 600 L0 600Z" fill="#ffffff10"/>
+      <path class="p2" d="M0 460 L320 340 L640 440 L980 320 L1440 430 L1440 600 L0 600Z" fill="#ffffff18"/>
+      <path class="p1" d="M0 540 L400 470 L760 540 L1120 480 L1440 540 L1440 600 L0 600Z" fill="#00000030"/>
+    </svg>
+  </div>
+
+  <nav class="rail" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></nav>
+  <div class="hint">SCROLL ↓ 从山到海，走向亚太</div>
+  <div class="foot">E-02 · 码上亚太 Code the Pacific · APEC 2026 主办城区南山。数据来源：深圳市南山区人民政府 / 创新南山（2025 年口径）。</div>
+
+  <main>
+    <section class="chapter on">
+      <div class="body">
+        <div class="kicker">01 · 一座山</div>
+        <h2>阳台山</h2>
+        <p class="en">南山因海与山而得名，故事从最高处开始。阳台山主峰海拔 587 米，是深圳西部的城市绿肺，也是大沙河的发源地——水从这片山脊出发，一路向西南奔流，最终汇入深圳湾。山的另一侧，是 185.3 平方公里的南山陆域。</p>
+        <div class="stat"><div><b>587m</b><span>阳台山主峰</span></div><div><b>185.3km²</b><span>南山陆域面积</span></div></div>
+        <p class="apec-line">山是这座城区的底座，也是「绿色创新」叙事的起点。</p>
+      </div>
+    </section>
+
+    <section class="chapter">
+      <div class="body">
+        <div class="kicker">02 · 一座城</div>
+        <h2>南头古城</h2>
+        <p class="en">近 1700 年前，深港的县城治所就设在这里——今天深圳的「根」不在 CBD，而在这座老城。如今它被活化为人文创意街区，中山公园与荷兰花卉小镇串起一路烟火气。「古城宁南」，是南山八景之首。</p>
+        <div class="stat"><div><b>1700年</b><span>建城史</span></div><div><b>八景之首</b><span>古城宁南</span></div></div>
+        <p class="apec-line">一座古城，是「开放」最早的记忆。</p>
+      </div>
+    </section>
+
+    <section class="chapter">
+      <div class="body">
+        <div class="kicker">03 · 一条河</div>
+        <h2>大沙河</h2>
+        <p class="en">从阳台山流向深圳湾，13.7 公里生态长廊一路串起华侨城国家湿地公园与创意文化园。一条河的生态之变，是这座万亿城区最直观的注脚——南山已把「全域河流优良率 100%」写进目标，「燕晗栖羽」就落在这片水岸。</p>
+        <div class="stat"><div><b>13.7km</b><span>生态长廊</span></div><div><b>100%</b><span>全域河流优良率目标</span></div></div>
+        <p class="apec-line">一条河的生态之变，对应「绿色创新」的叙事。</p>
+      </div>
+    </section>
+
+    <section class="chapter">
+      <div class="body">
+        <div class="kicker">04 · 一个湖</div>
+        <h2>西丽湖</h2>
+        <p class="en">环湖碧道 15.5 公里，水面不算辽阔，却装着南山最硬的底牌——西丽湖国际科教城与留仙洞总部基地环湖而立，清华、北大、哈工大深圳研究生院相继落子，更与香港共建「河套—西丽湖」国际科教走廊。这片湖，是山水之间长出的科创腹地。</p>
+        <div class="stat"><div><b>15.5km</b><span>环湖碧道</span></div><div><b>860件</b><span>每万人发明专利（约全国 22.9 倍）</span></div><div><b>7.87%</b><span>研发投入强度</span></div></div>
+        <p class="apec-line">科教走廊，连接大湾区与亚太创新网络。</p>
+      </div>
+    </section>
+
+    <section class="chapter">
+      <div class="body">
+        <div class="kicker">05 · 一个岛</div>
+        <h2>内伶仃岛</h2>
+        <p class="en">从赤湾口的海面望出去，是国家级自然保护区内伶仃岛。七百多年前，文天祥在此写下「零丁洋里叹零丁」；今天它与深圳西部港区隔海相望——这片海域年集装箱吞吐量将达 1360 万标箱，古海与今港，是同一道海岸线的两种身份。「伶仃烟渚」，入选南山八景。</p>
+        <div class="stat"><div><b>国家级</b><span>内伶仃岛自然保护区</span></div><div><b>1360万</b><span>西部港区年标箱吞吐量（目标）</span></div><div><b>60个</b><span>市级以上海洋创新载体</span></div></div>
+        <p class="apec-line">从古海防到向海而生，伶仃洋不再零丁。</p>
+      </div>
+    </section>
+
+    <section class="chapter">
+      <div class="body">
+        <div class="kicker">06 · 一片海</div>
+        <h2>深圳湾</h2>
+        <p class="en">这条山水叙事的终点，是南山面向世界的起点。43.7 公里黄金海岸线收束于深圳湾超级总部基地与深圳人才公园，中国华润大厦「春笋」拔地而起。2026 年 11 月，APEC 第三十三次领导人非正式会议将在深圳举行，主题「建设亚太共同体，促进共同繁荣」。这片海，将第一次以主办城区的身份，迎接亚太 21 个经济体。</p>
+        <div class="stat"><div><b>43.7km</b><span>黄金海岸线</span></div><div><b>1.01万亿</b><span>南山 GDP</span></div><div><b>218家</b><span>上市公司</span></div><div><b>6037家</b><span>国家高新技术企业</span></div></div>
+        <p class="apec-line">建设亚太共同体，促进共同繁荣 · 开放·创新·合作 · 鲲鹏展翅，21 根羽翼。</p>
+        <p class="src">数据来源：深圳市南山区人民政府、创新南山「南山八景」评选、《解锁活力之城"幸福密码" 南山高质量发展新图景跃然眼前》及经济日报 2025 年报道口径。</p>
+      </div>
+    </section>
+  </main>
+
+<script>
+  const chapters=[...document.querySelectorAll('.chapter')];
+  const rail=[...document.querySelectorAll('.rail i')];
+  const layers={p1:document.querySelector('.p1'),p2:document.querySelector('.p2'),p3:document.querySelector('.p3')};
+  const LAST=chapters.length-1;
+  const io=new IntersectionObserver((es)=>{
+    es.forEach(e=>{
+      if(!e.isIntersecting) return;
+      const idx=chapters.indexOf(e.target);
+      e.target.classList.add('on');
+      document.body.dataset.step=idx;
+      rail.forEach((r,i)=>r.classList.toggle('on',i===idx));
+      // 视差：不同层不同位移速率
+      const k=(idx/LAST);
+      layers.p1.style.transform=`translateY(${-k*30}px)`;
+      layers.p2.style.transform=`translateY(${-k*60}px)`;
+      layers.p3.style.transform=`translateY(${-k*95}px)`;
+    });
+  },{threshold:.55});
+  chapters.forEach(c=>io.observe(c));
+</script>
+</body>
+</html>

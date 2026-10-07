@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>南山成长时光轴 · 建设亚太共同体，促进共同繁荣 · APEC 2026 深圳</title>
+<meta name="description" content="下滚穿越 47 年：从 2026 APEC 主办城区，回到 1979 蛇口开山炮。12 个可查证的南山里程碑，一一对应 APEC 三大优先领域「开放·创新·合作」。">
+<meta name="keywords" content="APEC 2026,深圳峰会,南山,建设亚太共同体,促进共同繁荣,开放,创新,合作,鲲鹏,21根羽翼,南山成长时光轴">
+<style>
+  :root {
+    --ink: #f3f6fb;
+    --gold: #e8c877;
+    --sea: #0b5c73;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0 }
+  html { scroll-behavior: smooth }
+  body {
+    font-family: -apple-system, "PingFang SC", "Songti SC", system-ui, sans-serif;
+    color: var(--ink);
+    line-height: 1.75;
+    background: #3b7fa8;
+    transition: background 1.5s ease;
+    min-height: 100vh;
+  }
+  a { color: inherit; text-decoration: none }
+
+  /* 固定 HUD */
+  .hud {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 16px clamp(16px, 5vw, 44px);
+    pointer-events: none;
+  }
+  .hud > * { pointer-events: auto }
+  .year {
+    font-family: ui-monospace, Menlo, monospace;
+    font-weight: 900;
+    font-size: clamp(38px, 10vw, 96px);
+    color: #fff; line-height: 1; letter-spacing: -.02em;
+    text-shadow: 0 2px 26px rgba(0,0,0,.5);
+  }
+  .year small { font-size: .28em; color: rgba(255,255,255,.7); margin-left: 8px; letter-spacing: .2em; font-weight: 700 }
+  .brand { font-size: 13px; font-weight: 800; color: rgba(255,255,255,.9); letter-spacing: .14em; text-align: right }
+  .brand b { color: var(--gold) }
+  .brand em { display: block; font-style: normal; font-weight: 500; color: rgba(255,255,255,.6); font-size: 11px; margin-top: 2px; letter-spacing: .12em }
+
+  /* 右侧 SVG 弯曲时光轴 */
+  .rail {
+    position: fixed; right: clamp(16px, 3vw, 24px); top: 100px; bottom: 60px;
+    width: 60px; z-index: 40; display: none;
+  }
+  .rail svg { width: 100%; height: 100% }
+  @media (min-width: 768px) { .rail { display: block } }
+  .svg-node { fill: rgba(255,255,255,.7); stroke: rgba(255,255,255,.4); stroke-width: 2; transition: .3s }
+  .svg-node.lit { fill: var(--gold); stroke: var(--gold); filter: drop-shadow(0 0 6px rgba(232,200,119,.6)) }
+  #token { fill: var(--gold); stroke: #fff; stroke-width: 3; filter: drop-shadow(0 2px 6px rgba(0,0,0,.3)) }
+
+  /* 主体 */
+  main { position: relative; z-index: 10; min-height: 100vh }
+  .step {
+    min-height: 92vh; display: flex; align-items: center;
+    padding: 0 clamp(24px, 10vw, 150px);
+    position: relative;
+  }
+  .step .body {
+    position: relative; z-index: 1; max-width: 680px;
+    opacity: .15; transform: translateY(30px);
+    transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1);
+  }
+  .step.on .body { opacity: 1; transform: none }
+  .ms-no {
+    font-family: ui-monospace, Menlo, monospace;
+    font-size: 12px; color: rgba(255,255,255,.7); letter-spacing: .22em;
+  }
+  .era {
+    display: inline-block; margin-left: 8px;
+    font-size: 10px; font-weight: 800; padding: 2px 10px;
+    border-radius: 999px; border: 1px solid rgba(255,255,255,.3);
+    color: rgba(255,255,255,.9);
+  }
+  .step h2 {
+    font-size: clamp(26px, 6vw, 54px); font-weight: 900;
+    margin: 8px 0 4px; line-height: 1.08; letter-spacing: -.005em;
+    text-shadow: 0 4px 20px rgba(0,0,0,.4);
+  }
+  .step .tag {
+    color: var(--gold); font-weight: 800;
+    font-size: clamp(13px, 2vw, 17px); letter-spacing: .06em;
+    margin-top: 4px;
+  }
+  .step p.desc {
+    font-size: clamp(14px, 2.2vw, 18px);
+    color: rgba(255,255,255,.95); margin-top: 16px; max-width: 52ch;
+    line-height: 1.75;
+    text-shadow: 0 2px 8px rgba(0,0,0,.3);
+  }
+  .step .link {
+    color: rgba(232,200,119,.85); font-size: 13px;
+    margin-top: 12px; letter-spacing: .04em;
+  }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px }
+  .chips span {
+    font-family: ui-monospace, Menlo, monospace;
+    font-size: 11px; padding: 4px 10px; border-radius: 6px;
+    background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2);
+    color: rgba(255,255,255,.9);
+  }
+
+  /* 结尾 */
+  .end {
+    min-height: 100vh; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 24px; text-align: center;
+  }
+  .end h2 {
+    font-size: clamp(30px, 7vw, 72px); font-weight: 900;
+    color: var(--gold); letter-spacing: -.005em;
+  }
+  .end .slogan {
+    font-size: clamp(16px, 3vw, 26px); color: #fff;
+    margin-top: 8px; letter-spacing: .3em; font-weight: 800;
+  }
+  .end p.lead {
+    max-width: 52ch; color: rgba(255,255,255,.85); margin-top: 20px;
+    font-size: clamp(14px, 2.2vw, 20px); line-height: 1.9;
+  }
+  .end .apec-block {
+    margin-top: 32px; padding: 20px 32px;
+    border-top: 1px solid rgba(255,255,255,.2);
+    border-bottom: 1px solid rgba(255,255,255,.2);
+    max-width: 46ch;
+  }
+  .end .apec-block .theme {
+    color: var(--gold); font-weight: 900;
+    font-size: clamp(16px, 3.2vw, 24px); line-height: 1.4;
+  }
+  .end .apec-block .pri {
+    color: rgba(255,255,255,.75); font-size: 12px;
+    margin-top: 12px; letter-spacing: .25em; font-weight: 700;
+  }
+  .end .apec-block .note {
+    color: rgba(255,255,255,.55); font-size: 11px; margin-top: 8px;
+    letter-spacing: .02em;
+  }
+  .end .up {
+    margin-top: 32px; padding: 12px 28px; border-radius: 999px;
+    border: 2px solid rgba(255,255,255,.5); color: #fff;
+    font-weight: 800; font-size: 14px; cursor: pointer;
+    background: transparent; transition: .2s;
+  }
+  .end .up:hover { background: rgba(255,255,255,.1) }
+
+  .srcs {
+    margin-top: 40px; max-width: 64ch; text-align: left;
+    background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.15);
+    border-radius: 14px; padding: 16px 20px;
+    font-size: 11px; color: rgba(255,255,255,.7); line-height: 1.9;
+  }
+  .srcs b { color: var(--gold); letter-spacing: .1em; display: block; margin-bottom: 6px }
+  .srcs ol { padding-left: 20px; margin-top: 6px }
+  .srcs li { margin-top: 3px }
+  .srcs a { text-decoration: underline; text-decoration-color: rgba(255,255,255,.3); text-underline-offset: 2px }
+  .srcs a:hover { color: #fff }
+  .srcs .fine { margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,.1); color: rgba(255,255,255,.45); font-size: 10px; line-height: 1.7 }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto }
+    .step .body { transition: none; opacity: 1; transform: none }
+    body { transition: none }
+  }
+</style>
+</head>
+<body>
+  <header class="hud">
+    <div class="year"><span id="yearVal">2026</span><small>年</small></div>
+    <div class="brand">南山 · <b>成长时光轴</b><em>向下滚 · 穿越 47 年</em></div>
+  </header>
+
+  <div class="rail">
+    <svg viewBox="0 0 60 900" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+      <path id="routeBg" d="M30 20 C10 150 50 200 30 320 C10 440 50 500 30 620 C10 740 50 800 30 880" fill="none" stroke="rgba(255,255,255,.2)" stroke-width="5" stroke-linecap="round"/>
+      <path id="routeFill" d="M30 20 C10 150 50 200 30 320 C10 440 50 500 30 620 C10 740 50 800 30 880" fill="none" stroke="#e8c877" stroke-width="5" stroke-linecap="round"/>
+      <g id="svgNodes"></g>
+      <circle id="token" r="9" cx="30" cy="20"/>
+    </svg>
+  </div>
+
+  <main id="journey">
+    <div id="steps"></div>
+
+    <section class="end" id="endBlock" data-bg="#4a3a1a">
+      <h2>一切，从这里开始</h2>
+      <p class="slogan">1979 · 蛇口</p>
+      <p class="lead">一声炮响，改变了所有。47 年后的今天，这片土地承办 APEC、面向亚太 21 个经济体。<br>回望来路，每一步都算数。</p>
+      <div class="apec-block">
+        <p class="theme">建设亚太共同体<br>促进共同繁荣</p>
+        <p class="pri">开放 · 创新 · 合作</p>
+        <p class="note">2026 APEC「中国年」主题与三大优先领域 · 鲲鹏展翅，21 根羽翼，乘大势、共翱翔</p>
+      </div>
+      <button class="up" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ 回到 2026</button>
+
+      <div class="srcs">
+        <b>资料来源（可点击核验）</b>
+        <ol>
+          <li>① <a href="http://www.szns.gov.cn/mlns/nsgk/content/post_12563286.html" target="_blank" rel="noopener">南山政府在线 · 建置沿革（1990年设区 · 陆域 185.3 km²）</a></li>
+          <li>② <a href="http://www.sasac.gov.cn/n2588025/n2588139/c10275576/content.html" target="_blank" rel="noopener">国务院国资委 · 1979.7.8 蛇口开山第一炮</a></li>
+          <li>③ <a href="http://www.sz.gov.cn/cn/xxgk/zfxxgj/zwdt/content/post_12548571.html" target="_blank" rel="noopener">深圳政府在线 · APEC 第三十三次领导人非正式会议 2026.11.18–19 深圳</a></li>
+          <li>④ <a href="http://www.xinhuanet.com/20251212/1d1dad261ca34e259c55c672e8497cfe/c.html" target="_blank" rel="noopener">新华网 · 2026 APEC「中国年」会标寓意（鲲鹏 · 21 根羽翼）</a></li>
+          <li>⑤ <a href="http://www.szns.gov.cn/xxgk/bmxxgk/qfgj/qtgk_157954/yshjzt/zxdt/content/post_12639186.html" target="_blank" rel="noopener">南山政府在线 · 2025 年 GDP 达 10102.38 亿元</a></li>
+          <li>⑥ <a href="http://www.gd.gov.cn/gdywdt/dsdt/content/mpost_4918501.html" target="_blank" rel="noopener">广东省人民政府 · 研发投入强度 7.87% · 上市企业 218 家</a></li>
+          <li>⑦ <a href="https://www.gov.cn/gongbao/content/2021/content_5637944.htm" target="_blank" rel="noopener">中国政府网 · 2021.9.6 前海扩区方案（14.92→120.56 km²）</a></li>
+          <li>⑧ <a href="https://qh.sz.gov.cn/ljszqh/zjqh/content/post_10062870.html" target="_blank" rel="noopener">前海官网 · 2010.8.26 国务院批复总体规划</a></li>
+          <li>⑨ <a href="http://www.szns.gov.cn/mlns/stns/lc/csgy/content/post_12595660.html" target="_blank" rel="noopener">南山政府在线 · 深圳人才公园（约 77 万 m²）</a></li>
+          <li>⑩ <a href="http://swj.sz.gov.cn/ztzl/swhjs/bdfc/content/post_11740850.html" target="_blank" rel="noopener">深圳市水务局 · 人才星光桥 30 位杰出人物星光柱</a></li>
+          <li>⑪ <a href="http://paper.ce.cn/jjrb/html/2018-11/12/content_376735.htm" target="_blank" rel="noopener">经济日报 · 首届高交会与腾讯首笔 220 万美元融资</a></li>
+          <li>⑫ <a href="https://www.hitsz.edu.cn/31/list.htm" target="_blank" rel="noopener">哈尔滨工业大学（深圳）· 2001–2002 进驻深圳大学城</a></li>
+          <li>⑬ 公开报道综合 · 大疆 2006 年创立于深圳、起步于不足 20 m² 仓库</li>
+        </ol>
+        <p class="fine">内容整理自上述官方来源与公开报道，均可点击核验；交互形式为原创设计，只借「沿线索滚动推进」的交互范式，线索是南山自身的发展年代。APEC 2026 深圳 · 码上亚太 Code the Pacific。</p>
+      </div>
+    </section>
+  </main>
+
+<script>
+  // 12 个已考证里程碑（正序存储，运行时倒叙）
+  const DATA = [
+    {y:1979,era:'破冰',apac:'开放',bg:'#7a6b45',t:'蛇口工业区启动建设',tag:'中国首个对外开放工业区',d:'1979年1月，国务院批准招商局自筹资金开发蛇口工业区；7月8日，基础工程破土动工，打响中国改革开放「第一炮」。「时间就是金钱，效率就是生命」从这里传出，成为中国改革开放的重要序章。',l:'一声炮响，向外打开',c:['1979.1 · 国务院批准','7.8 · 破土动工','时间就是金钱']},
+    {y:1980,era:'破冰',apac:'开放',bg:'#6a7a45',t:'深圳经济特区设立',tag:'改革试验田',d:'1980年8月，中央批准设立深圳经济特区，南山地域从此进入特区范围。一个边陲农业地带，被推向中国改革开放的最前沿——「杀出一条血路」，就从这片海岸开始。',l:'制度的窗口在这里推开',c:['1980.8','四个经济特区之一','改革试验田']},
+    {y:1990,era:'破冰',apac:'开放',bg:'#5a8a70',t:'南山区正式设立',tag:'建区',d:'1990年1月，国务院批准设立南山区，管辖原南头区与蛇口区行政区域；同年9月，南山区正式成立，沿袭至今。一个完整的城市骨架，从这一天起立起。',l:'47 年叙事的起点坐标',c:['1990.1 · 国务院批准','1990.9 · 正式成立','陆域 185.3 km²']},
+    {y:1996,era:'生长',apac:'创新',bg:'#3d7a90',t:'深圳高新区获批成立',tag:'科技是第一生产力',d:'1996年9月，深圳高新技术产业园区获批成立，规划面积 11.5 km²，入选国家「建设世界一流高科技园区」六家试点之一。「科技是第一生产力」从一句口号，变成这片城区最硬的基因。',l:'科创的种子落进这片土地',c:['1996.9','规划 11.5 km²','国家六家试点之一']},
+    {y:1999,era:'生长',apac:'创新',bg:'#2f6d90',t:'首届高交会 · 腾讯拿到第一笔关键投资',tag:'创新火种',d:'1999年，第一届中国国际高新技术成果交易会在深圳举办。一家年轻的创业团队在这里拿到发展史上第一笔关键投资——IDG 与盈科数码共同投入的 220 万美元，那家公司叫腾讯。「中国硅谷」的火种，就这样被点燃。',l:'创新成果第一次在这里交易',c:['1999 · 首届高交会','IDG · 盈科 220 万美元','中国硅谷的火种']},
+    {y:2001,era:'生长',apac:'创新',bg:'#2a6a92',t:'大学城落子西丽',tag:'科教基因',d:'2001年至2002年，清华大学、北京大学、哈尔滨工业大学深圳研究生院相继进驻西丽的深圳大学城。科教、人才、产业第一次在同一片湖水周边交汇——今天「西丽湖国际科教城」的雏形，就在这里成形。',l:'科教与人才在这里交汇',c:['2001–2002','清华 · 北大 · 哈工大','西丽湖科教城前身']},
+    {y:2006,era:'生长',apac:'创新',bg:'#246892',t:'大疆在一间仓库里诞生',tag:'敢闯敢试',d:'一位 80 后创业者在深圳一间不足 20 m² 的仓库里捣鼓飞行器——消费级无人机这个全新行业，从无到有。如今它在全球消费级无人机市场的份额长期保持在 70% 以上。',l:'一间仓库长出的全球行业',c:['2006','不足 20 m² 起步','全球消费级份额 70%+']},
+    {y:2010,era:'成势',apac:'合作',bg:'#267396',t:'前海开发上升为国家战略',tag:'国家级平台',d:'2010年8月26日——深圳经济特区成立30周年当天，国务院批复《前海深港现代服务业合作区总体发展规划》。「依托香港、服务内地、面向世界」，前海从一片滩涂，被写进国家战略。',l:'面向世界的窗口就此打开',c:['2010.8.26','国务院批复','依托香港 · 服务内地 · 面向世界']},
+    {y:2017,era:'成势',apac:'合作',bg:'#0b7a86',t:'深圳人才公园开园',tag:'深爱人才 · 圳等您来',d:'2017年11月1日，首个「深圳人才日」当天，全国第一个以「人才」命名的主题公园在南山后海开放，占地约 77 万 m²、水体约 30 万 m²。人才星光桥横跨湖面，30 根星光柱向为深圳作出贡献的杰出人物致敬。',l:'向这座城市里最好的人致敬',c:['2017.11.1 · 全国首个','约 77 万 m²','星光桥 · 30 根星光柱']},
+    {y:2021,era:'成势',apac:'合作',bg:'#0a5cff',t:'前海扩区 · 几乎扩大8倍',tag:'改革开放再出发',d:'2021年9月6日，中共中央、国务院印发《全面深化前海深港现代服务业合作区改革开放方案》。前海合作区总面积由 14.92 km² 扩展至 120.56 km²，几乎「扩大 8 倍」。空间打开了，改革的想象力也随之打开。',l:'深港合作的空间被打开',c:['2021.9.6','14.92 → 120.56 km²','扩大约 8 倍']},
+    {y:2025,era:'领跑',apac:'乘大势',bg:'#0b5c73',t:'GDP 突破 1.01 万亿元',tag:'全国首个万亿 GDP 地市辖区',d:'2025年，南山区 GDP 达 10102.38 亿元（约 1.01 万亿元），同比增长 6.3%，成为全国首个 GDP 破万亿的地市辖区。陆域 185.3 km² 的土地上，装着 218 家上市公司、6037 家国家高新技术企业，全社会研发投入强度达 7.87%——中国硅谷的成色，就在这片山海之间。',l:'中国硅谷的成色',c:['GDP 1.01 万亿','上市公司 218','国家高企 6037','研发投入 7.87%']},
+    {y:2026,era:'领跑',apac:'共翱翔',bg:'#3b7fa8',t:'走向亚太 · APEC 主办城区',tag:'乘大势 · 共翱翔',d:'2026年11月18—19日，亚太经合组织（APEC）第三十三次领导人非正式会议将在深圳举行，主题「建设亚太共同体，促进共同繁荣」，三大优先领域「开放、创新、合作」。南山作为主办城区，把 47 年改革开放的答卷，递向亚太 21 个经济体——会标里的鲲鹏，正源于这座城市的名字：鹏城。',l:'把 47 年答卷递向 21 个经济体',c:['2026.11.18–19','APEC 中国年','主办城区 · 南山','鲲鹏 · 21 根羽翼']},
+  ];
+
+  const items = [...DATA].reverse();   // 倒叙 2026 → 1979
+  const N = items.length;
+  const years = items.map(m => m.y);
+  const eraColors = { '破冰':'#b45309','生长':'#0e7490','成势':'#1d4ed8','领跑':'#92400e' };
+
+  // 渲染 milestones
+  const stepsEl = document.getElementById('steps');
+  stepsEl.innerHTML = items.map((m, i) => `
+    <section class="step" data-bg="${m.bg}" data-i="${i}">
+      <div class="body">
+        <div class="ms-no">MILESTONE ${String(N - i).padStart(2,'0')} / ${String(N).padStart(2,'0')}
+          <span class="era" style="background:${(eraColors[m.era]||'#64748b')+'33'}">${m.era} · ${m.apac}</span>
+        </div>
+        <h2>${m.t}</h2>
+        <div class="tag">${m.tag}</div>
+        <p class="desc">${m.d}</p>
+        <p class="link">→ ${m.l}</p>
+        <div class="chips">${m.c.map(x => `<span>${x}</span>`).join('')}</div>
+      </div>
+    </section>`).join('');
+
+  // 时光轴节点
+  const svg = document.querySelector('.rail svg');
+  const nodesG = document.getElementById('svgNodes');
+  const routeFill = document.getElementById('routeFill');
+  const routeLen = routeFill.getTotalLength();
+  routeFill.style.strokeDasharray = routeLen;
+  routeFill.style.strokeDashoffset = routeLen;
+
+  const nodes = [];
+  for (let i = 0; i < N; i++) {
+    const pt = routeFill.getPointAtLength(i / (N - 1) * routeLen);
+    const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    c.setAttribute('cx', pt.x); c.setAttribute('cy', pt.y);
+    c.setAttribute('r', '8'); c.setAttribute('class', 'svg-node');
+    nodesG.appendChild(c); nodes.push(c);
+  }
+
+  // 滚动驱动
+  const yearEl = document.getElementById('yearVal');
+  const token = document.getElementById('token');
+  const journey = document.getElementById('journey');
+  const endBlock = document.getElementById('endBlock');
+  const stepEls = document.querySelectorAll('.step');
+
+  function tick() {
+    const vh = window.innerHeight;
+    const total = journey.scrollHeight;
+    const scrolled = Math.min(total - vh, Math.max(0, window.scrollY));
+    const p = scrolled / total;
+
+    // 年份插值
+    const idxF = p * (N - 1);
+    const lo = Math.floor(idxF), hi = Math.min(N - 1, lo + 1), fr = idxF - lo;
+    yearEl.textContent = Math.round(years[lo] + (years[hi] - years[lo]) * fr);
+
+    // 背景色
+    let bg = DATA[0].bg;
+    stepEls.forEach(s => {
+      const r = s.getBoundingClientRect();
+      if (r.top <= vh * 0.5 && r.bottom >= vh * 0.5) bg = s.dataset.bg;
+    });
+    const endR = endBlock.getBoundingClientRect();
+    if (stepEls[N - 1] && stepEls[N - 1].getBoundingClientRect().bottom <= vh * 0.5) bg = endBlock.dataset.bg;
+    document.body.style.background = bg;
+
+    // 路径描线 + token
+    routeFill.style.strokeDashoffset = routeLen * (1 - p);
+    const tp = routeFill.getPointAtLength(p * routeLen);
+    token.setAttribute('cx', tp.x); token.setAttribute('cy', tp.y);
+
+    // 节点亮
+    nodes.forEach((n, i) => { n.classList.toggle('lit', p + 0.001 >= i / (N - 1)) });
+
+    // Reveal 进场
+    stepEls.forEach(s => {
+      const r = s.getBoundingClientRect();
+      if (r.top < vh * 0.75 && r.bottom > vh * 0.15) s.classList.add('on');
+    });
+  }
+
+  window.addEventListener('scroll', tick, { passive: true });
+  window.addEventListener('resize', tick);
+  tick();
+</script>
+</body>
+</html>
