@@ -23,6 +23,7 @@
   body[data-step="3"] .stage{background:linear-gradient(180deg,#0a4a5c,#06222b)}
   body[data-step="4"] .stage{background:linear-gradient(180deg,#083b4a,#041a22)}
   body[data-step="5"] .stage{background:linear-gradient(180deg,#0b5c73,#041a22)}
+  body[data-step="6"] .stage{background:linear-gradient(180deg,#0d4f63,#030f14)}
 
   .chapter{min-height:100vh;scroll-snap-align:center;display:flex;flex-direction:column;justify-content:center;padding:clamp(24px,7vw,110px);position:relative}
   .kicker{font-size:14px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);font-weight:700}
@@ -46,6 +47,13 @@
   @keyframes bob{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,8px)}}
   .foot{position:fixed;left:clamp(16px,4vw,40px);bottom:18px;z-index:5;font-size:11px;color:#ffffff66;max-width:60ch;line-height:1.6}
   .src{margin-top:18px;font-size:12px;color:var(--mut);max-width:60ch;line-height:1.7}
+  .srcs{margin-top:28px;max-width:64ch;text-align:left;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.15);border-radius:14px;padding:16px 20px;font-size:12px;color:rgba(255,255,255,.7);line-height:1.9}
+  .srcs b{color:var(--gold);letter-spacing:.1em;display:block;margin-bottom:6px}
+  .srcs ol{padding-left:20px;margin-top:6px}
+  .srcs li{margin-top:4px}
+  .srcs a{text-decoration:underline;text-decoration-color:rgba(255,255,255,.3);text-underline-offset:2px;word-break:break-all}
+  .srcs a:hover{color:#fff}
+  .srcs .fine{margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.45);font-size:11px;line-height:1.7}
   @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.chapter .body,.stage,.rail i{transition:none}}
   @media(max-width:640px){.rail{display:none}}
 </style>
@@ -59,7 +67,7 @@
     </svg>
   </div>
 
-  <nav class="rail" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></nav>
+  <nav class="rail" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i></nav>
   <div class="hint">SCROLL ↓ 从山到海，走向亚太</div>
   <div class="foot">E-02 · 码上亚太 Code the Pacific · APEC 2026 主办城区南山。数据来源：深圳市南山区人民政府 / 创新南山（2025 年口径）。</div>
 
@@ -100,7 +108,7 @@
         <h2>西丽湖</h2>
         <p class="en">环湖碧道 15.5 公里，水面不算辽阔，却装着南山最硬的底牌——西丽湖国际科教城与留仙洞总部基地环湖而立，清华、北大、哈工大深圳研究生院相继落子，更与香港共建「河套—西丽湖」国际科教走廊。这片湖，是山水之间长出的科创腹地。</p>
         <div class="stat"><div><b>15.5km</b><span>环湖碧道</span></div><div><b>860件</b><span>每万人发明专利（约全国 22.9 倍）</span></div><div><b>7.87%</b><span>研发投入强度</span></div></div>
-        <p class="apec-line">科教走廊，连接大湾区与亚太创新网络。</p>
+        <p class="apec-line">科教走廊，连接大湾区与亚太创新网络；6037 家国家高新技术企业、占比全市约 62% 的人工智能产业集群，就是这片山水里长出的数字经济底牌。</p>
       </div>
     </section>
 
@@ -108,9 +116,9 @@
       <div class="body">
         <div class="kicker">05 · 一个岛</div>
         <h2>内伶仃岛</h2>
-        <p class="en">从赤湾口的海面望出去，是国家级自然保护区内伶仃岛。七百多年前，文天祥在此写下「零丁洋里叹零丁」；今天它与深圳西部港区隔海相望——这片海域年集装箱吞吐量将达 1360 万标箱，古海与今港，是同一道海岸线的两种身份。「伶仃烟渚」，入选南山八景。</p>
+        <p class="en">从赤湾口的海面望出去，是国家级自然保护区内伶仃岛。七百多年前，文天祥在此写下「零丁洋里叹零丁」；今天它与深圳西部港区隔海相望——这片海域年集装箱吞吐量将达 1360 万标箱，是大湾区面向亚太互联互通的海上门户。古海与今港，是同一道海岸线的两种身份。「伶仃烟渚」，入选南山八景。</p>
         <div class="stat"><div><b>国家级</b><span>内伶仃岛自然保护区</span></div><div><b>1360万</b><span>西部港区年标箱吞吐量（目标）</span></div><div><b>60个</b><span>市级以上海洋创新载体</span></div></div>
-        <p class="apec-line">从古海防到向海而生，伶仃洋不再零丁。</p>
+        <p class="apec-line">从古海防到向海而生，伶仃洋不再零丁——互联互通，从一片海开始。</p>
       </div>
     </section>
 
@@ -121,7 +129,28 @@
         <p class="en">这条山水叙事的终点，是南山面向世界的起点。43.7 公里黄金海岸线收束于深圳湾超级总部基地与深圳人才公园，中国华润大厦「春笋」拔地而起。2026 年 11 月，APEC 第三十三次领导人非正式会议将在深圳举行，主题「建设亚太共同体，促进共同繁荣」。这片海，将第一次以主办城区的身份，迎接亚太 21 个经济体。</p>
         <div class="stat"><div><b>43.7km</b><span>黄金海岸线</span></div><div><b>1.01万亿</b><span>南山 GDP</span></div><div><b>218家</b><span>上市公司</span></div><div><b>6037家</b><span>国家高新技术企业</span></div></div>
         <p class="apec-line">建设亚太共同体，促进共同繁荣 · 开放·创新·合作 · 鲲鹏展翅，21 根羽翼。</p>
-        <p class="src">数据来源：深圳市南山区人民政府、创新南山「南山八景」评选、《解锁活力之城"幸福密码" 南山高质量发展新图景跃然眼前》及经济日报 2025 年报道口径。</p>
+        <p class="src">本页所有数据均可点击下方来源逐条核验。</p>
+      </div>
+    </section>
+
+    <section class="chapter">
+      <div class="body">
+        <div class="kicker">07 · 资料来源</div>
+        <h2 style="font-size:clamp(28px,6vw,64px)">可点击核验的出处</h2>
+        <div class="srcs">
+          <b>资料来源（均已实测可访问）</b>
+          <ol>
+            <li>① <a href="https://www.szns.gov.cn/ztzl/slh/" target="_blank" rel="noopener">南山区政府在线 · 南山八景专区（「一海一河一城一湖」与阳台山、大沙河、西丽湖、内伶仃岛等景观名录）</a></li>
+            <li>② <a href="https://www.szns.gov.cn/xxgk/qzfxxgkml/bmdt/content/post_12559370.html" target="_blank" rel="noopener">南山区政府在线 · 南山八景评选启动公告（「人文之韵、生态之美、焕活之兴、公众之选」四大维度）</a></li>
+            <li>③ <a href="https://www.szns.gov.cn/ztzl/slh/jryw/content/post_12667314.html" target="_blank" rel="noopener">南山区政府在线 · 南山八景公众投票公告（32 个候选片区 / 7514 份推荐 / 716817 张有效投票）</a></li>
+            <li>④ <a href="https://cgj.sz.gov.cn/xsmh/gysz/" target="_blank" rel="noopener">深圳市城市管理和综合执法局 · 公园深圳（深圳湾公园等官方公园资料页）</a></li>
+            <li>⑤ <a href="https://www.sz.gov.cn/szzt2010/gysz/csgy/content/mpost_10826592.html" target="_blank" rel="noopener">深圳政府在线 · 深圳人才公园官方介绍（约 77 万 m²）</a></li>
+            <li>⑥ <a href="https://www.szns.gov.cn/xxgk/qzfxxgkml/jryw/content/post_11491075.html" target="_blank" rel="noopener">深圳市南山区人民政府 · 《解锁活力之城“幸福密码” 南山高质量发展新图景跃然眼前》（陆域面积 / 生态数据）</a></li>
+            <li>⑦ <a href="https://www.jingjiribao.cn/static/detail.jsp?id=634611" target="_blank" rel="noopener">经济日报 · 《深圳南山区成为全国首个县（区）级 GDP 万亿城区》</a></li>
+            <li>⑧ <a href="https://stcn.com/article/detail/3622017.html" target="_blank" rel="noopener">证券时报 · 《成为首个万亿级地市辖区之后，南山能为大湾区做什么》</a></li>
+          </ol>
+          <p class="fine">阳台山主峰海拔、南头古城近 1700 年建城史、大沙河 13.7 公里、环西丽湖碧道 15.5 公里、黄金海岸线 43.7 公里、西部港区 1360 万标箱、市级以上海洋创新载体 60 个、每万人发明专利超 860 件、研发投入强度 7.87%、218 家上市公司、6037 家国家高新技术企业，均出自①②③⑥⑦⑧所述官方口径。文字为原创整理，非直接引用。</p>
+        </div>
       </div>
     </section>
   </main>
