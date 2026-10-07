@@ -15,7 +15,7 @@ body {
   font-family: var(--font-sans);
   color: var(--color-ink);
   line-height: 1.75;
-  background: #0a1078;
+  background: #3b7fa8;
   transition: background 1.1s ease;
   min-height: 100vh;
 }

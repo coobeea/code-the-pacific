@@ -103,10 +103,13 @@ const eraColors = ['#b45309', '#0e7490', '#1d4ed8', '#92400e']
   <main id="journey" class="relative z-10" :style="{ background: bg }">
     <!-- 里程碑 -->
     <section v-for="(m, i) in items" :key="m.year"
-      class="min-h-[92vh] flex items-center px-6 md:px-16 lg:px-36"
+      class="min-h-[92vh] flex items-center px-6 md:px-16 lg:px-36 relative"
       :data-bg="m.bg"
     >
-      <div class="max-w-2xl" :class="revealSet.has(i) ? 'on reveal' : 'reveal'">
+      <!-- 开屏 APEC 官方大图背景（仅第一屏） -->
+      <div v-if="i === 0" class="absolute inset-0 bg-cover bg-center opacity-40" :style="{ backgroundImage: 'url(/code-the-pacific/assets/apec2026-banner.jpg)' }" aria-hidden="true"></div>
+      <div v-if="i === 0" class="absolute inset-0 bg-gradient-to-b from-[#3b7fa8]/60 via-[#1b4e70]/70 to-[#0b2940]/90"></div>
+      <div class="relative z-10 max-w-2xl" :class="revealSet.has(i) ? 'on reveal' : 'reveal'">
         <div class="text-xs font-mono text-white/70 tracking-widest">MILESTONE {{ String(N-i).padStart(2,'0') }} / {{ String(N).padStart(2,'0') }}
           <span class="inline-block text-[10px] font-bold px-2 py-0.5 ml-2 rounded-full border border-white/30 text-white/90" :style="{ background: eraColors[eras.indexOf(m.era)] + '33' }">{{ m.era }}</span>
         </div>
