@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>南山成长时光轴 · 建设亚太共同体，促进共同繁荣 · APEC 2026 深圳</title>
 <meta name="description" content="下滚穿越 47 年：从 2026 APEC 主办城区，回到 1979 蛇口开山炮。12 个可查证的南山里程碑，一一对应 APEC 三大优先领域「开放·创新·合作」。">
 <meta name="keywords" content="APEC 2026,深圳峰会,南山,建设亚太共同体,促进共同繁荣,开放,创新,合作,鲲鹏,21根羽翼,南山成长时光轴">
@@ -21,14 +21,21 @@
     background: #3b7fa8;
     transition: background 1.5s ease;
     min-height: 100vh;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    overflow-wrap: break-word;
   }
   a { color: inherit; text-decoration: none }
 
   /* 固定 HUD */
   .hud {
     position: fixed; top: 0; left: 0; right: 0; z-index: 50;
-    display: flex; justify-content: space-between; align-items: baseline;
-    padding: 16px clamp(16px, 5vw, 44px);
+    display: flex; justify-content: space-between; align-items: baseline; gap: 10px;
+    padding: 16px clamp(20px, 10vw, 150px);
+    padding-top: calc(16px + env(safe-area-inset-top, 0px));
+    padding-left: calc(clamp(20px, 10vw, 150px) + env(safe-area-inset-left, 0px));
+    padding-right: calc(clamp(20px, 10vw, 150px) + env(safe-area-inset-right, 0px));
+    background: linear-gradient(180deg, rgba(0,0,0,.32), rgba(0,0,0,0));
     pointer-events: none;
   }
   .hud > * { pointer-events: auto }
@@ -38,6 +45,7 @@
     font-size: clamp(38px, 10vw, 96px);
     color: #fff; line-height: 1; letter-spacing: -.02em;
     text-shadow: 0 2px 26px rgba(0,0,0,.5);
+    flex: none;
   }
   .year small { font-size: .28em; color: rgba(255,255,255,.7); margin-left: 8px; letter-spacing: .2em; font-weight: 700 }
   .brand { font-size: 13px; font-weight: 800; color: rgba(255,255,255,.9); letter-spacing: .14em; text-align: right }
@@ -46,7 +54,9 @@
 
   /* 右侧 SVG 弯曲时光轴 */
   .rail {
-    position: fixed; right: clamp(16px, 3vw, 24px); top: 100px; bottom: 60px;
+    position: fixed;
+    right: calc(clamp(16px, 3vw, 24px) + env(safe-area-inset-right, 0px));
+    top: clamp(130px, 17vh, 180px); bottom: 60px;
     width: 60px; z-index: 40; display: none;
   }
   .rail svg { width: 100%; height: 100% }
@@ -58,9 +68,16 @@
   /* 主体 */
   main { position: relative; z-index: 10; min-height: 100vh }
   .step {
-    min-height: 92vh; display: flex; align-items: center;
-    padding: 0 clamp(24px, 10vw, 150px);
+    min-height: 92vh; min-height: 92svh;
+    display: flex; align-items: center;
+    padding: clamp(96px, 15vh, 150px) clamp(20px, 10vw, 150px) clamp(52px, 10vh, 96px);
+    padding-left: calc(clamp(20px, 10vw, 150px) + env(safe-area-inset-left, 0px));
+    padding-right: calc(clamp(20px, 10vw, 150px) + env(safe-area-inset-right, 0px));
     position: relative;
+  }
+  /* 右轨出现时给它让出通道，避免压到正文 */
+  @media (min-width: 768px) {
+    .step { padding-right: calc(clamp(20px, 10vw, 150px) + 56px + env(safe-area-inset-right, 0px)) }
   }
   .step .body {
     position: relative; z-index: 1; max-width: 680px;
@@ -73,7 +90,7 @@
     font-size: 12px; color: rgba(255,255,255,.7); letter-spacing: .22em;
   }
   .era {
-    display: inline-block; margin-left: 8px;
+    display: inline-block; margin-left: 12px; vertical-align: 1px;
     font-size: 10px; font-weight: 800; padding: 2px 10px;
     border-radius: 999px; border: 1px solid rgba(255,255,255,.3);
     color: rgba(255,255,255,.9);
@@ -82,6 +99,7 @@
     font-size: clamp(26px, 6vw, 54px); font-weight: 900;
     margin: 8px 0 4px; line-height: 1.08; letter-spacing: -.005em;
     text-shadow: 0 4px 20px rgba(0,0,0,.4);
+    text-wrap: balance;
   }
   .step .tag {
     color: var(--gold); font-weight: 800;
@@ -108,13 +126,18 @@
 
   /* 结尾 */
   .end {
-    min-height: 100vh; display: flex; flex-direction: column;
+    min-height: 100vh; min-height: 100svh;
+    display: flex; flex-direction: column;
     align-items: center; justify-content: center;
     padding: 24px; text-align: center;
+    padding-left: calc(24px + env(safe-area-inset-left, 0px));
+    padding-right: calc(24px + env(safe-area-inset-right, 0px));
+    padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
   }
   .end h2 {
     font-size: clamp(30px, 7vw, 72px); font-weight: 900;
     color: var(--gold); letter-spacing: -.005em;
+    text-wrap: balance;
   }
   .end .slogan {
     font-size: clamp(16px, 3vw, 26px); color: #fff;
@@ -157,20 +180,68 @@
     font-size: 11px; color: rgba(255,255,255,.7); line-height: 1.9;
   }
   .srcs b { color: var(--gold); letter-spacing: .1em; display: block; margin-bottom: 6px }
-  .srcs ol { padding-left: 20px; margin-top: 6px }
+  .srcs ol { list-style: none; padding-left: 0; margin-top: 6px }
   .srcs li { margin-top: 3px }
   .srcs a { text-decoration: underline; text-decoration-color: rgba(255,255,255,.3); text-underline-offset: 2px }
   .srcs a:hover { color: #fff }
   .srcs .fine { margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,.1); color: rgba(255,255,255,.45); font-size: 10px; line-height: 1.7 }
 
+  /* 小屏进度条（右侧时光轴在 <768px 隐藏，用它替代） */
+  .prog {
+    position: fixed; left: 0; right: 0; top: 0; z-index: 60;
+    height: 3px; background: rgba(255,255,255,.14); display: none;
+  }
+  .prog i {
+    display: block; height: 100%; width: 0;
+    background: linear-gradient(90deg, rgba(232,200,119,.75), var(--gold));
+    transition: width .12s linear;
+  }
+  @media (max-width: 767px) { .prog { display: block } }
+
+  /* 小屏适配 */
+  @media (max-width: 640px) {
+    .hud { padding-top: calc(10px + env(safe-area-inset-top, 0px)); padding-bottom: 8px; gap: 8px }
+    .year { font-size: clamp(30px, 8.6vw, 46px) }
+    .year small { font-size: .3em; margin-left: 5px; letter-spacing: .08em }
+    .brand { font-size: 11px; letter-spacing: .06em; line-height: 1.4 }
+    .brand em { font-size: 10px; letter-spacing: .04em; margin-top: 1px }
+    .step {
+      padding-top: calc(80px + env(safe-area-inset-top, 0px));
+      padding-bottom: calc(44px + env(safe-area-inset-bottom, 0px));
+    }
+    .ms-no { font-size: 11px; letter-spacing: .16em }
+    .era { font-size: 9px; padding: 2px 8px; margin-left: 6px }
+    .step h2 { font-size: clamp(24px, 6.4vw, 34px) }
+    .step p.desc { margin-top: 12px }
+    .step .link { margin-top: 10px; font-size: 12px }
+    .chips { gap: 6px; margin-top: 12px }
+    .chips span { font-size: 10.5px; padding: 4px 8px }
+    .end .slogan { letter-spacing: .18em }
+    .end .apec-block { margin-top: 24px; padding: 16px 18px }
+    .end .apec-block .pri { letter-spacing: .18em; font-size: 11px }
+    .end .up { margin-top: 26px; padding: 11px 24px }
+    .srcs { margin-top: 28px; padding: 14px 14px; font-size: 10.5px; border-radius: 12px }
+    .srcs ol { padding-left: 18px }
+  }
+
+  /* 矮屏（横屏手机） */
+  @media (max-height: 520px) {
+    .year { font-size: clamp(26px, 6vw, 40px) }
+    .step { min-height: 100svh; padding-top: 66px; padding-bottom: 32px }
+    .step h2 { font-size: clamp(22px, 4.6vw, 32px) }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto }
     .step .body { transition: none; opacity: 1; transform: none }
     body { transition: none }
+    .prog i { transition: none }
   }
 </style>
 </head>
 <body>
+  <div class="prog" aria-hidden="true"><i id="progBar"></i></div>
+
   <header class="hud">
     <div class="year"><span id="yearVal">2026</span><small>年</small></div>
     <div class="brand">南山 · <b>成长时光轴</b><em>向下滚 · 穿越 47 年</em></div>
@@ -260,35 +331,60 @@
       </div>
     </section>`).join('');
 
-  // 时光轴节点
-  const svg = document.querySelector('.rail svg');
+  // 时光轴节点（小屏 rail 隐藏时 getTotalLength 可能为 0，故懒初始化）
   const nodesG = document.getElementById('svgNodes');
   const routeFill = document.getElementById('routeFill');
-  const routeLen = routeFill.getTotalLength();
-  routeFill.style.strokeDasharray = routeLen;
-  routeFill.style.strokeDashoffset = routeLen;
+  let routeLen = 0, nodes = [];
 
-  const nodes = [];
-  for (let i = 0; i < N; i++) {
-    const pt = routeFill.getPointAtLength(i / (N - 1) * routeLen);
-    const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-    c.setAttribute('cx', pt.x); c.setAttribute('cy', pt.y);
-    c.setAttribute('r', '8'); c.setAttribute('class', 'svg-node');
-    nodesG.appendChild(c); nodes.push(c);
+  function buildRail() {
+    routeLen = routeFill.getTotalLength() || 0;
+    if (!routeLen || nodes.length === N) return;
+    routeFill.style.strokeDasharray = routeLen;
+    routeFill.style.strokeDashoffset = routeLen;
+    nodesG.innerHTML = ''; nodes = [];
+    for (let i = 0; i < N; i++) {
+      const pt = routeFill.getPointAtLength(i / (N - 1) * routeLen);
+      const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      c.setAttribute('cx', pt.x); c.setAttribute('cy', pt.y);
+      c.setAttribute('r', '8'); c.setAttribute('class', 'svg-node');
+      nodesG.appendChild(c); nodes.push(c);
+    }
   }
+  buildRail();
 
   // 滚动驱动
   const yearEl = document.getElementById('yearVal');
   const token = document.getElementById('token');
-  const journey = document.getElementById('journey');
   const endBlock = document.getElementById('endBlock');
   const stepEls = document.querySelectorAll('.step');
+  const progBar = document.getElementById('progBar');
 
   function tick() {
     const vh = window.innerHeight;
-    const total = journey.scrollHeight;
-    const scrolled = Math.min(total - vh, Math.max(0, window.scrollY));
-    const p = scrolled / total;
+    const y = window.scrollY || window.pageYOffset || 0;
+    const maxScroll = Math.max(1, document.documentElement.scrollHeight - vh);
+    const sy = Math.min(maxScroll, Math.max(0, y));
+
+    // 进度：以「每一步居中」为锚点，保证首屏 2026、走完全程 1979
+    const anchors = [];
+    stepEls.forEach(s => {
+      const r = s.getBoundingClientRect();
+      anchors.push(r.top + y + r.height / 2 - vh / 2);
+    });
+    let p = 0;
+    const firstAnchor = Math.max(0, anchors[0]);
+    if (sy <= firstAnchor) p = 0;
+    else if (sy >= anchors[N - 1]) p = 1;
+    else {
+      for (let i = 0; i < N - 1; i++) {
+        if (sy >= anchors[i] && sy <= anchors[i + 1]) {
+          const span = (anchors[i + 1] - anchors[i]) || 1;
+          p = (i + (sy - anchors[i]) / span) / (N - 1);
+          break;
+        }
+      }
+    }
+    p = Math.min(1, Math.max(0, p));
 
     // 年份插值
     const idxF = p * (N - 1);
@@ -296,32 +392,35 @@
     yearEl.textContent = Math.round(years[lo] + (years[hi] - years[lo]) * fr);
 
     // 背景色
-    let bg = DATA[0].bg;
+    let bg = items[0].bg;
     stepEls.forEach(s => {
       const r = s.getBoundingClientRect();
       if (r.top <= vh * 0.5 && r.bottom >= vh * 0.5) bg = s.dataset.bg;
     });
-    const endR = endBlock.getBoundingClientRect();
-    if (stepEls[N - 1] && stepEls[N - 1].getBoundingClientRect().bottom <= vh * 0.5) bg = endBlock.dataset.bg;
+    const er = endBlock.getBoundingClientRect();
+    if (er.top <= vh * 0.5 && er.bottom >= vh * 0.5) bg = endBlock.dataset.bg;
     document.body.style.background = bg;
 
     // 路径描线 + token
-    routeFill.style.strokeDashoffset = routeLen * (1 - p);
-    const tp = routeFill.getPointAtLength(p * routeLen);
-    token.setAttribute('cx', tp.x); token.setAttribute('cy', tp.y);
-
-    // 节点亮
-    nodes.forEach((n, i) => { n.classList.toggle('lit', p + 0.001 >= i / (N - 1)) });
+    if (!routeLen) buildRail();
+    if (routeLen) {
+      routeFill.style.strokeDashoffset = routeLen * (1 - p);
+      const tp = routeFill.getPointAtLength(p * routeLen);
+      token.setAttribute('cx', tp.x); token.setAttribute('cy', tp.y);
+      nodes.forEach((n, i) => { n.classList.toggle('lit', p + 0.001 >= i / (N - 1)) });
+    }
+    if (progBar) progBar.style.width = (p * 100).toFixed(2) + '%';
 
     // Reveal 进场
     stepEls.forEach(s => {
       const r = s.getBoundingClientRect();
-      if (r.top < vh * 0.75 && r.bottom > vh * 0.15) s.classList.add('on');
+      if (r.top < vh * 0.78 && r.bottom > vh * 0.12) s.classList.add('on');
     });
   }
 
   window.addEventListener('scroll', tick, { passive: true });
   window.addEventListener('resize', tick);
+  window.addEventListener('orientationchange', tick);
   tick();
 </script>
 </body>
