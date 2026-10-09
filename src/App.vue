@@ -1,12 +1,16 @@
 <script setup>
 import { onMounted, onBeforeUnmount } from 'vue'
 import timeline from './data/timeline.json'
+import { usePageAgent } from './composables/usePageAgent'
 
 // 倒叙 2026 → 1979（timeline.json 正序存储）
 const items = [...timeline].reverse()
 const N = items.length
 const years = items.map(m => m.year)
 const eraColors = { '破冰': '#b45309', '生长': '#0e7490', '成势': '#1d4ed8', '领跑': '#92400e' }
+
+// 在页 AI 智能体（page-agent）：悬浮按钮开关，首次开启才懒加载
+const { open: aiOpen, toggle: aiToggle, dispose: aiDispose } = usePageAgent()
 
 // DOM 引用（onMounted 后按 id 获取，逻辑与标准版逐行一致）
 let journey, endBlock, routeFill, svgNodes, token, yearVal, progBar
@@ -118,6 +122,7 @@ onBeforeUnmount(() => {
   window.removeEventListener('scroll', tick)
   window.removeEventListener('resize', tick)
   window.removeEventListener('orientationchange', tick)
+  aiDispose()
 })
 </script>
 
@@ -191,6 +196,13 @@ onBeforeUnmount(() => {
       </div>
     </section>
   </main>
+
+  <!-- AI 智能体悬浮开关 -->
+  <button class="pa-fab" @click="aiToggle()" :aria-pressed="aiOpen"
+    :title="aiOpen ? '收起 AI 助手' : '叫出 AI 助手，用自然语言浏览这条时光轴'">
+    <span class="pa-fab__icon" aria-hidden="true">{{ aiOpen ? '×' : '✦' }}</span>
+    <span class="pa-fab__label" v-if="!aiOpen">AI 助手</span>
+  </button>
 </template>
 
 <style>
@@ -234,6 +246,23 @@ onBeforeUnmount(() => {
 
   /* 主体 */
   main { position: relative; z-index: 10; min-height: 100vh }
+
+  /* AI 智能体悬浮按钮 */
+  .pa-fab {
+    position: fixed; z-index: 70;
+    left: clamp(16px, 4vw, 40px); bottom: clamp(16px, 4vh, 32px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 16px; border-radius: 999px; cursor: pointer;
+    border: 1px solid rgba(255,255,255,.35);
+    background: rgba(11,92,115,.55); color: #fff;
+    font-weight: 800; font-size: 13px; letter-spacing: .04em;
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 8px 24px rgba(0,0,0,.35); transition: transform .2s, background .2s;
+  }
+  .pa-fab:hover { transform: translateY(-2px); background: rgba(11,92,115,.8) }
+  .pa-fab__icon { font-size: 16px; line-height: 1 }
+  @media (max-width: 640px) { .pa-fab { padding: 10px 14px } .pa-fab__label { display: none } }
   .step {
     min-height: 92vh; min-height: 92svh;
     display: flex; align-items: center;
