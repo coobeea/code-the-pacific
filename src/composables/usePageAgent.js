@@ -4,18 +4,17 @@
 //   别用 file:// 直接打开（Origin=null 会被 CORS 拦）。
 // ⚠ key 会被打进前端产物，仅限本机自用，不要对外发布这个 dist。
 import { ref, shallowRef } from 'vue'
+// 用 Vite ?raw 把纯文本文档编译进产物（构建时内联为字符串，运行时零请求）
+import instructionsRaw from '../data/agent-instructions.txt?raw'
+import referenceRaw from '../data/agent-reference.txt?raw'
 
 const BASE_URL = import.meta.env.VITE_LLM_BASE || 'https://api.deepseek.com/v1'
 const API_KEY = import.meta.env.VITE_LLM_API_KEY || ''
 const MODEL = import.meta.env.VITE_LLM_MODEL || 'deepseek-chat'
 
-// 告诉智能体这是张什么页，引导它用滚动/跳转/开链接来帮忙
-const SYSTEM_INSTRUCTIONS = [
-  '这是「南山成长时光轴」——一条倒叙的单页滚动叙事，从 2026 APEC 主办城区回到 1979 蛇口开山炮。',
-  '页面从上到下依次是 12 个里程碑（section.step）和结尾的「资料来源」区。',
-  '你可以帮助用户：滚动到某个年份/里程碑、点击「回到 2026」按钮、展开或打开资料来源的官方链接、概括页面内容。',
-  '操作要克制，不要提交任何表单、不要填写个人信息。',
-].join(' ')
+// 把两份文档拼成完整的 system prompt：身份+规则 + 参考资料
+// 以后要改 AI 的行为或知识范围，只改 txt 文件，不动代码
+const SYSTEM_INSTRUCTIONS = instructionsRaw.trim() + '\n\n' + referenceRaw.trim()
 
 let agent = null
 

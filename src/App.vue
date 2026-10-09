@@ -1,7 +1,7 @@
 <script setup>
-import { onMounted, onBeforeUnmount } from 'vue'
+import { onMounted, onBeforeUnmount, reactive, ref, watch } from 'vue'
 import timeline from './data/timeline.json'
-import { usePageAgent } from './composables/usePageAgent'
+import { useNarrator } from './composables/useNarrator'
 
 // 倒叙 2026 → 1979（timeline.json 正序存储）
 const items = [...timeline].reverse()
@@ -9,8 +9,122 @@ const N = items.length
 const years = items.map(m => m.year)
 const eraColors = { '破冰': '#b45309', '生长': '#0e7490', '成势': '#1d4ed8', '领跑': '#92400e' }
 
-// 在页 AI 智能体（page-agent）：悬浮按钮开关，首次开启才懒加载
-const { open: aiOpen, toggle: aiToggle, dispose: aiDispose } = usePageAgent()
+// 在页 AI 讲解：点每个里程碑上的锚点 → 弹出模态层，展示该段的智能讲解词
+const { narrate } = useNarrator()
+// 每个里程碑的讲解缓存（loading / text / error），按索引懒建
+const narr = reactive({})
+const controllers = {}
+// 当前弹出的那一段（i 为里程碑索引）
+const modal = reactive({ open: false, i: -1 })
+
+// 打字机：弹窗里逐字浮现的文本，与「是否正在打字」状态
+const shown = ref('')
+const typing = ref(false)
+let typeTimer = null
+const typedSet = new Set() // 已完整播过的段，重开时直接全文不再逐字
+
+function stopType() {
+  if (typeTimer) { clearInterval(typeTimer); typeTimer = null }
+  typing.value = false
+}
+
+function typeOut(target, i) {
+  stopType()
+  if (typedSet.has(i)) { shown.value = target; return }
+  shown.value = ''
+  typing.value = true
+  let idx = 0
+  typeTimer = setInterval(() => {
+    idx += 2
+    shown.value = target.slice(0, idx)
+    if (idx >= target.length) {
+      shown.value = target
+      stopType()
+      typedSet.add(i)
+    }
+  }, 24)
+}
+
+function ensure(i) {
+  if (!narr[i]) narr[i] = { loading: false, text: '', error: '' }
+  return narr[i]
+}
+
+async function runNarrate(i, m) {
+  const s = ensure(i)
+  s.loading = true
+  s.error = ''
+  try {
+    const ctrl = new AbortController()
+    controllers[i] = ctrl
+    const t = await narrate(m, ctrl.signal)
+    s.text = t
+    if (!t) s.error = '没收到讲解内容，请重试'
+  } catch (e) {
+    if (e?.name !== 'AbortError') s.error = '讲解失败了（' + (e?.message || '网络错误') + '），请重试'
+  } finally {
+    s.loading = false
+    delete controllers[i]
+  }
+}
+
+// 弹出讲解层；未生成过则按需调大模型生成
+function openModal(i, m) {
+  ensure(i)
+  modal.i = i
+  modal.open = true
+  shown.value = ''
+  stopType()
+  document.body.style.overflow = 'hidden'
+  const s = narr[i]
+  if (s.text) typeOut(s.text, i)
+  else if (!s.loading) runNarrate(i, m)
+}
+
+function closeModal() {
+  if (modal.open) { stopSpeak(); stopType() }
+  modal.open = false
+  modal.i = -1
+  shown.value = ''
+  document.body.style.overflow = ''
+}
+
+// 对当前弹出的这一段换个说法重新生成
+function regen() {
+  const i = modal.i
+  if (i < 0) return
+  const s = ensure(i)
+  s.text = ''
+  shown.value = ''
+  stopType()
+  typedSet.delete(i)
+  runNarrate(i, items[i])
+}
+
+// 浏览器原生语音朗读当前讲解词（无需额外接口）
+function speak() {
+  const s = narr[modal.i]
+  if (!s || !s.text || typeof window === 'undefined' || !window.speechSynthesis) return
+  window.speechSynthesis.cancel()
+  const u = new SpeechSynthesisUtterance(s.text)
+  u.lang = 'zh-CN'
+  u.rate = 1
+  window.speechSynthesis.speak(u)
+}
+function stopSpeak() {
+  if (typeof window !== 'undefined' && window.speechSynthesis) window.speechSynthesis.cancel()
+}
+
+// 讲解词到达后，若弹窗正开着，就启动打字机逐字浮现
+watch(
+  () => (modal.open ? (narr[modal.i] && narr[modal.i].text) : ''),
+  (t) => { if (modal.open && t && !typing.value) typeOut(t, modal.i) }
+)
+
+// Esc 关闭弹窗
+function onKeydown(e) {
+  if (e.key === 'Escape' && modal.open) closeModal()
+}
 
 // DOM 引用（onMounted 后按 id 获取，逻辑与标准版逐行一致）
 let journey, endBlock, routeFill, svgNodes, token, yearVal, progBar
@@ -116,13 +230,17 @@ onMounted(() => {
   window.addEventListener('scroll', tick, { passive: true })
   window.addEventListener('resize', tick)
   window.addEventListener('orientationchange', tick)
+  window.addEventListener('keydown', onKeydown)
   tick()
 })
 onBeforeUnmount(() => {
   window.removeEventListener('scroll', tick)
   window.removeEventListener('resize', tick)
   window.removeEventListener('orientationchange', tick)
-  aiDispose()
+  window.removeEventListener('keydown', onKeydown)
+  stopType()
+  Object.values(controllers).forEach(c => { try { c.abort() } catch { /* noop */ } })
+  stopSpeak()
 })
 </script>
 
@@ -160,6 +278,14 @@ onBeforeUnmount(() => {
         <p class="desc">{{ m.desc }}</p>
         <p class="link">→ {{ m.link }}</p>
         <div class="chips"><span v-for="c in m.chips" :key="c">{{ c }}</span></div>
+
+        <!-- AI 讲解锚点：点开弹出讲解层，无需提问 -->
+        <div class="narrate">
+          <button class="narrate-btn" @click="openModal(i, m)">
+            <span class="narrate-btn__ic" aria-hidden="true">✦</span>
+            AI 讲解这一段
+          </button>
+        </div>
       </div>
     </section>
 
@@ -197,12 +323,32 @@ onBeforeUnmount(() => {
     </section>
   </main>
 
-  <!-- AI 智能体悬浮开关 -->
-  <button class="pa-fab" @click="aiToggle()" :aria-pressed="aiOpen"
-    :title="aiOpen ? '收起 AI 助手' : '叫出 AI 助手，用自然语言浏览这条时光轴'">
-    <span class="pa-fab__icon" aria-hidden="true">{{ aiOpen ? '×' : '✦' }}</span>
-    <span class="pa-fab__label" v-if="!aiOpen">AI 助手</span>
-  </button>
+  <!-- AI 讲解弹层（模态） -->
+  <Transition name="nmodal">
+    <div class="nmask" v-if="modal.open && items[modal.i]" @click.self="closeModal" role="dialog" aria-modal="true">
+      <div class="nmodal">
+        <button class="nmodal__close" @click="closeModal" aria-label="关闭讲解">×</button>
+        <div class="nmodal__head">
+          <span class="nmodal__year">{{ items[modal.i].year }}</span>
+          <span class="nmodal__era" :style="{ background: (eraColors[items[modal.i].era] || '#64748b') + '33' }">{{ items[modal.i].era }} · {{ items[modal.i].apac }}</span>
+        </div>
+        <h3 class="nmodal__title">{{ items[modal.i].title }}</h3>
+        <div class="nmodal__body">
+          <p v-if="narr[modal.i].loading" class="narrate-loading"><span class="dots"><i></i><i></i><i></i></span> AI 正在讲解这段历史…</p>
+          <p v-else-if="narr[modal.i].error" class="narrate-error">{{ narr[modal.i].error }} <button class="narrate-mini" @click="regen">重试</button></p>
+          <template v-else>
+            <p class="narrate-text">{{ shown }}<span class="caret" v-if="typing" aria-hidden="true"></span></p>
+            <div class="narrate-acts" v-if="!typing">
+              <button class="narrate-mini" @click="speak">🔊 朗读</button>
+              <button class="narrate-mini" @click="stopSpeak">⏹ 停止</button>
+              <button class="narrate-mini" @click="regen">↻ 换个说法</button>
+            </div>
+          </template>
+        </div>
+        <p class="nmodal__foot">讲解内容由 AI 依据本页已考证资料生成，仅供浏览参考 · APEC 2026 深圳 · 南山成长时光轴</p>
+      </div>
+    </div>
+  </Transition>
 </template>
 
 <style>
@@ -247,22 +393,95 @@ onBeforeUnmount(() => {
   /* 主体 */
   main { position: relative; z-index: 10; min-height: 100vh }
 
-  /* AI 智能体悬浮按钮 */
-  .pa-fab {
-    position: fixed; z-index: 70;
-    left: clamp(16px, 4vw, 40px); bottom: clamp(16px, 4vh, 32px);
-    padding-bottom: env(safe-area-inset-bottom, 0px);
+  /* AI 讲解锚点（每个里程碑卡片内） */
+  .narrate { margin-top: 20px }
+  .narrate-btn {
     display: inline-flex; align-items: center; gap: 8px;
-    padding: 10px 16px; border-radius: 999px; cursor: pointer;
-    border: 1px solid rgba(255,255,255,.35);
-    background: rgba(11,92,115,.55); color: #fff;
+    padding: 9px 18px; border-radius: 999px; cursor: pointer;
+    border: 1px solid rgba(232,200,119,.55);
+    background: rgba(232,200,119,.14); color: var(--gold);
     font-weight: 800; font-size: 13px; letter-spacing: .04em;
-    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-    box-shadow: 0 8px 24px rgba(0,0,0,.35); transition: transform .2s, background .2s;
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+    transition: background .2s, transform .2s;
   }
-  .pa-fab:hover { transform: translateY(-2px); background: rgba(11,92,115,.8) }
-  .pa-fab__icon { font-size: 16px; line-height: 1 }
-  @media (max-width: 640px) { .pa-fab { padding: 10px 14px } .pa-fab__label { display: none } }
+  .narrate-btn:hover { background: rgba(232,200,119,.26); transform: translateY(-1px) }
+  .narrate-btn__ic { font-size: 14px; line-height: 1 }
+  /* AI 讲解弹层（模态） */
+  .nmask {
+    position: fixed; inset: 0; z-index: 120;
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+    padding-left: calc(20px + env(safe-area-inset-left, 0px));
+    padding-right: calc(20px + env(safe-area-inset-right, 0px));
+    background: rgba(6,16,26,.62);
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  }
+  .nmodal {
+    position: relative; width: min(560px, 100%); max-height: 84vh; overflow: auto;
+    text-align: left; padding: 24px 26px; border-radius: 18px;
+    background: linear-gradient(180deg, #12354a, #0c2434);
+    border: 1px solid rgba(232,200,119,.35);
+    box-shadow: 0 24px 70px rgba(0,0,0,.55);
+  }
+  .nmodal__close {
+    position: absolute; top: 12px; right: 14px;
+    width: 32px; height: 32px; border-radius: 50%; cursor: pointer;
+    border: 1px solid rgba(255,255,255,.25); background: rgba(255,255,255,.06);
+    color: #fff; font-size: 20px; line-height: 1; transition: background .2s;
+  }
+  .nmodal__close:hover { background: rgba(255,255,255,.16) }
+  .nmodal__head { display: flex; align-items: center; gap: 12px }
+  .nmodal__year {
+    font-family: ui-monospace, Menlo, monospace; font-weight: 900;
+    font-size: 34px; color: var(--gold); line-height: 1;
+  }
+  .nmodal__era {
+    font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 999px;
+    border: 1px solid rgba(255,255,255,.28); color: rgba(255,255,255,.9);
+  }
+  .nmodal__title {
+    font-size: clamp(18px, 3vw, 24px); font-weight: 900; color: #fff;
+    margin: 12px 0 4px; line-height: 1.25;
+  }
+  .nmodal__body { margin-top: 14px; min-height: 44px }
+  .nmodal__foot {
+    margin-top: 18px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,.12);
+    color: rgba(255,255,255,.45); font-size: 10px; line-height: 1.6;
+  }
+  /* 进出场过渡 */
+  .nmodal-enter-active, .nmodal-leave-active { transition: opacity .25s ease }
+  .nmodal-enter-active .nmodal, .nmodal-leave-active .nmodal { transition: transform .28s cubic-bezier(.2,.7,.2,1) }
+  .nmodal-enter-from, .nmodal-leave-to { opacity: 0 }
+  .nmodal-enter-from .nmodal, .nmodal-leave-to .nmodal { transform: translateY(18px) scale(.97) }
+  .narrate-text {
+    color: rgba(255,255,255,.95); font-size: clamp(14px, 2vw, 16px); line-height: 1.85;
+  }
+  .caret {
+    display: inline-block; width: 2px; height: 1.1em; margin-left: 2px;
+    vertical-align: -0.15em; background: var(--gold);
+    animation: caretBlink 1s step-end infinite;
+  }
+  @keyframes caretBlink { 0%, 100% { opacity: 1 } 50% { opacity: 0 } }
+  .narrate-loading { color: rgba(255,255,255,.75); font-size: 14px; display: flex; align-items: center; gap: 10px }
+  .narrate-error { color: #ffd9a0; font-size: 13px }
+  .narrate-acts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px }
+  .narrate-mini {
+    padding: 5px 12px; border-radius: 999px; cursor: pointer;
+    border: 1px solid rgba(255,255,255,.28); background: rgba(255,255,255,.08);
+    color: rgba(255,255,255,.9); font-size: 12px; font-weight: 700; transition: background .2s;
+  }
+  .narrate-mini:hover { background: rgba(255,255,255,.18) }
+  .dots { display: inline-flex; gap: 4px }
+  .dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); animation: dotBlink 1.2s infinite }
+  .dots i:nth-child(2) { animation-delay: .2s }
+  .dots i:nth-child(3) { animation-delay: .4s }
+  @keyframes dotBlink { 0%, 80%, 100% { opacity: .3 } 40% { opacity: 1 } }
+  @media (prefers-reduced-motion: reduce) {
+    .dots i { animation: none }
+    .caret { animation: none; opacity: 1 }
+    .nmodal-enter-active, .nmodal-leave-active,
+    .nmodal-enter-active .nmodal, .nmodal-leave-active .nmodal { transition: none }
+  }
   .step {
     min-height: 92vh; min-height: 92svh;
     display: flex; align-items: center;
