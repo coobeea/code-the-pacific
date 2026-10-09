@@ -1,31 +1,25 @@
-@import "tailwindcss";
-
-@theme {
-  --color-gold: #e8c877;
-  --color-sea: #0b5c73;
-  --color-ink: #f3f6fb;
-  --font-display: "Songti SC", -apple-system, "PingFang SC", serif;
-  --font-sans: -apple-system, "PingFang SC", system-ui, sans-serif;
-  --font-mono: ui-monospace, Menlo, "SF Mono", monospace;
+/* 全局基样式（与 deliver/s20-nanshan-timeline 标准版一致） */
+:root {
+  --ink: #f3f6fb;
+  --gold: #e8c877;
+  --sea: #0b5c73;
 }
-
-/* 全局 */
+* { box-sizing: border-box; margin: 0; padding: 0 }
 html { scroll-behavior: smooth }
 body {
-  font-family: var(--font-sans);
-  color: var(--color-ink);
+  font-family: -apple-system, "PingFang SC", "Songti SC", system-ui, sans-serif;
+  color: var(--ink);
   line-height: 1.75;
   background: #3b7fa8;
-  transition: background 1.1s ease;
+  transition: background 1.5s ease;
   min-height: 100vh;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  overflow-wrap: break-word;
 }
+a { color: inherit; text-decoration: none }
 
-/* 进场动画 */
-.reveal { opacity: .15; transform: translateY(30px); transition: .9s cubic-bezier(.2,.7,.2,1) }
-.reveal.on { opacity: 1; transform: none }
-
-/* reduced-motion */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto }
-  .reveal { transition: none; opacity: 1; transform: none }
+  body { transition: none }
 }
