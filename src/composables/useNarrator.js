@@ -20,6 +20,14 @@ const NARRATION_SYSTEM = [
 
 const KNOWLEDGE = referenceRaw.trim()
 
+// 行内关键词「词语解析」专用语气（只讲这一个词/概念本身）
+const TERM_SYSTEM = [
+  '你是「南山成长时光轴」的讲解员。用户会给你一个词或概念，请就地解析它。',
+  '用通俗易懂、面向中小学生的中文，讲清：这是什么 / 它的由来或含义 / 它与南山或 APEC 的关系。',
+  '要求：2–4 句话，约 60–120 字；直接讲，不要重复词条本身、不要提问、不要加标题或列表。',
+  '所有事实必须来自参考资料，不得编造。',
+].join('\n')
+
 export function useNarrator() {
   const busy = ref(false)
 
@@ -61,5 +69,41 @@ export function useNarrator() {
     return (data?.choices?.[0]?.message?.content || '').trim()
   }
 
-  return { narrate, busy }
+  // 解析正文里点选的某个关键词（复用同一套请求，只是提示词与上下文不同）
+  async function narrateTerm(item, term, signal) {
+    const user = [
+      `待解析的词：「${term}」`,
+      `它出现在这个里程碑里：${item.year} 年「${item.title}」`,
+      `该段页面原文：${item.desc}`,
+      '',
+      '请解析这个词。',
+    ].join('\n')
+
+    const res = await fetch(`${BASE_URL}/chat/completions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(API_KEY ? { Authorization: `Bearer ${API_KEY}` } : {}),
+      },
+      body: JSON.stringify({
+        model: MODEL,
+        temperature: 0.6,
+        stream: false,
+        messages: [
+          { role: 'system', content: TERM_SYSTEM + '\n\n【参考资料】\n' + KNOWLEDGE },
+          { role: 'user', content: user },
+        ],
+      }),
+      signal,
+    })
+
+    if (!res.ok) {
+      const text = await res.text().catch(() => '')
+      throw new Error(`HTTP ${res.status} ${text.slice(0, 120)}`)
+    }
+    const data = await res.json()
+    return (data?.choices?.[0]?.message?.content || '').trim()
+  }
+
+  return { narrate, narrateTerm, busy }
 }

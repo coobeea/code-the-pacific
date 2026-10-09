@@ -9,28 +9,30 @@ const N = items.length
 const years = items.map(m => m.year)
 const eraColors = { '破冰': '#b45309', '生长': '#0e7490', '成势': '#1d4ed8', '领跑': '#92400e' }
 
-// 在页 AI 讲解：点每个里程碑上的锚点 → 弹出模态层，展示该段的智能讲解词
-const { narrate } = useNarrator()
-// 每个里程碑的讲解缓存（loading / text / error），按索引懒建
-const narr = reactive({})
+// 在页 AI 讲解：两类锚点共用同一个弹层 + 打字机
+//   · 里程碑「讲解这一段」：整段讲解
+//   · 正文行内关键词「解析这个词」：只讲这一个词
+const { narrate, narrateTerm } = useNarrator()
+// 按 key 缓存每段讲解：sec:索引 / term:索引:词
+const cards = reactive({})
 const controllers = {}
-// 当前弹出的那一段（i 为里程碑索引）
-const modal = reactive({ open: false, i: -1 })
+// 当前弹出的卡片（kind: 'section' | 'term'）
+const modal = reactive({ open: false, key: '', kind: 'section', mi: -1, term: '' })
 
 // 打字机：弹窗里逐字浮现的文本，与「是否正在打字」状态
 const shown = ref('')
 const typing = ref(false)
 let typeTimer = null
-const typedSet = new Set() // 已完整播过的段，重开时直接全文不再逐字
+const typedSet = new Set() // 已完整播过的卡片，重开时直接全文不再逐字
 
 function stopType() {
   if (typeTimer) { clearInterval(typeTimer); typeTimer = null }
   typing.value = false
 }
 
-function typeOut(target, i) {
+function typeOut(target, key) {
   stopType()
-  if (typedSet.has(i)) { shown.value = target; return }
+  if (typedSet.has(key)) { shown.value = target; return }
   shown.value = ''
   typing.value = true
   let idx = 0
@@ -40,73 +42,89 @@ function typeOut(target, i) {
     if (idx >= target.length) {
       shown.value = target
       stopType()
-      typedSet.add(i)
+      typedSet.add(key)
     }
   }, 24)
 }
 
-function ensure(i) {
-  if (!narr[i]) narr[i] = { loading: false, text: '', error: '' }
-  return narr[i]
+function ensureCard(key, kind, mi, term) {
+  if (!cards[key]) cards[key] = { loading: false, text: '', error: '', kind, mi, term: term || '' }
+  return cards[key]
 }
 
-async function runNarrate(i, m) {
-  const s = ensure(i)
-  s.loading = true
-  s.error = ''
+// 按卡片类型调对应生成（整段 or 词语），支持取消
+async function generate(key) {
+  const c = cards[key]
+  const m = items[c.mi]
+  c.loading = true
+  c.error = ''
   try {
     const ctrl = new AbortController()
-    controllers[i] = ctrl
-    const t = await narrate(m, ctrl.signal)
-    s.text = t
-    if (!t) s.error = '没收到讲解内容，请重试'
+    controllers[key] = ctrl
+    const t = c.kind === 'term' ? await narrateTerm(m, c.term, ctrl.signal) : await narrate(m, ctrl.signal)
+    c.text = t
+    if (!t) c.error = '没收到讲解内容，请重试'
   } catch (e) {
-    if (e?.name !== 'AbortError') s.error = '讲解失败了（' + (e?.message || '网络错误') + '），请重试'
+    if (e?.name !== 'AbortError') c.error = '讲解失败了（' + (e?.message || '网络错误') + '），请重试'
   } finally {
-    s.loading = false
-    delete controllers[i]
+    c.loading = false
+    delete controllers[key]
   }
 }
 
-// 弹出讲解层；未生成过则按需调大模型生成
-function openModal(i, m) {
-  ensure(i)
-  modal.i = i
+function openCard(key) {
+  const c = cards[key]
+  modal.key = key
+  modal.kind = c.kind
+  modal.mi = c.mi
+  modal.term = c.term
   modal.open = true
   shown.value = ''
   stopType()
   document.body.style.overflow = 'hidden'
-  const s = narr[i]
-  if (s.text) typeOut(s.text, i)
-  else if (!s.loading) runNarrate(i, m)
+  if (c.text) typeOut(c.text, key)
+  else if (!c.loading) generate(key)
+}
+
+function openSection(i) {
+  const key = 'sec:' + i
+  ensureCard(key, 'section', i)
+  openCard(key)
+}
+function openTerm(i, term) {
+  const key = 'term:' + i + ':' + term
+  ensureCard(key, 'term', i, term)
+  openCard(key)
 }
 
 function closeModal() {
   if (modal.open) { stopSpeak(); stopType() }
   modal.open = false
-  modal.i = -1
+  modal.key = ''
+  modal.mi = -1
+  modal.term = ''
   shown.value = ''
   document.body.style.overflow = ''
 }
 
-// 对当前弹出的这一段换个说法重新生成
+// 对当前这张卡片换个说法重新生成
 function regen() {
-  const i = modal.i
-  if (i < 0) return
-  const s = ensure(i)
-  s.text = ''
+  const key = modal.key
+  if (!key) return
+  const c = cards[key]
+  c.text = ''
   shown.value = ''
   stopType()
-  typedSet.delete(i)
-  runNarrate(i, items[i])
+  typedSet.delete(key)
+  generate(key)
 }
 
 // 浏览器原生语音朗读当前讲解词（无需额外接口）
 function speak() {
-  const s = narr[modal.i]
-  if (!s || !s.text || typeof window === 'undefined' || !window.speechSynthesis) return
+  const c = cards[modal.key]
+  if (!c || !c.text || typeof window === 'undefined' || !window.speechSynthesis) return
   window.speechSynthesis.cancel()
-  const u = new SpeechSynthesisUtterance(s.text)
+  const u = new SpeechSynthesisUtterance(c.text)
   u.lang = 'zh-CN'
   u.rate = 1
   window.speechSynthesis.speak(u)
@@ -117,9 +135,28 @@ function stopSpeak() {
 
 // 讲解词到达后，若弹窗正开着，就启动打字机逐字浮现
 watch(
-  () => (modal.open ? (narr[modal.i] && narr[modal.i].text) : ''),
-  (t) => { if (modal.open && t && !typing.value) typeOut(t, modal.i) }
+  () => (modal.open && cards[modal.key] ? cards[modal.key].text : ''),
+  (t) => { if (modal.open && t && !typing.value) typeOut(t, modal.key) }
 )
+
+// 把正文里的关键词切成可点片段（term=true 的段渲染成行内锚点）
+function escapeRe(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') }
+function computeSegments(m) {
+  const text = m.desc || ''
+  const terms = (m.terms || []).filter(Boolean)
+  if (!terms.length) return [{ t: text, term: false }]
+  const re = new RegExp('(' + terms.slice().sort((a, b) => b.length - a.length).map(escapeRe).join('|') + ')', 'g')
+  const out = []
+  let last = 0
+  for (const mm of text.matchAll(re)) {
+    const s = mm.index
+    if (s > last) out.push({ t: text.slice(last, s), term: false })
+    out.push({ t: mm[0], term: true })
+    last = s + mm[0].length
+  }
+  if (last < text.length) out.push({ t: text.slice(last), term: false })
+  return out
+}
 
 // Esc 关闭弹窗
 function onKeydown(e) {
@@ -275,13 +312,13 @@ onBeforeUnmount(() => {
         </div>
         <h2>{{ m.title }}</h2>
         <div class="tag">{{ m.tag }}</div>
-        <p class="desc">{{ m.desc }}</p>
+        <p class="desc"><template v-for="(seg, k) in computeSegments(m)" :key="k"><span v-if="seg.term" class="term" role="button" tabindex="0" :title="'点击解析：' + seg.t" @click="openTerm(i, seg.t)" @keydown.enter.prevent="openTerm(i, seg.t)">{{ seg.t }}</span><template v-else>{{ seg.t }}</template></template></p>
         <p class="link">→ {{ m.link }}</p>
         <div class="chips"><span v-for="c in m.chips" :key="c">{{ c }}</span></div>
 
         <!-- AI 讲解锚点：点开弹出讲解层，无需提问 -->
         <div class="narrate">
-          <button class="narrate-btn" @click="openModal(i, m)">
+          <button class="narrate-btn" @click="openSection(i)">
             <span class="narrate-btn__ic" aria-hidden="true">✦</span>
             AI 讲解这一段
           </button>
@@ -323,19 +360,23 @@ onBeforeUnmount(() => {
     </section>
   </main>
 
-  <!-- AI 讲解弹层（模态） -->
+  <!-- AI 讲解弹层（模态）：整段讲解 / 词语解析共用 -->
   <Transition name="nmodal">
-    <div class="nmask" v-if="modal.open && items[modal.i]" @click.self="closeModal" role="dialog" aria-modal="true">
+    <div class="nmask" v-if="modal.open && items[modal.mi]" @click.self="closeModal" role="dialog" aria-modal="true">
       <div class="nmodal">
         <button class="nmodal__close" @click="closeModal" aria-label="关闭讲解">×</button>
         <div class="nmodal__head">
-          <span class="nmodal__year">{{ items[modal.i].year }}</span>
-          <span class="nmodal__era" :style="{ background: (eraColors[items[modal.i].era] || '#64748b') + '33' }">{{ items[modal.i].era }} · {{ items[modal.i].apac }}</span>
+          <template v-if="modal.kind === 'section'">
+            <span class="nmodal__year">{{ items[modal.mi].year }}</span>
+            <span class="nmodal__era" :style="{ background: (eraColors[items[modal.mi].era] || '#64748b') + '33' }">{{ items[modal.mi].era }} · {{ items[modal.mi].apac }}</span>
+          </template>
+          <span v-else class="nmodal__tagword">✦ 词语解析</span>
         </div>
-        <h3 class="nmodal__title">{{ items[modal.i].title }}</h3>
+        <h3 class="nmodal__title">{{ modal.kind === 'section' ? items[modal.mi].title : modal.term }}</h3>
+        <p v-if="modal.kind === 'term'" class="nmodal__from">出自 {{ items[modal.mi].year }} · {{ items[modal.mi].title }}</p>
         <div class="nmodal__body">
-          <p v-if="narr[modal.i].loading" class="narrate-loading"><span class="dots"><i></i><i></i><i></i></span> AI 正在讲解这段历史…</p>
-          <p v-else-if="narr[modal.i].error" class="narrate-error">{{ narr[modal.i].error }} <button class="narrate-mini" @click="regen">重试</button></p>
+          <p v-if="cards[modal.key].loading" class="narrate-loading"><span class="dots"><i></i><i></i><i></i></span> AI 正在讲解…</p>
+          <p v-else-if="cards[modal.key].error" class="narrate-error">{{ cards[modal.key].error }} <button class="narrate-mini" @click="regen">重试</button></p>
           <template v-else>
             <p class="narrate-text">{{ shown }}<span class="caret" v-if="typing" aria-hidden="true"></span></p>
             <div class="narrate-acts" v-if="!typing">
@@ -443,6 +484,12 @@ onBeforeUnmount(() => {
     font-size: clamp(18px, 3vw, 24px); font-weight: 900; color: #fff;
     margin: 12px 0 4px; line-height: 1.25;
   }
+  .nmodal__tagword {
+    display: inline-block; font-size: 12px; font-weight: 800; color: var(--gold);
+    padding: 4px 12px; border-radius: 999px; border: 1px solid rgba(232,200,119,.5);
+    background: rgba(232,200,119,.12); letter-spacing: .06em;
+  }
+  .nmodal__from { color: rgba(255,255,255,.55); font-size: 12px; margin-top: 6px; letter-spacing: .02em }
   .nmodal__body { margin-top: 14px; min-height: 44px }
   .nmodal__foot {
     margin-top: 18px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,.12);
@@ -531,6 +578,16 @@ onBeforeUnmount(() => {
     color: rgba(232,200,119,.85); font-size: 13px;
     margin-top: 12px; letter-spacing: .04em;
   }
+  /* 正文行内关键词锚点（点开只解析这个词） */
+  .term {
+    color: var(--gold); cursor: pointer; font-weight: 700;
+    border-bottom: 1px dashed rgba(232,200,119,.65);
+    padding-bottom: 1px; transition: background .18s, border-bottom-color .18s;
+    text-shadow: 0 1px 6px rgba(0,0,0,.35);
+  }
+  .term::after { content: '✦'; font-size: .62em; margin-left: 2px; vertical-align: .28em; opacity: .8 }
+  .term:hover { background: rgba(232,200,119,.16); border-bottom-color: var(--gold) }
+  .term:focus-visible { outline: 2px solid rgba(232,200,119,.7); outline-offset: 2px; border-radius: 3px }
   .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px }
   .chips span {
     font-family: ui-monospace, Menlo, monospace;
